@@ -5,15 +5,26 @@
   
   <meta name="author" content="Jon Barron">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
-  <link rel="icon" type="image/png" href="images/seal_icon.png">
+  <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
 </head>
 
 <body>
+  <!-- Sidebar Navigation -->
+  <nav id="sidebar">
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#updates">Updates</a></li>
+      <li><a href="#papers">Papers</a></li>
+      <li><a href="#playlists" class="playlists-icon">Playlists</a></li>
+    </ul>
+  </nav>
+  
   <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
     <tr style="padding:0px">
       <td style="padding:0px">
+        <section id="home">
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr style="padding:0px">
             <td style="padding:2.5%;width:63%;vertical-align:middle">
@@ -30,6 +41,11 @@
                 Previously, I completed my undergraduate studies at the University of Waterloo, where I majored in Computer Science and <a href="https://uwaterloo.ca/combinatorics-and-optimization/">Combinatorics and Optimization</a>.
                 During my undergrad, I've had the chance to intern at <a href="https://mila.quebec/en/">Quebec Artificial Intelligence Institute (Mila)</a>, ContextLogic, and RBC Research.
               </p>
+
+              <!-- Add a line saying I'm actively looking for summer internships in red italics -->
+              <p style="color:red;font-style:italic">
+                I am actively looking for internships in Summer/Spring 2023.
+              </p>
               <p style="text-align:center">
                 <a href="mailto:rpradeep@uwaterloo.ca">Email</a> &nbsp/&nbsp
                 <a href="data/RonakPradeep-CV.pdf">CV</a> &nbsp/&nbsp
@@ -44,6 +60,8 @@
             </td>
           </tr>
         </tbody></table>
+        </section>
+        <section id="research">
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
             <tr>
             <td style="padding:20px;width:100%;vertical-align:middle">
@@ -58,6 +76,25 @@
             </td>
           </tr>
         </tbody></table>
+        </section>
+        <section id="updates">
+          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:collapse;margin-right:auto;margin-left:auto;"><tbody>
+
+            <td style="padding:20px;width:100%;vertical-align:middle">
+            <heading>Updates</heading>
+          </td>
+        </tbody>
+        </table>
+          <ul>
+            <li><span class="update-date">Dec 2023:</span> I'm excited to visit Singapore for EMNLP 2023 to present our work "How Does Generative Retrieval Scale to Millions of Passages?" </li>
+            <li><span class="update-date">Nov 2023:</span> I will be leading the TREC 2024 Retrieval-Augmented Generation Track! More information coming soon!</li>
+            <li><span class="update-date">Sep 2023:</span> We introduced RankVicuna, the first zero-shot listwise reranker that leverages open-source LLMs!</li>
+            <!-- Add new updates here with the following format:
+            <li><span class="update-date">Month Year:</span> Description of the update.</li>
+            -->
+          </ul>
+        </section>
+        <section id="papers">
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:collapse;margin-right:auto;margin-left:auto;"><tbody>
 
               <td style="padding:20px;width:100%;vertical-align:middle">
@@ -513,7 +550,7 @@
             </td>
           </tr> -->
         </tbody></table>
-
+      </section>
         <!-- <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20"><tbody>
           <tr>
             <td>
@@ -559,7 +596,7 @@
       </tbody></table> -->
 
       <!-- spotify playlists title followed by description and playlists-->
-
+      <section id="playlists">
       <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
         <tr>
           <td style="padding:20px;width:100%;vertical-align:middle">
@@ -616,6 +653,7 @@
           </tr>
         </tbody>
       </table>
+      </section>
         <iframe style="border-radius:12px; margin-left:20px;"
           src="https://open.spotify.com/embed/playlist/7uZRM2KlIGYhJzdv8dPTJ1?utm_source=generator" width="100%" height="352"
           frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
@@ -636,5 +674,14 @@
     </tr>
   </table>
 </body>
-
+<script>
+  document.querySelectorAll('#sidebar a').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute('href')).scrollIntoView({
+      behavior: 'smooth'
+    });
+  });
+});
+</script>
 </html>
