@@ -805,9 +805,21 @@
   </table>
   </main>
   <script>
-    document.getElementById('mobile-menu-btn').addEventListener('click', function () {
-      var menu = document.getElementById('mobile-menu');
-      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    document.addEventListener('DOMContentLoaded', function () {
+      var mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      var mobileMenu = document.getElementById('mobile-menu');
+      var mobileMenuLinks = mobileMenu.getElementsByTagName('a');
+
+      mobileMenuBtn.addEventListener('click', function () {
+        mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+      });
+
+      // Close menu when a link is clicked
+      for (var i = 0; i < mobileMenuLinks.length; i++) {
+        mobileMenuLinks[i].addEventListener('click', function () {
+          mobileMenu.style.display = 'none';
+        });
+      }
     });
   </script>
 </body>
