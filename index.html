@@ -10,6 +10,17 @@
 </head>
 
 <body>
+  <button id="mobile-menu-btn">☰</button>
+  
+  <nav id="mobile-menu">
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#updates">Updates</a></li>
+      <li><a href="#papers">Papers</a></li>
+      <li><a href="#playlists">Playlists</a></li>
+    </ul>
+  </nav>
   <!-- Sidebar Navigation -->
   <nav id="sidebar">
     <ul>
@@ -793,6 +804,12 @@
     </tr>
   </table>
   </main>
+  <script>
+    document.getElementById('mobile-menu-btn').addEventListener('click', function () {
+      var menu = document.getElementById('mobile-menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    });
+  </script>
 </body>
 <script>
   document.querySelectorAll('#sidebar a').forEach(link => {
