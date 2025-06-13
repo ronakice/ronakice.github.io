@@ -70,7 +70,7 @@ export default function HomePage() {
                   >
                     Jimmy Lin
                   </Link>
-                  . I'm currently working on LLMs and the sort at BSL AI, a stealth startup. During my PhD, I've also had the chance to work at{" "}
+                  . The past few months, I've been working on LLMs (and that sort of things) at [Yupp AI](https://yupp.ai/). During my PhD, I've also had the chance to work at{" "}
                   <Link href="https://research.google/" className="text-blue-600 hover:text-blue-800">
                     Google
                   </Link>{" "}
@@ -497,7 +497,7 @@ export default function HomePage() {
 
             <div className="text-center pt-6">
               <p className="text-muted-foreground">
-                ... and a few more papers! See my{" "}
+                ... and a few more papers I might have potentially missed! See my{" "}
                 <Link
                   href="https://scholar.google.com/citations?user=xH7uDXgAAAAJ&hl"
                   className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
