@@ -70,7 +70,11 @@ export default function HomePage() {
                   >
                     Jimmy Lin
                   </Link>
-                  . The past few months, I've been working on LLMs (and that sort of things) at [Yupp AI](https://yupp.ai/). During my PhD, I've also had the chance to work at{" "}
+                  . The past few months, I've been working on LLMs (and that sort of things) at{" "}
+                  <Link href="https://yupp.ai/" className="text-blue-600 hover:text-blue-800">
+                    Yupp AI
+                  </Link>
+                  . During my PhD, I've also had the chance to work at{" "}
                   <Link href="https://research.google/" className="text-blue-600 hover:text-blue-800">
                     Google
                   </Link>{" "}
