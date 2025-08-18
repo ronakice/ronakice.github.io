@@ -181,7 +181,8 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold text-foreground mb-8">Updates</h2>
           <div className="space-y-4">
             {[
-              { date: "Apr 2025", text: "We have fives papers accepted at SIGIR 2025! See you all in Padova!" },
+              { date: "Aug 2025", text: "Apparently I'm a PhD Candidate now..." },
+              { date: "Apr 2025", text: "We have five papers accepted at SIGIR 2025! See you all in Padova!" },
               {
                 date: "Nov 2024",
                 text: "We had a successful first year of the TREC RAG 2024 Track with many submissions! Looking forward to Y2.",
