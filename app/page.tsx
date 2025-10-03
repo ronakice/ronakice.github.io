@@ -28,6 +28,9 @@ export default function HomePage() {
               <Link href="#papers" className="text-muted-foreground hover:text-foreground transition-colors">
                 Papers
               </Link>
+              <Link href="#mentorship" className="text-muted-foreground hover:text-foreground transition-colors">
+                Mentorship
+              </Link>
               <Link href="#playlists" className="text-muted-foreground hover:text-foreground transition-colors">
                 Playlists
               </Link>
@@ -512,6 +515,79 @@ export default function HomePage() {
                 for the complete list.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mentorship Section */}
+      <section id="mentorship" className="py-16 bg-muted/50">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-3xl font-bold text-foreground mb-8">Mentorship</h2>
+          <div className="prose prose-lg text-muted-foreground max-w-none mb-8">
+            <p>
+              During my PhD journey, I've had the privilege of mentoring over 40 undergraduate students!
+              Below are some of the amazing students I've had the honor to work with (ordered lexicographically by last name):
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              "Vikram Chandramohan",
+              "Haonan (Arthur) Chen", 
+              "Steven Chen",
+              "Yidi Chen",
+              "Hang Cui",
+              "Lily Ge",
+              "Lingwei Gu",
+              "Qing Guo",
+              "Zibo (Daniel) Guo",
+              "Nikhil Gupta",
+              "Xiao (Johnson) Han",
+              "Yuxuan Ji",
+              "Faraz Khoubsirat",
+              "Nathan Kuissi",
+              "Sisi Li",
+              "Yilin (Larry) Li",
+              "Estella Liu",
+              "Yuqi Liu",
+              "Xueguang Ma",
+              "Jie (Stefan) Min",
+              "Ryan Nguyen",
+              "Nima Sadri",
+              "Andre Slavescu",
+              "Yuvan Sooryakumar",
+              "Kai Sun",
+              "Manveer Singh Tamber",
+              "Raghav Vasudeva",
+              "Yuetong Wang",
+              "Alvis Wong",
+              "Jasper Xian",
+              "Andrew Xu",
+              "Edward Xu",
+              "Ruizhou (Richard) Xu",
+              "Yicheng (Kevin) Xu",
+              "Jeongseop (Patrick) Yi",
+              "Edwin Zhang",
+              "Eric Zhang",
+              "Lijia (Lizzy) Zhang",
+              "Brayden Zhong",
+              "Vincent Zhong",
+              "Catherine Zhou",
+              "Joe Zou"
+            ].map((name, index) => (
+              <Card key={index} className="hover:shadow-md transition-shadow">
+                <CardContent className="p-4 text-center">
+                  <p className="text-foreground font-medium">{name}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          
+          <div className="text-center mt-8">
+            <p className="text-muted-foreground">
+              Thank you to all my mentees for your dedication, curiosity, and the incredible work you've accomplished. 
+              It's been an honor to be part of your academic journey!
+            </p>
           </div>
         </div>
       </section>
