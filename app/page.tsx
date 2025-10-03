@@ -582,13 +582,6 @@ export default function HomePage() {
               </Card>
             ))}
           </div>
-          
-          <div className="text-center mt-8">
-            <p className="text-muted-foreground">
-              Thank you to all my mentees for your dedication, curiosity, and the incredible work you've accomplished. 
-              It's been an honor to be part of your academic journey!
-            </p>
-          </div>
         </div>
       </section>
 
