@@ -410,15 +410,15 @@ function PapersSection() {
   const hasOldYear = selectedYearsArray.some((year) => parseInt(year) < 2024)
 
   return (
-    <section id="papers" className="py-16 bg-muted/50">
+    <section id="papers" className="py-20 bg-muted/50">
       <div className="max-w-6xl mx-auto px-6">
-        <h2 className="text-3xl font-bold text-foreground mb-8">Publications</h2>
+        <h2 className="text-4xl font-serif font-bold text-foreground mb-10">Publications</h2>
 
         {/* Filter Section */}
         <div className="mb-8 space-y-6">
           {/* Topics Filter */}
           <div>
-            <div className="text-lg font-bold text-foreground mb-3">Topics:</div>
+            <div className="text-lg font-semibold text-foreground mb-4">Topics:</div>
             <div className="flex flex-wrap gap-2">
               {topics.map((topic) => {
                 const isSelected = selectedTopics.has(topic)
@@ -441,7 +441,7 @@ function PapersSection() {
 
           {/* Year Filter */}
           <div>
-            <div className="text-lg font-bold text-foreground mb-3">Year:</div>
+            <div className="text-lg font-semibold text-foreground mb-4">Year:</div>
             <div className="flex flex-wrap gap-2">
               {years.map((year) => {
                 const isSelected = selectedYears.has(year)
@@ -464,7 +464,7 @@ function PapersSection() {
 
           {/* Venue Filter */}
           <div>
-            <div className="text-lg font-bold text-foreground mb-3">Venue:</div>
+            <div className="text-lg font-semibold text-foreground mb-4">Venue:</div>
             <div className="flex flex-wrap gap-2">
               {venues.map((venue) => {
                 const isSelected = selectedVenues.has(venue)
@@ -506,9 +506,9 @@ function PapersSection() {
             filteredPapers.map((paper, index) => {
               const paperNumber = filteredPapers.length - index
               return (
-              <Card key={index} className="hover:shadow-md transition-shadow">
-                <CardContent className="p-6">
-                  <h3 className="font-semibold text-lg text-foreground mb-2">
+              <Card key={index} className="hover:shadow-lg transition-all duration-300 border-border/50">
+                <CardContent className="p-7">
+                  <h3 className="font-semibold text-xl text-foreground mb-3 leading-relaxed">
                     {paper.link ? (
                       <Link
                         href={paper.link}
@@ -520,7 +520,7 @@ function PapersSection() {
                       `[${paperNumber}] ${paper.title}`
                     )}
                   </h3>
-                  <p className="text-muted-foreground mb-2">{paper.authors}</p>
+                  <p className="text-muted-foreground mb-3 text-sm leading-relaxed">{paper.authors}</p>
                   <Badge variant="secondary">{paper.venue}</Badge>
                   {paper.link && (
                     <div className="mt-3">
@@ -562,29 +562,29 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 bg-background/80 backdrop-blur-md border-b border-border z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4">
+      <nav className="fixed top-0 left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border/50 z-50">
+        <div className="max-w-6xl mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
-            <Link href="#home" className="text-xl font-semibold text-foreground">
+            <Link href="#home" className="text-xl font-serif font-semibold text-foreground">
               Ronak Pradeep
             </Link>
-            <div className="hidden md:flex items-center space-x-8">
-              <Link href="#home" className="text-muted-foreground hover:text-foreground transition-colors">
+            <div className="hidden md:flex items-center space-x-10">
+              <Link href="#home" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Home
               </Link>
-              <Link href="#research" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="#research" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Research
               </Link>
-              <Link href="#updates" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="#updates" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Updates
               </Link>
-              <Link href="#papers" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="#papers" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Papers
               </Link>
-              <Link href="#mentorship" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="#mentorship" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Mentorship
               </Link>
-              <Link href="#playlists" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="#playlists" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Playlists
               </Link>
             </div>
@@ -593,12 +593,12 @@ export default function HomePage() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="pt-24 pb-16">
+      <section id="home" className="pt-28 pb-20">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-12 items-center">
-            <div className="md:col-span-2 space-y-6">
+          <div className="grid md:grid-cols-3 gap-16 items-center">
+            <div className="md:col-span-2 space-y-8">
               <div>
-                <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Ronak Pradeep</h1>
+                <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-6 leading-tight">Ronak Pradeep</h1>
                 <div className="flex items-center gap-2 mb-6">
                   <Badge variant="secondary" className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
                     PhD Student
@@ -609,7 +609,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="prose prose-lg text-muted-foreground space-y-4">
+              <div className="prose prose-lg text-muted-foreground space-y-5 leading-relaxed">
                 <p>
                   Hi! I am a PhD student in the{" "}
                   <Link href="https://cs.uwaterloo.ca/" className="text-blue-600 hover:text-blue-800">
@@ -713,10 +713,10 @@ export default function HomePage() {
       </section>
 
       {/* Research Section */}
-      <section id="research" className="py-16 bg-muted/50">
+      <section id="research" className="py-20 bg-muted/50">
         <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Research</h2>
-          <div className="prose prose-lg text-muted-foreground max-w-none">
+          <h2 className="text-4xl font-serif font-bold text-foreground mb-10">Research</h2>
+          <div className="prose prose-lg text-muted-foreground max-w-none leading-relaxed">
             <p>
               My research interests lie at the intersection of Information Retrieval and Natural Language Processing.
               More specifically, I'm interested in tasks such as Open Domain Question Answering, Fact Verification, and
@@ -732,9 +732,9 @@ export default function HomePage() {
       </section>
 
       {/* Updates Section */}
-      <section id="updates" className="py-16">
+      <section id="updates" className="py-20">
         <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Updates</h2>
+          <h2 className="text-4xl font-serif font-bold text-foreground mb-10">Updates</h2>
           <div className="space-y-4">
             {[
               { date: "Aug 2025", text: "Apparently I'm a PhD Candidate now..." },
@@ -763,13 +763,13 @@ export default function HomePage() {
                 text: "We introduced RankVicuna, the first zero-shot listwise reranker that leverages open-source LLMs!",
               },
             ].map((update, index) => (
-              <Card key={index} className="border-l-4 border-l-blue-500">
-                <CardContent className="p-4">
+              <Card key={index} className="border-l-4 border-l-blue-500/80 hover:shadow-lg transition-all duration-300 border-border/50">
+                <CardContent className="p-5">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                     <Badge variant="outline" className="w-fit">
                       {update.date}
                     </Badge>
-                    <p className="text-muted-foreground">
+                    <p className="text-muted-foreground leading-relaxed">
                       {update.link ? (
                         <span>
                           {update.text.split("TREC RAG 2024 Track")[0]}
@@ -794,10 +794,10 @@ export default function HomePage() {
       <PapersSection />
 
       {/* Mentorship Section */}
-      <section id="mentorship" className="py-16 bg-muted/50">
+      <section id="mentorship" className="py-20 bg-muted/50">
         <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Mentorship</h2>
-          <div className="prose prose-lg text-muted-foreground max-w-none mb-8">
+          <h2 className="text-4xl font-serif font-bold text-foreground mb-10">Mentorship</h2>
+          <div className="prose prose-lg text-muted-foreground max-w-none mb-10 leading-relaxed">
             <p>
               During my PhD journey, I've had the privilege of mentoring over 40 undergraduate students!
               Below are some of the amazing students I've had the honor to work with (ordered lexicographically by last name):
@@ -849,8 +849,8 @@ export default function HomePage() {
               "Catherine Zhou",
               "Joe Zou"
             ].map((name, index) => (
-              <Card key={index} className="hover:shadow-md transition-shadow">
-                <CardContent className="p-4 text-center">
+              <Card key={index} className="hover:shadow-lg transition-all duration-300 border-border/50">
+                <CardContent className="p-5 text-center">
                   <p className="text-foreground font-medium">{name}</p>
                 </CardContent>
               </Card>
@@ -860,18 +860,18 @@ export default function HomePage() {
       </section>
 
       {/* Playlists Section */}
-      <section id="playlists" className="py-16">
+      <section id="playlists" className="py-20">
         <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-foreground mb-4">Playlists</h2>
-          <p className="text-muted-foreground mb-8">
+          <h2 className="text-4xl font-serif font-bold text-foreground mb-6">Playlists</h2>
+          <p className="text-muted-foreground mb-10 leading-relaxed">
             Thanks for making it to here :-) As a token of gratitude and since you asked nicely for it, I shall also
             introduce you to a few of my Spotify playlists.
           </p>
 
           <div className="space-y-12">
             <div>
-              <h3 className="text-2xl font-semibold text-foreground mb-2">ॐ</h3>
-              <p className="text-muted-foreground mb-4">
+              <h3 className="text-3xl font-serif font-semibold text-foreground mb-3">ॐ</h3>
+              <p className="text-muted-foreground mb-5 leading-relaxed">
                 And everything under the sun is in tune. A music dump of sorts. Updated regularly.
               </p>
               <div className="rounded-lg overflow-hidden shadow-lg">
@@ -889,8 +889,8 @@ export default function HomePage() {
             </div>
 
             <div>
-              <h3 className="text-2xl font-semibold text-foreground mb-2">A Day In The Life</h3>
-              <p className="text-muted-foreground mb-4">
+              <h3 className="text-3xl font-serif font-semibold text-foreground mb-3">A Day In The Life</h3>
+              <p className="text-muted-foreground mb-5 leading-relaxed">
                 An allusion to{" "}
                                   <Link
                     href="https://open.spotify.com/track/0hKRSZhUGEhKU6aNSPBACZ?si=e1ab0c90f70042ac"
@@ -919,8 +919,8 @@ export default function HomePage() {
             </div>
 
             <div>
-              <h3 className="text-2xl font-semibold text-foreground mb-2">Liebesträume</h3>
-              <p className="text-muted-foreground mb-4">
+              <h3 className="text-3xl font-serif font-semibold text-foreground mb-3">Liebesträume</h3>
+              <p className="text-muted-foreground mb-5 leading-relaxed">
                 And what exactly is a <em>dream of love</em>? Here I take on Liszt and attempt to provide a longer
                 answer to aid with my sleep. Updated semi-regularly.
               </p>
