@@ -43,7 +43,7 @@ function PapersSection() {
       authors:
         "Sahel Sharifymoghaddam, Ronak Pradeep, Andre Slavescu, Ryan Nguyen, Andrew Xu, Zijian Chen, Yilin Zhang, Yidi Chen, Jasper Xian, Jimmy Lin",
       venue: "SIGIR 2025",
-      link: undefined,
+      link: "https://github.com/castorini/rank_llm",
       subtopics: ["Retrieval", "Reranking", "Large Language Models"],
       year: 2025,
     },
@@ -52,7 +52,7 @@ function PapersSection() {
       authors:
         "Jimmy Lin, Arthur Haonan Chen, Carlos Lassance, Xueguang Ma, Ronak Pradeep, Tommaso Teofili, Jasper Xian, Jheng-Hong Yang, Brayden Zhong, Vincent Zhong",
       venue: "SIGIR 2025",
-      link: undefined,
+      link: "https://dl.acm.org/doi/10.1145/3726302.3730281",
       subtopics: ["Retrieval"],
       year: 2025,
     },
@@ -514,10 +514,10 @@ function PapersSection() {
                         href={paper.link}
                         className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                       >
-                        [{paperNumber}] {paper.title}
+                        {paper.title}
                       </Link>
                     ) : (
-                      `[${paperNumber}] ${paper.title}`
+                      `${paper.title}`
                     )}
                   </h3>
                   <p className="text-muted-foreground mb-3 text-sm leading-relaxed">{paper.authors}</p>
