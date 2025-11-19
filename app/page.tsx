@@ -427,8 +427,8 @@ function PapersSection() {
                     key={topic}
                     onClick={() => setSelectedTopics(toggleFilter(selectedTopics, topic))}
                     className={`px-3 py-1 rounded transition-colors ${isSelected
-                        ? "underline text-foreground font-medium"
-                        : "text-muted-foreground hover:text-foreground"
+                      ? "underline text-foreground font-medium"
+                      : "text-muted-foreground hover:text-foreground"
                       }`}
                   >
                     {topic}
@@ -449,8 +449,8 @@ function PapersSection() {
                     key={year}
                     onClick={() => setSelectedYears(toggleFilter(selectedYears, year))}
                     className={`px-3 py-1 rounded transition-colors ${isSelected
-                        ? "underline text-foreground font-medium"
-                        : "text-muted-foreground hover:text-foreground"
+                      ? "underline text-foreground font-medium"
+                      : "text-muted-foreground hover:text-foreground"
                       }`}
                   >
                     {year}
@@ -471,8 +471,8 @@ function PapersSection() {
                     key={venue}
                     onClick={() => setSelectedVenues(toggleFilter(selectedVenues, venue))}
                     className={`px-3 py-1 rounded transition-colors ${isSelected
-                        ? "underline text-foreground font-medium"
-                        : "text-muted-foreground hover:text-foreground"
+                      ? "underline text-foreground font-medium"
+                      : "text-muted-foreground hover:text-foreground"
                       }`}
                   >
                     {venue}
@@ -559,10 +559,16 @@ import { DarkSideVoxel } from "@/components/DarkSideVoxel"
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background">
-      <DarkSideVoxel />
+    <div className="min-h-screen bg-background relative">
+      {/* Voxel Background Layer */}
+      <div className="absolute top-0 left-0 right-0 h-[85vh] z-0">
+        <DarkSideVoxel />
+        {/* Gradient Mask to blend into content */}
+        <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+      </div>
+
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border/50 z-50">
+      <nav className="fixed top-0 left-0 right-0 bg-background/80 backdrop-blur-md border-b border-border/50 z-50">
         <div className="max-w-6xl mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
             <Link href="#home" className="text-xl font-serif font-semibold text-foreground">
@@ -593,8 +599,8 @@ export default function HomePage() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="pt-28 pb-20">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="home" className="pt-[65vh] pb-20 relative z-10 pointer-events-none">
+        <div className="max-w-6xl mx-auto px-6 pointer-events-auto">
           <div className="grid md:grid-cols-3 gap-16 items-center">
             <div className="md:col-span-2 space-y-8">
               <div>

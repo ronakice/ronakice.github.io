@@ -41,20 +41,24 @@ export function DarkSideVoxel() {
     // Colors based on theme
     const bgColor = isDark ? '#000000' : 'transparent' // Use transparent to match page background in light mode
     const prismBorderColor = isDark ? '#ffffff' : '#000000'
-    const incomingBeamColor = isDark ? '#ffffff' : '#333333'
+    const incomingBeamColor = '#ffffff'
 
     // Generate Prism Voxels
     const prismVoxels = useMemo(() => {
         const v: { position: [number, number, number], color: string, opacity: number, transparent: boolean }[] = []
-        const rows = 9
+        const rows = 11 // Increased height
+        const depth = 2
         for (let i = 0; i < rows; i++) {
             for (let x = -i; x <= i; x++) {
-                v.push({
-                    position: [x, rows - i - 5, 0],
-                    color: '#cccccc',
-                    opacity: 0.15,
-                    transparent: true
-                })
+                for (let z = -depth; z <= depth; z++) {
+                    const isBorder = x === -i || x === i || i === rows - 1 || z === -depth || z === depth
+                    v.push({
+                        position: [x, rows - i - 6, z], // Adjusted offset for centering
+                        color: isBorder ? '#888888' : '#050505', // Darker inside
+                        opacity: isBorder ? 0.1 : 0.8, // Less bright borders, dark solid-ish core
+                        transparent: true
+                    })
+                }
             }
         }
         return v
@@ -73,6 +77,7 @@ export function DarkSideVoxel() {
             const t = i / steps
             const x = startX + (endX - startX) * t
             const y = startY + (endY - startY) * t
+            // Beam at z=0
             v.push({ position: [Math.round(x), Math.round(y), 0], color: incomingBeamColor, opacity: 0.9 })
         }
         return v
@@ -91,14 +96,18 @@ export function DarkSideVoxel() {
         ]
 
         const startX = 2
-        const startY = -0.5
+        const startY = -1.5 // Lower the start point slightly
 
         colors.forEach((color, idx) => {
-            const angleDivergence = -0.15 + (idx * 0.05)
+            // Red (idx 0) should be on top, Violet (idx 5) on bottom
+            // Red refracts least (flattest), Violet refracts most (downwards)
+
+            const yOffset = (colors.length - 1 - idx) * 0.3 // Spread them out vertically at start
+            const angleDivergence = -0.15 - (idx * 0.05) // Red: -0.15, Violet: -0.4
 
             for (let i = 0; i < 14; i++) {
                 const x = startX + i
-                const y = startY + (i * angleDivergence) + (idx * 0.2)
+                const y = startY + yOffset + (i * angleDivergence)
 
                 v.push({
                     position: [Math.round(x), Math.round(y), 0],
@@ -110,17 +119,17 @@ export function DarkSideVoxel() {
         return v
     }, [])
 
-    if (!mounted) return <div className="h-[50vh] w-full bg-background" />
+    if (!mounted) return <div className="h-full w-full bg-transparent" />
 
     return (
-        <div className={`h-[50vh] w-full flex items-center justify-center overflow-hidden ${isDark ? 'bg-black' : 'bg-transparent'}`}>
-            <Canvas camera={{ position: [0, 0, 25], fov: 45 }}>
+        <div className={`h-full w-full flex items-center justify-center overflow-hidden bg-transparent`}>
+            <Canvas camera={{ position: [0, 0, 35], fov: 45 }}>
                 {!isDark && <ambientLight intensity={0.8} />}
                 {isDark && <ambientLight intensity={0.3} />}
                 <pointLight position={[-10, 10, 10]} intensity={1} />
                 <pointLight position={[10, -10, 10]} intensity={0.5} />
 
-                <group position={[0, 0, 0]} rotation={[0.1, 0.1, 0]}>
+                <group position={[0, 5, 0]} rotation={[0.1, 0.1, 0]}>
                     {/* Prism */}
                     {prismVoxels.map((voxel, i) => (
                         <Voxel
@@ -136,7 +145,7 @@ export function DarkSideVoxel() {
                         <Voxel
                             key={`in-${i}`}
                             {...voxel}
-                            borderColor={isDark ? '#000000' : '#ffffff'}
+                            borderColor="#000000"
                         />
                     ))}
 
