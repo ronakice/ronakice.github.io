@@ -558,11 +558,21 @@ function PapersSection() {
 import { DarkSideVoxel } from "@/components/DarkSideVoxel"
 
 export default function HomePage() {
+  const [profileImage, setProfileImage] = useState("/images/RonakPradeep_circle.png")
+
+  const toggleImage = () => {
+    setProfileImage((prev) =>
+      prev === "/images/RonakPradeep_circle.png"
+        ? "/images/MrPenguin_circle.png"
+        : "/images/RonakPradeep_circle.png"
+    )
+  }
+
   return (
     <div className="min-h-screen bg-background relative">
       {/* Voxel Background Layer */}
       <div className="absolute top-0 left-0 right-0 h-[85vh] z-0">
-        <DarkSideVoxel />
+        <DarkSideVoxel onPrismClick={toggleImage} />
         {/* Gradient Mask to blend into content */}
         <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-background to-transparent pointer-events-none" />
       </div>
@@ -706,7 +716,7 @@ export default function HomePage() {
             <div className="flex justify-center">
               <div className="relative w-64 h-64 rounded-full overflow-hidden shadow-lg">
                 <Image
-                  src="/images/RonakPradeep_circle.png"
+                  src={profileImage}
                   alt="Ronak Pradeep"
                   width={256}
                   height={256}
