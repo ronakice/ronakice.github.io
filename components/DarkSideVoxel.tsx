@@ -174,7 +174,10 @@ export function DarkSideVoxel({ onPrismClick }: { onPrismClick?: () => void }) {
         return v
     }, [])
 
-    if (!mounted) return <div className="h-full w-full bg-transparent" />
+    // Ensure component only renders on client
+    if (typeof window === 'undefined' || !mounted) {
+        return <div className="h-full w-full bg-transparent" />
+    }
 
     return (
         <div className={`h-full w-full flex items-center justify-center overflow-hidden bg-transparent`}>

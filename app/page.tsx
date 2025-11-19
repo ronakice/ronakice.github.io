@@ -555,7 +555,15 @@ function PapersSection() {
   )
 }
 
-import { DarkSideVoxel } from "@/components/DarkSideVoxel"
+import dynamic from "next/dynamic"
+
+const DarkSideVoxel = dynamic(
+  () => import("@/components/DarkSideVoxel").then((mod) => ({ default: mod.DarkSideVoxel })),
+  {
+    ssr: false,
+    loading: () => <div className="h-full w-full bg-transparent" />,
+  }
+)
 
 export default function HomePage() {
   const [profileImage, setProfileImage] = useState("/images/RonakPradeep_circle.png")
