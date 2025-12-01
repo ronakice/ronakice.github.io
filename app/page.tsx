@@ -2,26 +2,29 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Mail, FileText, GraduationCap, Twitter, Github, Music } from "lucide-react"
-import { useState, useMemo } from "react"
+import { Mail, FileText, GraduationCap, Twitter, Github, Music, Calendar, ExternalLink, Search } from "lucide-react"
+import { useState, useMemo, useRef } from "react"
+import { motion, useScroll, useTransform } from "framer-motion"
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
 
 function PapersSection() {
   const [selectedTopics, setSelectedTopics] = useState<Set<string>>(new Set())
   const [selectedYears, setSelectedYears] = useState<Set<string>>(new Set())
   const [selectedVenues, setSelectedVenues] = useState<Set<string>>(new Set())
+  const [searchQuery, setSearchQuery] = useState("")
 
   const topics = ["Retrieval", "Reranking", "Retrieval-Augmented Generation", "Large Language Models", "Benchmarking", "Evaluation"]
   const years = ["2025", "2024", "2023", "2022", "2021", "2020"]
   const venues = ["SIGIR", "ACL", "EMNLP", "TREC", "EACL", "NAACL", "ECIR", "Preprint", "Others"]
-
-  // Helper function to extract year from venue string
-  const extractYear = (venue: string): string => {
-    const yearMatch = venue.match(/\b(20\d{2})\b/)
-    return yearMatch ? yearMatch[1] : ""
-  }
 
   // Helper function to normalize venue
   const normalizeVenue = (venue: string): string => {
@@ -375,6 +378,15 @@ function PapersSection() {
 
   const filteredPapers = useMemo(() => {
     return papers.filter((paper) => {
+      // Search query filter
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase()
+        const matchesTitle = paper.title.toLowerCase().includes(query)
+        const matchesAuthors = paper.authors.toLowerCase().includes(query)
+        const matchesVenue = paper.venue.toLowerCase().includes(query)
+        if (!matchesTitle && !matchesAuthors && !matchesVenue) return false
+      }
+
       // If no filters selected, show all (default "all" view)
       const hasTopicFilter = selectedTopics.size > 0
       const hasYearFilter = selectedYears.size > 0
@@ -402,7 +414,7 @@ function PapersSection() {
 
       return true
     })
-  }, [selectedTopics, selectedYears, selectedVenues, papers])
+  }, [selectedTopics, selectedYears, selectedVenues, papers, searchQuery])
 
   // Check for easter egg conditions
   const hasEasterEgg = filteredPapers.length === 0 && selectedYears.size > 0
@@ -410,15 +422,34 @@ function PapersSection() {
   const hasOldYear = selectedYearsArray.some((year) => parseInt(year) < 2024)
 
   return (
-    <section id="papers" className="py-20 bg-muted/50">
-      <div className="max-w-6xl mx-auto px-6">
-        <h2 className="text-4xl font-serif font-bold text-foreground mb-10">Publications</h2>
+    <section id="papers" className="py-24 relative overflow-hidden">
+      <div className="absolute inset-0 bg-muted/30 -z-10" />
+      <div className="max-w-7xl mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-12"
+        >
+          <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">Publications</h2>
+
+          <div className="relative max-w-xl">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search papers, authors, venues..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 rounded-xl border border-border bg-background/50 backdrop-blur focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+            />
+          </div>
+        </motion.div>
 
         {/* Filter Section */}
-        <div className="mb-8 space-y-6">
+        <div className="mb-10 space-y-6">
           {/* Topics Filter */}
           <div>
-            <div className="text-lg font-semibold text-foreground mb-4">Topics:</div>
+            <div className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Topics</div>
             <div className="flex flex-wrap gap-2">
               {topics.map((topic) => {
                 const isSelected = selectedTopics.has(topic)
@@ -426,10 +457,12 @@ function PapersSection() {
                   <button
                     key={topic}
                     onClick={() => setSelectedTopics(toggleFilter(selectedTopics, topic))}
-                    className={`px-3 py-1 rounded transition-colors ${isSelected
-                      ? "underline text-foreground font-medium"
-                      : "text-muted-foreground hover:text-foreground"
-                      }`}
+                    className={cn(
+                      "px-4 py-1.5 rounded-full text-sm transition-all border",
+                      isSelected
+                        ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/25"
+                        : "bg-background/50 border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                    )}
                   >
                     {topic}
                   </button>
@@ -438,56 +471,62 @@ function PapersSection() {
             </div>
           </div>
 
-          {/* Year Filter */}
-          <div>
-            <div className="text-lg font-semibold text-foreground mb-4">Year:</div>
-            <div className="flex flex-wrap gap-2">
-              {years.map((year) => {
-                const isSelected = selectedYears.has(year)
-                return (
-                  <button
-                    key={year}
-                    onClick={() => setSelectedYears(toggleFilter(selectedYears, year))}
-                    className={`px-3 py-1 rounded transition-colors ${isSelected
-                      ? "underline text-foreground font-medium"
-                      : "text-muted-foreground hover:text-foreground"
-                      }`}
-                  >
-                    {year}
-                  </button>
-                )
-              })}
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Year Filter */}
+            <div>
+              <div className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Year</div>
+              <div className="flex flex-wrap gap-2">
+                {years.map((year) => {
+                  const isSelected = selectedYears.has(year)
+                  return (
+                    <button
+                      key={year}
+                      onClick={() => setSelectedYears(toggleFilter(selectedYears, year))}
+                      className={cn(
+                        "px-4 py-1.5 rounded-full text-sm transition-all border",
+                        isSelected
+                          ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/25"
+                          : "bg-background/50 border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                      )}
+                    >
+                      {year}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
-          </div>
 
-          {/* Venue Filter */}
-          <div>
-            <div className="text-lg font-semibold text-foreground mb-4">Venue:</div>
-            <div className="flex flex-wrap gap-2">
-              {venues.map((venue) => {
-                const isSelected = selectedVenues.has(venue)
-                return (
-                  <button
-                    key={venue}
-                    onClick={() => setSelectedVenues(toggleFilter(selectedVenues, venue))}
-                    className={`px-3 py-1 rounded transition-colors ${isSelected
-                      ? "underline text-foreground font-medium"
-                      : "text-muted-foreground hover:text-foreground"
-                      }`}
-                  >
-                    {venue}
-                  </button>
-                )
-              })}
+            {/* Venue Filter */}
+            <div>
+              <div className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Venue</div>
+              <div className="flex flex-wrap gap-2">
+                {venues.map((venue) => {
+                  const isSelected = selectedVenues.has(venue)
+                  return (
+                    <button
+                      key={venue}
+                      onClick={() => setSelectedVenues(toggleFilter(selectedVenues, venue))}
+                      className={cn(
+                        "px-4 py-1.5 rounded-full text-sm transition-all border",
+                        isSelected
+                          ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/25"
+                          : "bg-background/50 border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                      )}
+                    >
+                      {venue}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Papers List */}
-        <div className="space-y-6">
+        {/* Papers List - Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPapers.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground text-lg mb-2"></p>
+            <div className="text-center py-20 col-span-full">
+              <p className="text-muted-foreground text-lg mb-2">No papers found matching your criteria.</p>
               {hasEasterEgg && hasOldYear && (
                 <p className="text-muted-foreground italic mt-2">
                   <em>If only I had a tardis</em>
@@ -500,62 +539,75 @@ function PapersSection() {
               )}
             </div>
           ) : (
-            filteredPapers.map((paper, index) => {
-              const paperNumber = filteredPapers.length - index
-              return (
-                <Card key={index} className="hover:shadow-lg transition-all duration-300 border-border/50">
-                  <CardContent className="p-7">
-                    <h3 className="font-semibold text-xl text-foreground mb-3 leading-relaxed">
+            filteredPapers.map((paper, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+                className="h-full"
+              >
+                <Card className="glass-card hover:scale-[1.02] transition-all duration-300 border-border/50 group h-full">
+                  <CardContent className="p-6 flex flex-col h-full">
+                    <div className="flex items-start justify-between gap-4 mb-3">
+                      <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
+                        {paper.venue}
+                      </Badge>
+                      {paper.year && <span className="text-xs text-muted-foreground font-mono">{paper.year}</span>}
+                    </div>
+
+                    <h3 className="font-semibold text-lg text-foreground mb-3 leading-snug group-hover:text-primary transition-colors">
                       {paper.link ? (
-                        <Link
-                          href={paper.link}
-                          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                        >
+                        <Link href={paper.link} target="_blank">
                           {paper.title}
                         </Link>
                       ) : (
-                        `${paper.title}`
+                        paper.title
                       )}
                     </h3>
-                    <p className="text-muted-foreground mb-3 text-sm leading-relaxed">{paper.authors}</p>
-                    <Badge variant="secondary">{paper.venue}</Badge>
+
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-4 flex-grow">
+                      {paper.authors}
+                    </p>
+
                     {paper.link && (
-                      <div className="mt-3">
-                        <Button variant="outline" size="sm" asChild>
-                          <Link href={paper.link}>
-                            <FileText className="w-4 h-4 mr-2" />
-                            Paper
+                      <div className="mt-auto pt-4 border-t border-border/50">
+                        <Button variant="ghost" size="sm" className="w-full justify-between hover:bg-primary/10 hover:text-primary" asChild>
+                          <Link href={paper.link} target="_blank">
+                            <span>View Paper</span>
+                            <ExternalLink className="w-4 h-4" />
                           </Link>
                         </Button>
                       </div>
                     )}
                   </CardContent>
                 </Card>
-              )
-            })
-          )}
-
-          {filteredPapers.length > 0 && (
-            <div className="text-center pt-6">
-              <p className="text-muted-foreground">
-                ... and a few more papers I might have potentially missed! See my{" "}
-                <Link
-                  href="https://scholar.google.com/citations?user=xH7uDXgAAAAJ&hl"
-                  className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                >
-                  Google Scholar
-                </Link>{" "}
-                for the complete list.
-              </p>
-            </div>
+              </motion.div>
+            ))
           )}
         </div>
+
+        {filteredPapers.length > 0 && (
+          <div className="text-center pt-12">
+            <p className="text-muted-foreground">
+              ... and a few more papers I might have potentially missed! See my{" "}
+              <Link
+                href="https://scholar.google.com/citations?user=xH7uDXgAAAAJ&hl"
+                className="text-primary hover:text-primary/80 font-medium underline decoration-primary/30 underline-offset-4"
+              >
+                Google Scholar
+              </Link>{" "}
+              for the complete list.
+            </p>
+          </div>
+        )}
       </div>
     </section>
   )
 }
 
-import dynamic from "next/dynamic"
+
 
 const DarkSideVoxel = dynamic(
   () => import("@/components/DarkSideVoxel").then((mod) => ({ default: mod.DarkSideVoxel })),
@@ -567,6 +619,10 @@ const DarkSideVoxel = dynamic(
 
 export default function HomePage() {
   const [profileImage, setProfileImage] = useState("/images/RonakPradeep_circle.png")
+  const { scrollY } = useScroll()
+  const opacity = useTransform(scrollY, [0, 300], [1, 0])
+  const y = useTransform(scrollY, [0, 300], [0, 100])
+  const voxelOpacity = useTransform(scrollY, [0, 600], [1, 0.02])
 
   const toggleImage = () => {
     setProfileImage((prev) =>
@@ -576,90 +632,135 @@ export default function HomePage() {
     )
   }
 
+  const updates = [
+    { date: "Aug 2025", text: "Apparently I'm a PhD Candidate now...", icon: GraduationCap },
+    { date: "Apr 2025", text: "We have five papers accepted at SIGIR 2025! See you all in Padova!", icon: FileText },
+    {
+      date: "Nov 2024",
+      text: "We had a successful first year of the TREC RAG 2024 Track with many submissions! Looking forward to Y2.",
+      link: "https://trec-rag.github.io/",
+      icon: Calendar
+    },
+    {
+      date: "Feb 2024",
+      text: "Organizing the TREC RAG 2024 Track! Do submit your systems :))",
+      link: "https://trec-rag.github.io/",
+      icon: Calendar
+    },
+    { date: "Dec 2023", text: "We introduced RankZephyr which garnered great community engagement!", icon: FileText },
+    {
+      date: "Dec 2023",
+      text: 'I\'m excited to visit Singapore for EMNLP 2023 to present our work "How Does Generative Retrieval Scale to Millions of Passages?"',
+      icon: ExternalLink
+    },
+    {
+      date: "Nov 2023",
+      text: "I will be leading the TREC 2024 Retrieval-Augmented Generation Track! More information coming soon!",
+      icon: Calendar
+    },
+    {
+      date: "Sep 2023",
+      text: "We introduced RankVicuna, the first zero-shot listwise reranker that leverages open-source LLMs!",
+      icon: FileText
+    },
+  ]
+
   return (
-    <div className="min-h-screen bg-background relative">
+    <div className="min-h-screen bg-background relative selection:bg-primary/30">
       {/* Voxel Background Layer */}
-      <div className="absolute top-0 left-0 right-0 h-[85vh] z-0">
+      <motion.div style={{ opacity: voxelOpacity }} className="fixed top-0 left-0 right-0 h-[85vh] z-0 pointer-events-none">
         <DarkSideVoxel onPrismClick={toggleImage} />
         {/* Gradient Mask to blend into content */}
         <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-background to-transparent pointer-events-none" />
-      </div>
+      </motion.div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 bg-background/80 backdrop-blur-md border-b border-border/50 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-5">
+      <nav className="fixed top-0 left-0 right-0 bg-background/70 backdrop-blur-md border-b border-white/10 z-50 transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <Link href="#home" className="text-xl font-serif font-semibold text-foreground">
+            <Link href="#home" className="text-xl font-heading font-bold text-foreground tracking-tight">
               Ronak Pradeep
             </Link>
-            <div className="hidden md:flex items-center space-x-10">
-              <Link href="#home" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Home
-              </Link>
-              <Link href="#research" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Research
-              </Link>
-              <Link href="#updates" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Updates
-              </Link>
-              <Link href="#papers" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Papers
-              </Link>
-              <Link href="#mentorship" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Mentorship
-              </Link>
-              <Link href="#playlists" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Playlists
-              </Link>
+            <div className="hidden md:flex items-center space-x-8">
+              {["Home", "Research", "Updates", "Papers", "Mentorship", "Playlists"].map((item) => (
+                <Link
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors relative group"
+                >
+                  {item}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
+                </Link>
+              ))}
             </div>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="pt-[65vh] pb-20 relative z-10 pointer-events-none">
-        <div className="max-w-6xl mx-auto px-6 pointer-events-auto">
-          <div className="grid md:grid-cols-3 gap-16 items-center">
+      <section id="home" className="pt-[60vh] pb-20 relative z-10 pointer-events-none">
+        <div className="max-w-7xl mx-auto px-6 pointer-events-auto">
+          <motion.div
+            style={{ opacity, y }}
+            className="grid md:grid-cols-3 gap-16 items-center"
+          >
             <div className="md:col-span-2 space-y-8">
               <div>
-                <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-6 leading-tight">Ronak Pradeep</h1>
-                <div className="flex items-center gap-2 mb-6">
-                  <Badge variant="secondary" className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="text-6xl md:text-7xl font-heading font-bold text-foreground mb-6 leading-tight tracking-tight"
+                >
+                  <span className="text-gradient">Ronak Pradeep</span>
+                </motion.h1>
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  className="flex items-center gap-3 mb-6"
+                >
+                  <Badge variant="secondary" className="bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20 px-3 py-1 text-sm">
                     PhD Student
                   </Badge>
-                  <Badge variant="secondary" className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
+                  <Badge variant="secondary" className="bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20 px-3 py-1 text-sm">
                     Apple PhD Fellow
                   </Badge>
-                </div>
+                </motion.div>
               </div>
 
-              <div className="prose prose-lg text-muted-foreground space-y-5 leading-relaxed">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+                className="prose prose-lg text-muted-foreground space-y-5 leading-relaxed max-w-2xl"
+              >
                 <p>
                   Hi! I am a PhD student in the{" "}
-                  <Link href="https://cs.uwaterloo.ca/" className="text-blue-600 hover:text-blue-800">
+                  <Link href="https://cs.uwaterloo.ca/" className="text-primary hover:text-primary/80">
                     David R. Cheriton School of Computer Science
                   </Link>{" "}
                   at the{" "}
-                  <Link href="https://uwaterloo.ca/" className="text-blue-600 hover:text-blue-800">
+                  <Link href="https://uwaterloo.ca/" className="text-primary hover:text-primary/80">
                     University of Waterloo
                   </Link>
                   , advised by{" "}
                   <Link
                     href="https://cs.uwaterloo.ca/~jimmylin/index.html"
-                    className="text-blue-600 hover:text-blue-800"
+                    className="text-primary hover:text-primary/80"
                   >
                     Jimmy Lin
                   </Link>
                   . The past few months, I've been working on LLMs (and that sort of things) at{" "}
-                  <Link href="https://yupp.ai/" className="text-blue-600 hover:text-blue-800">
+                  <Link href="https://yupp.ai/" className="text-primary hover:text-primary/80">
                     Yupp AI
                   </Link>
                   . During my PhD, I've also had the chance to work at{" "}
-                  <Link href="https://research.google/" className="text-blue-600 hover:text-blue-800">
+                  <Link href="https://research.google/" className="text-primary hover:text-primary/80">
                     Google
                   </Link>{" "}
                   and{" "}
-                  <Link href="https://machinelearning.apple.com/" className="text-blue-600 hover:text-blue-800">
+                  <Link href="https://machinelearning.apple.com/" className="text-primary hover:text-primary/80">
                     Apple
                   </Link>
                   .
@@ -669,158 +770,154 @@ export default function HomePage() {
                   Computer Science and{" "}
                   <Link
                     href="https://uwaterloo.ca/combinatorics-and-optimization/"
-                    className="text-blue-600 hover:text-blue-800"
+                    className="text-primary hover:text-primary/80"
                   >
                     Combinatorics and Optimization
                   </Link>
                   . During my undergrad, I've had the chance to intern at{" "}
-                  <Link href="https://mila.quebec/en/" className="text-blue-600 hover:text-blue-800">
+                  <Link href="https://mila.quebec/en/" className="text-primary hover:text-primary/80">
                     Quebec Artificial Intelligence Institute (Mila)
                   </Link>
                   , ContextLogic, and RBC Research.
                 </p>
-              </div>
+              </motion.div>
 
-              <div className="flex flex-wrap gap-3">
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="mailto:rpradeep@uwaterloo.ca">
-                    <Mail className="w-4 h-4 mr-2" />
-                    Email
-                  </Link>
-                </Button>
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="/data/RonakPradeep-CV.pdf">
-                    <FileText className="w-4 h-4 mr-2" />
-                    CV
-                  </Link>
-                </Button>
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="https://scholar.google.com/citations?user=xH7uDXgAAAAJ&hl">
-                    <GraduationCap className="w-4 h-4 mr-2" />
-                    Google Scholar
-                  </Link>
-                </Button>
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="https://twitter.com/rpradeep42">
-                    <Twitter className="w-4 h-4 mr-2" />
-                    Twitter
-                  </Link>
-                </Button>
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="https://github.com/ronakice">
-                    <Github className="w-4 h-4 mr-2" />
-                    Github
-                  </Link>
-                </Button>
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="https://open.spotify.com/user/qsjnogh907vnv3c6js7vcjccs?si=4139788b14f54573">
-                    <Music className="w-4 h-4 mr-2" />
-                    Spotify
-                  </Link>
-                </Button>
-              </div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
+                className="flex flex-wrap gap-3"
+              >
+                {[
+                  { icon: Mail, label: "Email", href: "mailto:rpradeep@uwaterloo.ca" },
+                  { icon: FileText, label: "CV", href: "/data/RonakPradeep-CV.pdf" },
+                  { icon: GraduationCap, label: "Scholar", href: "https://scholar.google.com/citations?user=xH7uDXgAAAAJ&hl" },
+                  { icon: Twitter, label: "Twitter", href: "https://twitter.com/rpradeep42" },
+                  { icon: Github, label: "Github", href: "https://github.com/ronakice" },
+                  { icon: Music, label: "Spotify", href: "https://open.spotify.com/user/qsjnogh907vnv3c6js7vcjccs?si=4139788b14f54573" },
+                ].map((item, i) => (
+                  <Button key={i} variant="outline" size="sm" className="rounded-full border-border/50 hover:border-primary/50 hover:bg-primary/5 hover:text-primary transition-all" asChild>
+                    <Link href={item.href}>
+                      <item.icon className="w-4 h-4 mr-2" />
+                      {item.label}
+                    </Link>
+                  </Button>
+                ))}
+              </motion.div>
             </div>
 
-            <div className="flex justify-center">
-              <div className="relative w-64 h-64 rounded-full overflow-hidden shadow-lg">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4, type: "spring" }}
+              className="flex justify-center"
+            >
+              <div className="relative w-64 h-64 rounded-full overflow-hidden shadow-2xl ring-4 ring-background/50 backdrop-blur-sm">
                 <Image
                   src={profileImage}
                   alt="Ronak Pradeep"
                   width={256}
                   height={256}
-                  className="object-cover"
+                  className="object-cover hover:scale-110 transition-transform duration-700"
                 />
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* Research Section */}
-      <section id="research" className="py-20 bg-muted/50">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-4xl font-serif font-bold text-foreground mb-10">Research</h2>
-          <div className="prose prose-lg text-muted-foreground max-w-none leading-relaxed">
-            <p>
-              My research interests lie at the intersection of Information Retrieval and Natural Language Processing.
-              More specifically, I'm interested in tasks such as Open Domain Question Answering, Fact Verification, and
-              Document Ranking. In recent months, I have also been investigating the memory component of Large Language
-              Models and the interplay between the inherent reasoning and memory modules, entangled in a single LLM or
-              otherwise. I look forward to contributing to the next generation of reasoners capable of working with a
-              constantly evolving ocean of both structured and unstructured data. Some of my earlier work explores how
-              to build neural search systems that promote correct and reliable information and work well in low-resource
-              domains such as biomedical texts.
-            </p>
-          </div>
+      <section id="research" className="py-24 bg-muted/30 relative">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid md:grid-cols-3 gap-12"
+          >
+            <div className="md:col-span-1">
+              <h2 className="text-4xl font-heading font-bold text-foreground mb-6 sticky top-24">Research Interests</h2>
+            </div>
+            <div className="md:col-span-2 prose prose-lg text-muted-foreground max-w-none leading-relaxed">
+              <p>
+                My research interests lie at the intersection of <span className="text-foreground font-medium">Information Retrieval</span> and <span className="text-foreground font-medium">Natural Language Processing</span>.
+                More specifically, I'm interested in tasks such as Retrieval-Augmented Generation, Fact Verification, and
+                Document Ranking
+                I have also been investigating the <span className="text-foreground font-medium">memory component of Large Language Models</span> and the interplay between the inherent reasoning and memory modules, entangled in a single LLM or
+                otherwise. I look forward to contributing to the next generation of reasoners capable of working with a
+                constantly evolving ocean of both structured and unstructured data
+                Some of my earlier work explores how to build neural search systems that promote correct and reliable information and work well in low-resource
+                domains such as biomedical texts.
+              </p>
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Updates Section */}
-      <section id="updates" className="py-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-4xl font-serif font-bold text-foreground mb-10">Updates</h2>
-          <div className="space-y-4">
-            {[
-              { date: "Aug 2025", text: "Apparently I'm a PhD Candidate now..." },
-              { date: "Apr 2025", text: "We have five papers accepted at SIGIR 2025! See you all in Padova!" },
-              {
-                date: "Nov 2024",
-                text: "We had a successful first year of the TREC RAG 2024 Track with many submissions! Looking forward to Y2.",
-                link: "https://trec-rag.github.io/",
-              },
-              {
-                date: "Feb 2024",
-                text: "Organizing the TREC RAG 2024 Track! Do submit your systems :))",
-                link: "https://trec-rag.github.io/",
-              },
-              { date: "Dec 2023", text: "We introduced RankZephyr which garnered great community engagement!" },
-              {
-                date: "Dec 2023",
-                text: 'I\'m excited to visit Singapore for EMNLP 2023 to present our work "How Does Generative Retrieval Scale to Millions of Passages?"',
-              },
-              {
-                date: "Nov 2023",
-                text: "I will be leading the TREC 2024 Retrieval-Augmented Generation Track! More information coming soon!",
-              },
-              {
-                date: "Sep 2023",
-                text: "We introduced RankVicuna, the first zero-shot listwise reranker that leverages open-source LLMs!",
-              },
-            ].map((update, index) => (
-              <Card key={index} className="border-l-4 border-l-blue-500/80 hover:shadow-lg transition-all duration-300 border-border/50">
-                <CardContent className="p-5">
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                    <Badge variant="outline" className="w-fit">
-                      {update.date}
-                    </Badge>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {update.link ? (
-                        <span>
-                          {update.text.split("TREC RAG 2024 Track")[0]}
-                          <Link href={update.link} className="text-blue-600 hover:text-blue-800">
-                            TREC RAG 2024 Track
-                          </Link>
-                          {update.text.split("TREC RAG 2024 Track")[1]}
-                        </span>
-                      ) : (
-                        update.text
-                      )}
-                    </p>
+      {/* Updates Section - Timeline */}
+      <section id="updates" className="py-24 relative z-10">
+        <div className="max-w-4xl mx-auto px-6">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl font-heading font-bold text-foreground mb-16 text-center"
+          >
+            Latest Updates
+          </motion.h2>
+
+          <div className="relative border-l-2 border-border/50 ml-4 md:ml-0 space-y-12">
+            {updates.map((update, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="relative pl-12 md:pl-0"
+              >
+                {/* Timeline Dot */}
+                <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-background border-2 border-primary shadow-[0_0_10px_rgba(var(--primary),0.5)] z-10" />
+
+                <div className="md:grid md:grid-cols-5 md:gap-8 items-start">
+                  <div className="md:col-span-1 md:text-right mb-2 md:mb-0">
+                    <span className="text-sm font-bold text-primary tracking-wider uppercase">{update.date}</span>
                   </div>
-                </CardContent>
-              </Card>
+                  <div className="md:col-span-4">
+                    <div className="glass-card p-6 rounded-xl relative group hover:-translate-y-1 transition-transform duration-300">
+                      <div className="absolute top-6 right-6 text-muted-foreground/20 group-hover:text-primary/20 transition-colors">
+                        <update.icon className="w-8 h-8" />
+                      </div>
+                      <p className="text-muted-foreground leading-relaxed pr-8">
+                        {update.link ? (
+                          <span>
+                            {update.text.split("TREC RAG 2024 Track")[0]}
+                            <Link href={update.link} className="text-primary hover:underline">
+                              TREC RAG 2024 Track
+                            </Link>
+                            {update.text.split("TREC RAG 2024 Track")[1]}
+                          </span>
+                        ) : (
+                          update.text
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Papers Section */}
       <PapersSection />
 
       {/* Mentorship Section */}
-      <section id="mentorship" className="py-20 bg-muted/50">
+      {/* Mentorship Section */}
+      {/* Mentorship Section */}
+      <section id="mentorship" className="py-24 bg-muted/30 relative z-10">
         <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-4xl font-serif font-bold text-foreground mb-10">Mentorship</h2>
+          <h2 className="text-4xl font-heading font-bold text-foreground mb-10">Mentorship</h2>
           <div className="prose prose-lg text-muted-foreground max-w-none mb-10 leading-relaxed">
             <p>
               During my PhD journey, I've had the privilege of mentoring over 40 undergraduate students!
@@ -828,7 +925,21 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            variants={{
+              hidden: { opacity: 0 },
+              show: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.05
+                }
+              }
+            }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+          >
             {[
               "Vikram Chandramohan",
               "Haonan (Arthur) Chen",
@@ -873,28 +984,50 @@ export default function HomePage() {
               "Catherine Zhou",
               "Joe Zou"
             ].map((name, index) => (
-              <Card key={index} className="hover:shadow-lg transition-all duration-300 border-border/50">
-                <CardContent className="p-5 text-center">
-                  <p className="text-foreground font-medium">{name}</p>
-                </CardContent>
-              </Card>
+              <motion.div
+                key={index}
+                variants={{
+                  hidden: { opacity: 0, scale: 0.8 },
+                  show: { opacity: 1, scale: 1 }
+                }}
+              >
+                <Card className="hover:shadow-lg transition-all duration-300 border-border/50 h-full">
+                  <CardContent className="p-5 text-center flex items-center justify-center h-full">
+                    <p className="text-foreground font-medium">{name}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Playlists Section */}
-      <section id="playlists" className="py-20">
+      <section id="playlists" className="py-24 relative z-10">
         <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-4xl font-serif font-bold text-foreground mb-6">Playlists</h2>
+          <h2 className="text-4xl font-heading font-bold text-foreground mb-6">Playlists</h2>
           <p className="text-muted-foreground mb-10 leading-relaxed">
             Thanks for making it to here :-) As a token of gratitude and since you asked nicely for it, I shall also
             introduce you to a few of my Spotify playlists.
           </p>
 
-          <div className="space-y-12">
-            <div>
-              <h3 className="text-3xl font-serif font-semibold text-foreground mb-3">ॐ</h3>
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            variants={{
+              hidden: { opacity: 0 },
+              show: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.2
+                }
+              }
+            }}
+            className="space-y-12"
+          >
+            <motion.div variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}>
+              <h3 className="text-3xl font-heading font-semibold text-foreground mb-3">ॐ</h3>
               <p className="text-muted-foreground mb-5 leading-relaxed">
                 And everything under the sun is in tune. A music dump of sorts. Updated regularly.
               </p>
@@ -910,20 +1043,20 @@ export default function HomePage() {
                   loading="lazy"
                 />
               </div>
-            </div>
+            </motion.div>
 
-            <div>
-              <h3 className="text-3xl font-serif font-semibold text-foreground mb-3">A Day In The Life</h3>
+            <motion.div variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}>
+              <h3 className="text-3xl font-heading font-semibold text-foreground mb-3">A Day In The Life</h3>
               <p className="text-muted-foreground mb-5 leading-relaxed">
                 An allusion to{" "}
                 <Link
                   href="https://open.spotify.com/track/0hKRSZhUGEhKU6aNSPBACZ?si=e1ab0c90f70042ac"
-                  className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                  className="text-primary hover:text-primary/80"
                 >
                   the Beatles song
                 </Link>
                 . Curated by a younger me for a{" "}
-                <Link href="https://en.wikipedia.org/wiki/Antheia" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+                <Link href="https://en.wikipedia.org/wiki/Antheia" className="text-primary hover:text-primary/80">
                   <em>someone who stole my heart</em>
                 </Link>
                 . Not updated anymore.
@@ -940,10 +1073,10 @@ export default function HomePage() {
                   loading="lazy"
                 />
               </div>
-            </div>
+            </motion.div>
 
-            <div>
-              <h3 className="text-3xl font-serif font-semibold text-foreground mb-3">Liebesträume</h3>
+            <motion.div variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}>
+              <h3 className="text-3xl font-heading font-semibold text-foreground mb-3">Liebesträume</h3>
               <p className="text-muted-foreground mb-5 leading-relaxed">
                 And what exactly is a <em>dream of love</em>? Here I take on Liszt and attempt to provide a longer
                 answer to aid with my sleep. Updated semi-regularly.
@@ -960,11 +1093,14 @@ export default function HomePage() {
                   loading="lazy"
                 />
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
+      <footer className="py-12 border-t border-border/50 text-center text-muted-foreground text-sm">
+        <p>© {new Date().getFullYear()} Ronak Pradeep. Built with Next.js & Tailwind.</p>
+      </footer>
     </div>
   )
 }
