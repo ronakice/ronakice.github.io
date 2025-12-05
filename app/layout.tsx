@@ -18,7 +18,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'Ronak Pradeep',
-  description: 'PhD Student at University of Waterloo',
+  description: 'Research at Yupp AI; PhD, University of Waterloo',
   generator: 'v0.dev',
 }
 

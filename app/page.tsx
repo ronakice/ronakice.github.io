@@ -42,6 +42,22 @@ function PapersSection() {
   const papers = useMemo(() => {
     return [
       {
+        title: "NeuCLIRBench: A Modern Evaluation Collection for Monolingual, Cross-Language, and Multilingual Information Retrieval",
+        authors: "Dawn Lawrie, James Mayfield, Eugene Yang, Andrew Yates, Sean MacAvaney, Ronak Pradeep, Scott Miller, Paul McNamee, Luca Soldani",
+        venue: "arXiv",
+        link: "https://arxiv.org/abs/2511.14758",
+        subtopics: ["Retrieval", "Benchmarking", "Evaluation", "Large Language Models"],
+        year: 2025,
+      },
+      {
+        title: "Humanity's Last Exam",
+        authors: "Long Phan, Alice Gatti, Ziwen Han, ..., Ronak Pradeep, ...",
+        venue: "arXiv",
+        link: "https://arxiv.org/abs/2501.14249",
+        subtopics: [ "Benchmarking", "Evaluation", "Large Language Models"],
+        year: 2025,
+      },
+      {
         title: "RankLLM: A Python Package for Reranking with LLMs",
         authors:
           "Sahel Sharifymoghaddam, Ronak Pradeep, Andre Slavescu, Ryan Nguyen, Andrew Xu, Zijian Chen, Yilin Zhang, Yidi Chen, Jasper Xian, Jimmy Lin",
@@ -68,6 +84,14 @@ function PapersSection() {
         year: 2025,
       },
       {
+        title: "Chatbot Arena Meets Nuggets: Towards Explanations and Diagnostics in the Evaluation of LLM Responses",
+        authors: "Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, Hoa Trang Dang, Jimmy Lin",
+        venue: "Under Review for a Suitable Conference",
+        link: "https://arxiv.org/abs/2504.20006",
+        subtopics: ["Retrieval-Augmented Generation", "Evaluation", "Large Language Models"],
+        year: 2025,
+      },
+      {
         title:
           "The Great Nugget Recall: Automating Fact Extraction and RAG Evaluation with Large Language Models",
         authors: "Ronak Pradeep, Nandan Thakur, Shivani Upadhyay, Daniel Campos, Nick Craswell, Jimmy Lin",
@@ -88,7 +112,7 @@ function PapersSection() {
       {
         title: "A Large-Scale Study of Relevance Assessments with Large Language Models: An Initial Look",
         authors: "Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, Hoa Trang Dang, Jimmy Lin",
-        venue: "Under Review for a Suitable Conference",
+        venue: "arXiv",
         link: "https://arxiv.org/abs/2411.08275",
         subtopics: ["Retrieval", "Evaluation", "Large Language Models"],
         year: 2024,
@@ -104,7 +128,7 @@ function PapersSection() {
       {
         title: "Ragnarök: A Reusable RAG Framework and Baselines for TREC 2024 Retrieval-Augmented Generation Track",
         authors: "Ronak Pradeep, Nandan Thakur, Sahel Sharifymoghaddam, Eric Zhang, Ryan Nguyen, Daniel Campos, Nick Craswell, Jimmy Lin",
-        venue: "Under Review for a Suitable Conference",
+        venue: "ECIR 2025",
         link: "https://arxiv.org/abs/2406.16828",
         subtopics: ["Retrieval", "Reranking", "Retrieval-Augmented Generation", "Benchmarking", "Large Language Models"],
         year: 2024,
@@ -150,9 +174,9 @@ function PapersSection() {
         year: 2023,
       },
       {
-        title: "Scaling Down, LiTting Up: Efficient Zero-Shot Listwise Reranking with Seq2seq Encoder-Decoder Models",
+        title: "LiT and Lean: Distilling Listwise Rerankers Into Encoder-Decoder Models",
         authors: "Manveer Singh Tamber, Ronak Pradeep, Jimmy Lin",
-        venue: "Under Review for a Suitable Conference",
+        venue: "ECIR 2025",
         link: "https://arxiv.org/abs/2312.16098",
         subtopics: ["Retrieval", "Reranking", "Large Language Models"],
         year: 2023,
@@ -182,9 +206,18 @@ function PapersSection() {
         year: 2023,
       },
       {
-        title: "End-to-End Health Misinformation-Free Search with a Large Language Model",
+        title:
+          "naverloo @ TREC Deep Learning and NeuCLIR 2023: As Easy as Zero, One, Two, Three — Cascading Dual Encoders, Mono, Duo, and Listo for Ad-Hoc Retrieval",
+        authors: "Carlos Lassance, Ronak Pradeep, Jimmy Lin",
+        venue: "TREC 2023",
+        link: "https://trec.nist.gov/pubs/trec32/papers/naverloo_DL.pdf",
+        subtopics: ["Retrieval", "Large Language Models"],
+        year: 2023,
+      },
+      {
+        title: "Towards Automated End-to-End Health Misinformation Free Search with a Large Language Model",
         authors: "Ronak Pradeep, Jimmy Lin",
-        venue: "Under Review for a Suitable Conference",
+        venue: "ECIR 2024",
         link: "https://link.springer.com/chapter/10.1007/978-3-031-56066-8_9",
         subtopics: ["Retrieval", "Large Language Models"],
         year: 2023,
@@ -633,7 +666,11 @@ export default function HomePage() {
   }
 
   const updates = [
-    { date: "Aug 2025", text: "Apparently I'm a PhD Candidate now...", icon: GraduationCap },
+    {
+      date: "Dec 2025",
+      text: "Wrapped up my PhD at Waterloo.",
+      icon: GraduationCap
+    },
     { date: "Apr 2025", text: "We have five papers accepted at SIGIR 2025! See you all in Padova!", icon: FileText },
     {
       date: "Nov 2024",
@@ -721,9 +758,12 @@ export default function HomePage() {
                   className="flex items-center gap-3 mb-6"
                 >
                   <Badge variant="secondary" className="bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20 px-3 py-1 text-sm">
-                    PhD Student
+                    Research Scientist @ Yupp AI
                   </Badge>
                   <Badge variant="secondary" className="bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20 px-3 py-1 text-sm">
+                    PhD, University of Waterloo
+                  </Badge>
+                  <Badge variant="secondary" className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 px-3 py-1 text-sm">
                     Apple PhD Fellow
                   </Badge>
                 </motion.div>
@@ -736,7 +776,11 @@ export default function HomePage() {
                 className="prose prose-lg text-muted-foreground space-y-5 leading-relaxed max-w-2xl"
               >
                 <p>
-                  Hi! I am a PhD student in the{" "}
+                  Hi! I am a Research Scientist at{" "}
+                  <Link href="https://yupp.ai/" className="text-primary hover:text-primary/80">
+                    Yupp AI
+                  </Link>{" "}
+                  working on LLM agents and evaluation. I completed my PhD in the{" "}
                   <Link href="https://cs.uwaterloo.ca/" className="text-primary hover:text-primary/80">
                     David R. Cheriton School of Computer Science
                   </Link>{" "}
@@ -744,18 +788,14 @@ export default function HomePage() {
                   <Link href="https://uwaterloo.ca/" className="text-primary hover:text-primary/80">
                     University of Waterloo
                   </Link>
-                  , advised by{" "}
+                  , where I was advised by{" "}
                   <Link
                     href="https://cs.uwaterloo.ca/~jimmylin/index.html"
                     className="text-primary hover:text-primary/80"
                   >
                     Jimmy Lin
                   </Link>
-                  . The past few months, I've been working on LLMs (and that sort of things) at{" "}
-                  <Link href="https://yupp.ai/" className="text-primary hover:text-primary/80">
-                    Yupp AI
-                  </Link>
-                  . During my PhD, I've also had the chance to work at{" "}
+                  . During my PhD, I also had the chance to work at{" "}
                   <Link href="https://research.google/" className="text-primary hover:text-primary/80">
                     Google
                   </Link>{" "}
@@ -920,7 +960,7 @@ export default function HomePage() {
           <h2 className="text-4xl font-heading font-bold text-foreground mb-10">Mentorship</h2>
           <div className="prose prose-lg text-muted-foreground max-w-none mb-10 leading-relaxed">
             <p>
-              During my PhD journey, I've had the privilege of mentoring over 40 undergraduate students!
+              During my PhD journey, I had the privilege of mentoring over 40 undergraduate students!
               Below are some of the amazing students I've had the honor to work with (ordered lexicographically by last name):
             </p>
           </div>
