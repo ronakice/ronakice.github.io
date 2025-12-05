@@ -54,7 +54,7 @@ function PapersSection() {
         authors: "Long Phan, Alice Gatti, Ziwen Han, ..., Ronak Pradeep, ...",
         venue: "arXiv",
         link: "https://arxiv.org/abs/2501.14249",
-        subtopics: [ "Benchmarking", "Evaluation", "Large Language Models"],
+        subtopics: ["Benchmarking", "Evaluation", "Large Language Models"],
         year: 2025,
       },
       {
@@ -575,10 +575,10 @@ function PapersSection() {
             filteredPapers.map((paper, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.2, delay: 0 }}
                 className="h-full"
               >
                 <Card className="glass-card hover:scale-[1.02] transition-all duration-300 border-border/50 group h-full">
@@ -653,9 +653,9 @@ const DarkSideVoxel = dynamic(
 export default function HomePage() {
   const [profileImage, setProfileImage] = useState("/images/RonakPradeep_circle.png")
   const { scrollY } = useScroll()
-  const opacity = useTransform(scrollY, [0, 300], [1, 0])
-  const y = useTransform(scrollY, [0, 300], [0, 100])
-  const voxelOpacity = useTransform(scrollY, [0, 600], [1, 0.02])
+  const opacity = useTransform(scrollY, [0, 800], [1, 0]) // Slower fade out
+  const y = useTransform(scrollY, [0, 800], [0, 100]) // Slower movement
+  const voxelOpacity = useTransform(scrollY, [0, 900], [1, 0.02])
 
   const toggleImage = () => {
     setProfileImage((prev) =>
@@ -780,7 +780,7 @@ export default function HomePage() {
                   <Link href="https://yupp.ai/" className="text-primary hover:text-primary/80">
                     Yupp AI
                   </Link>{" "}
-                  working on LLM agents and evaluation. I completed my PhD in the{" "}
+                  working on benchmarking and evaluating LLMs. I completed my PhD in the{" "}
                   <Link href="https://cs.uwaterloo.ca/" className="text-primary hover:text-primary/80">
                     David R. Cheriton School of Computer Science
                   </Link>{" "}
@@ -881,8 +881,8 @@ export default function HomePage() {
             <div className="md:col-span-2 prose prose-lg text-muted-foreground max-w-none leading-relaxed">
               <p>
                 My research interests lie at the intersection of <span className="text-foreground font-medium">Information Retrieval</span> and <span className="text-foreground font-medium">Natural Language Processing</span>.
-                More specifically, I'm interested in tasks such as Retrieval-Augmented Generation, Fact Verification, and
-                Document Ranking
+                More specifically, I'm interested in tasks such as Evaluation, Benchmarking, Retrieval-Augmented Generation, Tool Use, Fact Verification, and
+                Document Ranking.
                 I have also been investigating the <span className="text-foreground font-medium">memory component of Large Language Models</span> and the interplay between the inherent reasoning and memory modules, entangled in a single LLM or
                 otherwise. I look forward to contributing to the next generation of reasoners capable of working with a
                 constantly evolving ocean of both structured and unstructured data
