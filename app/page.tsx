@@ -755,15 +755,24 @@ export default function HomePage() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
-                  className="flex items-center gap-3 mb-6"
+                  className="flex flex-wrap items-center gap-2 md:gap-3 mb-6"
                 >
-                  <Badge variant="secondary" className="bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20 px-3 py-1 text-sm">
+                  <Badge
+                    variant="secondary"
+                    className="bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20 px-3 py-1 text-xs sm:text-sm whitespace-nowrap shadow-sm"
+                  >
                     Research Scientist @ Yupp AI
                   </Badge>
-                  <Badge variant="secondary" className="bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20 px-3 py-1 text-sm">
+                  <Badge
+                    variant="secondary"
+                    className="bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20 px-3 py-1 text-xs sm:text-sm whitespace-nowrap shadow-sm"
+                  >
                     PhD, University of Waterloo
                   </Badge>
-                  <Badge variant="secondary" className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 px-3 py-1 text-sm">
+                  <Badge
+                    variant="secondary"
+                    className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 px-3 py-1 text-xs sm:text-sm whitespace-nowrap shadow-sm"
+                  >
                     Apple PhD Fellow
                   </Badge>
                 </motion.div>
