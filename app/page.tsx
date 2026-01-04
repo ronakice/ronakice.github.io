@@ -650,6 +650,11 @@ const DarkSideVoxel = dynamic(
   }
 )
 
+const SketchSelfPortrait = dynamic(
+  () => import("@/components/SketchSelfPortrait"),
+  { ssr: false }
+)
+
 export default function HomePage() {
   const [profileImage, setProfileImage] = useState("/images/RonakPradeep_circle.png")
   const { scrollY } = useScroll()
@@ -710,6 +715,8 @@ export default function HomePage() {
         {/* Gradient Mask to blend into content */}
         <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-background to-transparent pointer-events-none" />
       </motion.div>
+
+      <SketchSelfPortrait />
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 bg-background/70 backdrop-blur-md border-b border-white/10 z-50 transition-all duration-300">
