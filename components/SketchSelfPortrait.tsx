@@ -2,13 +2,23 @@
 
 import React, { useEffect, useRef } from 'react'
 import type p5 from 'p5'
+import { useTheme } from 'next-themes'
 
 const SketchSelfPortrait = () => {
     const containerRef = useRef<HTMLDivElement>(null)
     const p5Instance = useRef<p5 | null>(null)
+    const { theme, resolvedTheme } = useTheme()
+    const [mounted, setMounted] = React.useState(false)
 
     useEffect(() => {
-        if (typeof window === 'undefined') return
+        setMounted(true)
+    }, [])
+
+    // Ensure we correctly detect light mode. Fallback to dark if unsure.
+    const isDark = mounted ? resolvedTheme === 'dark' : true
+
+    useEffect(() => {
+        if (!mounted || typeof window === 'undefined') return
 
         const initP5 = async () => {
             const p5 = (await import('p5')).default
@@ -26,9 +36,15 @@ const SketchSelfPortrait = () => {
 
                 p.draw = () => {
                     p.clear()
-                    // We can use a transparent background or a subtle dark one
-                    // The user used: background(20, 20, 25);
-                    // But for a floating widget, maybe transparent is better or a rounded dark box.
+
+                    // Colors based on theme (Premium Palette)
+                    const baseStroke = isDark ? [240, 240, 255, 180] : [30, 41, 59, 255]      // Slate-800 for Light
+                    const accentStroke = isDark ? [130, 180, 255, 200] : [2, 132, 199, 240]    // Sky-600 for Light
+                    const lipStroke = isDark ? [255, 150, 150, 200] : [190, 18, 60, 250]      // Rose-700 for Light
+                    const hairStroke = isDark ? [100, 200, 255, 100] : [15, 23, 42, 140]       // Deep Indigo/Slate for Light
+                    const glassesStroke = isDark ? [200, 200, 255, 180] : [51, 65, 85, 230]    // Slate-600 for Light
+
+                    const weightMult = isDark ? 1 : 1.4 // Slightly heavier strokes in light mode for clarity
 
                     p.push()
                     // Scale it down from 800x600 to 160x120 (0.2x scale)
@@ -37,21 +53,18 @@ const SketchSelfPortrait = () => {
                     p.translate(400, 300) // Center of 800x600
 
                     // Interactive vars
-                    // p.mouseX/Y are already relative to the canvas in instance mode.
-                    const localMouseX = p.mouseX * 5
-                    const localMouseY = p.mouseY * 5
+                    const localMouseX = p.constrain(p.mouseX * 5, -200, 1000)
+                    const localMouseY = p.constrain(p.mouseY * 5, -200, 800)
 
-                    let mx = (localMouseX - 400) * 0.05
-                    let my = (localMouseY - 300) * 0.05
+                    let mx = p.constrain((localMouseX - 400) * 0.05, -30, 30)
+                    let my = p.constrain((localMouseY - 300) * 0.05, -30, 30)
                     let nervous = p.mouseIsPressed ? 5 : 1
 
                     timeOffset += 0.02
 
-                    // Stylistic settings
-                    p.stroke(240, 240, 255, 200)
-                    p.strokeWeight(1.5)
-
                     // 1. The Head Shape
+                    p.stroke(...baseStroke)
+                    p.strokeWeight(1.8 * weightMult)
                     for (let k = 0; k < 3; k++) {
                         p.beginShape()
                         for (let a = 0; a < p.TWO_PI; a += 0.1) {
@@ -75,21 +88,21 @@ const SketchSelfPortrait = () => {
 
                     p.push()
                     p.translate(-eyeDist + mx, eyeY + my)
-                    drawEyeSpiral(p, timeOffset, nervous, -1)
+                    drawEyeSpiral(p, timeOffset, nervous, -1, baseStroke, accentStroke, weightMult)
                     p.pop()
 
                     p.push()
                     p.translate(eyeDist + mx, eyeY + my)
-                    drawEyeSpiral(p, timeOffset + 100, nervous, 1)
+                    drawEyeSpiral(p, timeOffset + 100, nervous, 1, baseStroke, accentStroke, weightMult)
                     p.pop()
 
-                    // --- NEW SECTION: OVERSIZED Wayfarer Glasses ---
+                    // --- Wayfarer Glasses ---
                     p.push()
                     p.translate(mx, eyeY + my)
-                    p.stroke(200, 200, 255, 180)
+                    p.stroke(...glassesStroke)
 
                     for (let thick = 0; thick < 6; thick++) {
-                        p.strokeWeight(1.5)
+                        p.strokeWeight(1.5 * weightMult)
                         let nScrawl = (val: number) => val + p.map(p.noise(val, thick, timeOffset), 0, 1, -2, 2)
 
                         // Left Lens Frame
@@ -115,7 +128,7 @@ const SketchSelfPortrait = () => {
                         p.endShape()
                     }
 
-                    p.strokeWeight(1)
+                    p.strokeWeight(1.2)
                     p.beginShape()
                     p.vertex(-130, -45)
                     p.bezierVertex(-150, -50)
@@ -130,16 +143,30 @@ const SketchSelfPortrait = () => {
                     p.endShape()
                     p.pop()
 
-                    // 3. The Nose
-                    p.stroke(240, 240, 255, 180)
+                    // 3. The Nose (More Prominent)
+                    p.stroke(...baseStroke)
+                    p.strokeWeight(2.5 * weightMult)
+
+                    // Main bridge
                     p.beginShape()
                     let noseX = mx * 1.2
                     let noseY = my * 1.2
                     for (let i = 0; i < 50; i++) {
                         let t = i / 50.0
                         let nX = p.lerp(0, -10, t) + p.map(p.noise(i * 0.2, timeOffset), 0, 1, -5, 5) * nervous
-                        let nY = p.lerp(-30, 40, t) + p.map(p.noise(i * 0.2 + 10, timeOffset), 0, 1, -2, 2)
-                        if (i > 40) nX += 15 * p.sin((i - 40) * 0.5)
+                        let nY = p.lerp(-30, 45, t) + p.map(p.noise(i * 0.2 + 10, timeOffset), 0, 1, -2, 2)
+                        if (i > 40) nX += 18 * p.sin((i - 40) * 0.5)
+                        p.splineVertex(noseX + nX, noseY + nY)
+                    }
+                    p.endShape()
+
+                    // Nostrils / Base detail
+                    p.strokeWeight(1.8 * weightMult)
+                    p.beginShape()
+                    for (let i = 0; i < 20; i++) {
+                        let t = i / 20.0
+                        let nX = p.lerp(5, 25, t) + p.map(p.noise(i * 0.5, timeOffset), 0, 1, -3, 3)
+                        let nY = 45 + p.sin(t * p.PI) * 10
                         p.splineVertex(noseX + nX, noseY + nY)
                     }
                     p.endShape()
@@ -147,47 +174,78 @@ const SketchSelfPortrait = () => {
                     // 4. The Beard
                     p.push()
                     p.translate(mx * 1.1, my * 1.1)
-                    p.stroke(220, 220, 255, 120)
-                    p.strokeWeight(0.8)
+                    p.stroke(...accentStroke)
+                    p.strokeWeight(0.8 * weightMult)
 
                     for (let b = 0; b < 60; b++) {
                         p.beginShape()
-                        for (let a = -0.2; a <= p.PI + 0.2; a += 0.05) {
-                            let baseR = 125
-                            let chinLength = p.map(p.sin(a), 0, 1, 0, 90)
-                            let nVal = p.noise(a * 4, b * 10, timeOffset)
-                            let r = baseR + chinLength + p.map(nVal, 0, 1, -40, 60)
-                            let x = r * p.cos(a) * 0.92
-                            let y = r * p.sin(a) * 1.1
+                        // Use a slightly wider angle range to cover sideburns properly
+                        for (let a = -0.3; a <= p.PI + 0.3; a += 0.05) {
+                            // Match the head's base radius (~180)
+                            let faceR = 180
+                            // Beard thickness: more volume at the chin, less at the sideburns
+                            let beardThick = p.map(p.sin(a), 0, 1, 15, 70)
+                            let nVal = p.noise(a * 3, b * 0.15, timeOffset)
 
-                            if (y > -20) {
-                                p.splineVertex(x + p.map(p.noise(a * 10), 0, 1, -2, 2) * nervous, y)
+                            // r follows the face curvature but with some "growth"
+                            let r = faceR + p.map(nVal, 0, 1, -beardThick, beardThick * 0.5)
+
+                            // Use same scaling factors as the head for consistent curvature
+                            let x = r * p.cos(a) * 0.85
+                            let y = r * p.sin(a) * 1.05
+
+                            // Cheek line logic: beard should be lower in the middle (below nose/mouth)
+                            // and higher at the sides (sideburns).
+                            // cos(a) is near 0 at chin (a=PI/2), near 1 or -1 at sides.
+                            let cheekLine = p.map(p.abs(p.cos(a)), 0, 1, 65, -15)
+
+                            if (y > cheekLine) {
+                                p.splineVertex(x + p.map(p.noise(a * 10, b), 0, 1, -2, 2) * nervous, y)
                             }
                         }
                         p.endShape()
                     }
                     p.pop()
 
-                    // 5. The Mouth
+                    // 5. The Mouth (Lips - Multiple Layers for Prominence)
                     p.push()
-                    p.translate(mx * 1.1, 95 + my * 1.1)
-                    p.stroke(255, 200, 200, 120)
-                    p.beginShape()
-                    for (let x = -30; x <= 30; x += 5) {
-                        // map mouseY to smile factor
-                        let smileFactor = p.map(localMouseY, 0, 600, -0.5, 0.5)
-                        let y = (x * x) * 0.02 * smileFactor
-                        let n = p.map(p.noise(x * 0.1, timeOffset * 2), 0, 1, -2, 2) * nervous
-                        p.splineVertex(x + n, y + n)
+                    p.translate(mx * 1.1, 105 + my * 1.1)
+                    p.stroke(...lipStroke)
+
+                    let smileFactor = p.map(p.constrain(localMouseY, 0, 600), 0, 600, -0.4, 0.4)
+
+                    // Draw Upper Lip
+                    for (let l = 0; l < 3; l++) {
+                        p.strokeWeight((1.5 + l * 0.5) * weightMult)
+                        p.beginShape()
+                        for (let x = -40; x <= 40; x += 5) {
+                            let y = (x * x) * 0.015 * smileFactor - 2 + l
+                            // Add a cupid's bow dip
+                            if (p.abs(x) < 10) y += 3 * (1 - p.abs(x) / 10)
+                            let n = p.map(p.noise(x * 0.1, l, timeOffset), 0, 1, -2, 2) * nervous
+                            p.splineVertex(x + n, y + n)
+                        }
+                        p.endShape()
                     }
-                    p.endShape()
+
+                    // Draw Lower Lip
+                    for (let l = 0; l < 3; l++) {
+                        p.strokeWeight((2.0 + l * 0.5) * weightMult)
+                        p.beginShape()
+                        for (let x = -35; x <= 35; x += 5) {
+                            let y = (x * x) * 0.025 * smileFactor + 8 + l
+                            let n = p.map(p.noise(x * 0.1, l + 10, timeOffset), 0, 1, -2, 2) * nervous
+                            p.splineVertex(x + n, y + n)
+                        }
+                        p.endShape()
+                    }
                     p.pop()
 
-                    // --- UPDATED SECTION: Vertical Handlebar Moustache ---
+                    // --- Vertical Handlebar Moustache ---
                     p.push()
                     p.translate(mx * 1.2, 55 + my * 1.2)
-                    p.stroke(240, 240, 255, 180)
-                    p.strokeWeight(1.0)
+                    p.stroke(...baseStroke)
+                    p.strokeWeight(1.0 * weightMult)
 
                     for (let side = -1; side <= 1; side += 2) {
                         for (let s = 0; s < 15; s++) {
@@ -214,8 +272,8 @@ const SketchSelfPortrait = () => {
                     p.pop()
 
                     // 6. The Head Hair
-                    p.stroke(100, 200, 255, 100)
-                    p.strokeWeight(0.8)
+                    p.stroke(...hairStroke)
+                    p.strokeWeight(0.8 * weightMult)
                     for (let j = 0; j < 25; j++) {
                         p.beginShape()
                         let startA = p.PI - 0.8
@@ -233,13 +291,11 @@ const SketchSelfPortrait = () => {
                     p.pop()
                 }
 
-                const drawEyeSpiral = (p: any, tOffset: number, nervous: number, side: number) => {
-                    // Calculate angle to mouse
+                const drawEyeSpiral = (p: any, tOffset: number, nervous: number, side: number, baseStroke: number[], accentStroke: number[], weightMult: number) => {
                     const centerX = (side === -1 ? -60 : 60)
                     const centerY = -30
-                    // p.mouseX/Y are already relative to the canvas in instance mode.
-                    const localMouseX = p.mouseX * 5
-                    const localMouseY = p.mouseY * 5
+                    const localMouseX = p.constrain(p.mouseX * 5, -200, 1000)
+                    const localMouseY = p.constrain(p.mouseY * 5, -200, 800)
 
                     let dx = localMouseX - (400 + centerX)
                     let dy = localMouseY - (300 + centerY)
@@ -249,7 +305,8 @@ const SketchSelfPortrait = () => {
                     let pupilX = p.cos(angle) * distVal * 0.5
                     let pupilY = p.sin(angle) * distVal * 0.5
 
-                    p.stroke(240, 240, 255, 200)
+                    p.stroke(...baseStroke)
+                    p.strokeWeight(1.5 * weightMult)
                     p.beginShape()
                     for (let a = 0; a < p.TWO_PI; a += 0.2) {
                         let r = 25 + p.map(p.noise(p.cos(a) + tOffset, p.sin(a)), 0, 1, -2, 2)
@@ -259,7 +316,8 @@ const SketchSelfPortrait = () => {
 
                     p.push()
                     p.translate(pupilX, pupilY)
-                    p.stroke(200, 220, 255, 200)
+                    p.stroke(...accentStroke)
+                    p.strokeWeight(1.2 * weightMult)
                     p.beginShape()
                     for (let i = 0; i < 40; i++) {
                         let r = p.map(i, 0, 40, 1, 8)
@@ -281,7 +339,7 @@ const SketchSelfPortrait = () => {
         return () => {
             p5Instance.current?.remove()
         }
-    }, [])
+    }, [isDark, mounted])
 
     return (
         <div
@@ -290,7 +348,7 @@ const SketchSelfPortrait = () => {
         >
             <div
                 ref={containerRef}
-                className="w-40 h-[120px] bg-background/40 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 group-hover:scale-110 group-hover:border-primary/30"
+                className="w-40 h-[120px] bg-background/40 backdrop-blur-sm border border-border/20 rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 group-hover:scale-110 group-hover:border-primary/30"
             />
             <div className="absolute -top-2 -right-2 bg-primary w-3 h-3 rounded-full animate-pulse border-2 border-background" />
         </div>
