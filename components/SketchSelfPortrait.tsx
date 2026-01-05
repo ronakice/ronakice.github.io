@@ -3,16 +3,121 @@
 import React, { useEffect, useRef } from 'react'
 import type p5 from 'p5'
 import { useTheme } from 'next-themes'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const SketchSelfPortrait = () => {
     const containerRef = useRef<HTMLDivElement>(null)
     const p5Instance = useRef<p5 | null>(null)
     const { theme, resolvedTheme } = useTheme()
     const [mounted, setMounted] = React.useState(false)
+    const [currentMessage, setCurrentMessage] = React.useState("")
+    const [isVisible, setIsVisible] = React.useState(false)
+    const [activeSection, setActiveSection] = React.useState<string | null>(null)
+    const lastMessageTime = useRef(Date.now())
+    const shownMessages = useRef<Set<string>>(new Set())
+
+    const messages: Record<string, string[]> = {
+        home: [
+            "Welcome to my tiny corner of the web!",
+            "I'm the sketchy version of Ronak. Nice to meet you.",
+            "Psst... if you click that voxel prism, I might change flavors.",
+            "I see you're trying to focus on something without interruption. Can I help?"
+        ],
+        research: [
+            "RAG is cool, but have you seen my spline curves?",
+            "Evaluating LLMs is hard. Drawing them is harder.",
+            "I'm a Research Scientist by day, a p5.js sketch by... always."
+        ],
+        updates: [
+            "Fresh off the press! Or at least, fresh off the code editor.",
+            "My graduation cap is virtual, but my pride is real.",
+        ],
+        papers: [
+            "That's a lot of papers. I hope you're using a good retriever.",
+            "RankZephyr is my favorite. Don't tell the others.",
+            "If you find a typo, it was definitely the 'other' LLM."
+        ],
+        mentorship: [
+            "Always happy to chat! Just mind the sketchiness."
+        ],
+        playlists: [
+            "Finally, some good music!",
+            "Did you hear that beat? Oh, it's just my jitter function.",
+        ],
+        global: [
+            "Is it just me, or is the scroll bar getting a workout?",
+            "I'm watching you... in a non-creepy, sketchy way.",
+            "Stop staring! I'm shy.",
+            "The dark side of the Force is strong with this one."
+        ]
+    }
 
     useEffect(() => {
         setMounted(true)
+
+        const sections = ['home', 'research', 'updates', 'papers', 'mentorship', 'playlists']
+        const observers = sections.map(id => {
+            const el = document.getElementById(id)
+            if (!el) return null
+
+            const observer = new IntersectionObserver(
+                ([entry]) => {
+                    if (entry.isIntersecting) {
+                        setActiveSection(id)
+                    }
+                },
+                { threshold: 0.5 }
+            )
+            observer.observe(el)
+            return observer
+        })
+
+        return () => observers.forEach(o => o?.disconnect())
     }, [])
+
+    useEffect(() => {
+        if (!mounted || !activeSection) return
+
+        const triggerMessage = () => {
+            const now = Date.now()
+            if (now - lastMessageTime.current < 6000) return
+
+            if (Math.random() > 0.42) {
+                const sectionPool = messages[activeSection] || []
+                const globalPool = messages.global || []
+
+                const useSection = Math.random() < 0.6 && sectionPool.length > 0
+                const selectedPool = useSection ? sectionPool : globalPool
+
+                let available = selectedPool.filter(m => !shownMessages.current.has(m))
+
+                // If preferred pool is empty, try the other one
+                if (available.length === 0) {
+                    const fallbackPool = useSection ? globalPool : sectionPool
+                    available = fallbackPool.filter(m => !shownMessages.current.has(m))
+                }
+
+                // Silence rule: if truly nothing is left to say in either pool, refrain from automatic trigger
+                if (available.length === 0) {
+                    return
+                }
+
+                const randomMsg = available[Math.floor(Math.random() * available.length)]
+
+                setCurrentMessage(randomMsg)
+                setIsVisible(true)
+                shownMessages.current.add(randomMsg)
+                lastMessageTime.current = now
+
+                // Auto-hide after 5 seconds
+                const timer = setTimeout(() => setIsVisible(false), 5000)
+                return () => clearTimeout(timer)
+            }
+        }
+
+        const interval = setInterval(triggerMessage, 5500)
+        return () => clearInterval(interval)
+    }, [mounted, activeSection])
 
     // Ensure we correctly detect light mode. Fallback to dark if unsure.
     const isDark = mounted ? resolvedTheme === 'dark' : true
@@ -344,13 +449,62 @@ const SketchSelfPortrait = () => {
     return (
         <div
             className="fixed bottom-6 right-6 z-[60] group cursor-pointer"
-            title="A sketchy self-portrait"
+            onClick={(e) => {
+                e.stopPropagation()
+                const effectiveSection = activeSection || "home"
+                const sectionPool = messages[effectiveSection] || []
+                const globalPool = messages.global || []
+                const useSection = Math.random() < 0.6 && sectionPool.length > 0
+                const selectedPool = useSection ? sectionPool : globalPool
+
+                let available = selectedPool.filter(m => !shownMessages.current.has(m))
+
+                // Manual click can force-reset if we've seen it all
+                if (available.length === 0) {
+                    const fallbackPool = useSection ? globalPool : sectionPool
+                    available = fallbackPool.filter(m => !shownMessages.current.has(m))
+
+                    if (available.length === 0) {
+                        shownMessages.current.clear()
+                        available = [...sectionPool, ...globalPool]
+                    }
+                }
+
+                const randomMsg = available[Math.floor(Math.random() * available.length)]
+
+                // Reset visibility quickly to trigger a clean re-animation if needed
+                setIsVisible(false)
+                setTimeout(() => {
+                    setCurrentMessage(randomMsg)
+                    setIsVisible(true)
+                    shownMessages.current.add(randomMsg)
+                    lastMessageTime.current = Date.now() // Delay next auto-trigger
+                }, 50)
+            }}
         >
+            <AnimatePresence>
+                {isVisible && (
+                    <motion.div
+                        key={currentMessage}
+                        initial={{ opacity: 0, scale: 0.8, x: 5, y: 5 }}
+                        animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.8, x: 5, y: 5 }}
+                        className="absolute bottom-[80%] right-[70%] mb-1 mr-1 w-44 p-3.5 bg-background/95 backdrop-blur-md border border-border/50 shadow-2xl rounded-2xl rounded-br-none z-[70] pointer-events-none"
+                    >
+                        <p className="text-[12px] font-medium leading-normal text-foreground/90 italic">
+                            "{currentMessage}"
+                        </p>
+                        {/* Speech bubble tail */}
+                        <div className="absolute -bottom-1 -right-0 w-3 h-3 bg-background/95 border-r border-b border-border/50 transform rotate-45" />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             <div
                 ref={containerRef}
                 className="w-40 h-[120px] bg-background/40 backdrop-blur-sm border border-border/20 rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 group-hover:scale-110 group-hover:border-primary/30"
             />
-            <div className="absolute -top-2 -right-2 bg-primary w-3 h-3 rounded-full animate-pulse border-2 border-background" />
+            <div className="absolute -top-1 -right-1 bg-primary w-3 h-3 rounded-full animate-pulse border-2 border-background" />
         </div>
     )
 }
