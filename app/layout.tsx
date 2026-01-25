@@ -1,18 +1,24 @@
 import type { Metadata } from 'next'
-import { Outfit, Inter } from 'next/font/google'
+import { Playfair_Display, Source_Serif_4, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { DarkModeToggle } from '@/components/dark-mode-toggle'
 
-const outfit = Outfit({
+const playfair = Playfair_Display({
   subsets: ['latin'],
-  variable: '--font-outfit',
+  variable: '--font-playfair',
   display: 'swap',
 })
 
-const inter = Inter({
+const sourceSerif = Source_Serif_4({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-source-serif',
+  display: 'swap',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
   display: 'swap',
 })
 
@@ -28,8 +34,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${outfit.variable} ${inter.variable}`}>
-      <body className={inter.className}>
+    <html lang="en" suppressHydrationWarning className={`${playfair.variable} ${sourceSerif.variable} ${jetbrainsMono.variable}`}>
+      <body className="font-serif">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
           {children}
           <DarkModeToggle />

@@ -4,67 +4,75 @@
 
 @layer base {
   :root {
-    /* Light Mode: Crisp Slate & Teal */
-    --background: 210 40% 98%; /* Slate 50 */
-    --foreground: 222 47% 11%; /* Slate 900 */
-    
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-    
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    
-    --primary: 180 70% 35%; /* Teal 700 */
-    --primary-foreground: 210 40% 98%;
-    
-    --secondary: 210 40% 90%; /* Slate 200 */
-    --secondary-foreground: 222 47% 11%;
-    
-    --muted: 210 40% 90%;
-    --muted-foreground: 215 16% 47%;
-    
-    --accent: 180 50% 90%; /* Light Teal */
-    --accent-foreground: 180 70% 35%;
-    
+    /* Light Mode: Warm paper tones */
+    --background: 40 20% 98%; /* Warm off-white paper #faf9f7 */
+    --foreground: 240 10% 10%; /* Near black */
+
+    --card: 40 30% 99%;
+    --card-foreground: 240 10% 10%;
+
+    --popover: 40 30% 99%;
+    --popover-foreground: 240 10% 10%;
+
+    --primary: 260 70% 58%; /* Violet #9b59f5 - the most refracted light */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 40 20% 95%;
+    --secondary-foreground: 240 10% 10%;
+
+    --muted: 40 15% 93%;
+    --muted-foreground: 240 5% 45%;
+
+    --accent: 260 40% 95%;
+    --accent-foreground: 260 70% 45%;
+
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-    
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 180 70% 35%;
-    
-    --radius: 0.75rem;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 40 15% 88%;
+    --input: 40 15% 88%;
+    --ring: 260 70% 58%;
+
+    --radius: 0.5rem;
+
+    /* Spectral colors */
+    --spectrum-red: 0 100% 50%;
+    --spectrum-orange: 30 100% 50%;
+    --spectrum-yellow: 50 100% 50%;
+    --spectrum-green: 120 100% 35%;
+    --spectrum-blue: 220 100% 50%;
+    --spectrum-violet: 270 100% 60%;
   }
 
   .dark {
-    /* Dark Mode: Deep Indigo & Violet */
-    --background: 240 30% 6%; /* Deep Indigo/Black */
-    --foreground: 210 40% 98%;
-    
-    --card: 240 25% 10%; /* Slightly lighter indigo */
-    --card-foreground: 210 40% 98%;
-    
-    --popover: 240 25% 10%;
-    --popover-foreground: 210 40% 98%;
-    
-    --primary: 260 80% 65%; /* Violet 500 */
-    --primary-foreground: 210 40% 98%;
-    
-    --secondary: 240 20% 15%;
-    --secondary-foreground: 210 40% 98%;
-    
-    --muted: 240 20% 15%;
-    --muted-foreground: 215 20% 65%;
-    
-    --accent: 260 50% 20%; /* Dark Violet */
-    --accent-foreground: 210 40% 98%;
-    
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-    
-    --border: 240 20% 20%;
-    --input: 240 20% 20%;
-    --ring: 260 80% 65%;
+    /* Dark Mode: True black like album cover */
+    --background: 0 0% 2%; /* True black #050505 */
+    --foreground: 40 20% 95%; /* Warm white */
+
+    --card: 0 0% 5%; /* Slightly lighter black */
+    --card-foreground: 40 20% 95%;
+
+    --popover: 0 0% 5%;
+    --popover-foreground: 40 20% 95%;
+
+    --primary: 260 70% 65%; /* Brighter violet in dark mode */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 40 20% 95%;
+
+    --muted: 0 0% 12%;
+    --muted-foreground: 40 10% 60%;
+
+    --accent: 260 50% 15%;
+    --accent-foreground: 260 70% 75%;
+
+    --destructive: 0 63% 40%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 260 70% 65%;
   }
 }
 
@@ -74,12 +82,13 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
+    font-family: var(--font-source-serif), Georgia, 'Times New Roman', serif;
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-outfit), sans-serif;
+    font-family: var(--font-playfair), Georgia, serif;
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
   }
 }
 
@@ -88,24 +97,108 @@ html {
 }
 
 @layer utilities {
-  .font-heading {
-    font-family: var(--font-outfit), sans-serif;
-  }
-  
-  .font-sans {
-    font-family: var(--font-inter), sans-serif;
+  .font-display {
+    font-family: var(--font-playfair), Georgia, serif;
   }
 
-  .glass-card {
-    @apply bg-white/70 dark:bg-black/40 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-xl;
+  .font-serif {
+    font-family: var(--font-source-serif), Georgia, 'Times New Roman', serif;
   }
-  
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600 dark:from-primary dark:to-blue-400;
+
+  .font-mono {
+    font-family: var(--font-mono), 'Courier New', monospace;
   }
+
+  /* Spectral text gradient - used sparingly */
+  .text-spectrum {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      90deg,
+      hsl(0, 100%, 50%),
+      hsl(30, 100%, 50%),
+      hsl(50, 100%, 50%),
+      hsl(120, 100%, 35%),
+      hsl(220, 100%, 50%),
+      hsl(270, 100%, 60%)
+    );
+  }
+
+  /* Spectral border gradient */
+  .border-spectrum {
+    border-image: linear-gradient(
+      90deg,
+      hsl(0, 100%, 50%),
+      hsl(30, 100%, 50%),
+      hsl(50, 100%, 50%),
+      hsl(120, 100%, 35%),
+      hsl(220, 100%, 50%),
+      hsl(270, 100%, 60%)
+    ) 1;
+  }
+
+  /* Subtle noise texture overlay */
+  .noise-overlay {
+    position: relative;
+  }
+  .noise-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  /* Spectral glow on hover */
+  .hover-glow-spectrum {
+    @apply transition-all duration-300;
+  }
+  .hover-glow-spectrum:hover {
+    box-shadow:
+      0 0 20px hsla(0, 100%, 50%, 0.15),
+      0 0 40px hsla(50, 100%, 50%, 0.1),
+      0 0 60px hsla(270, 100%, 60%, 0.15);
+  }
+
+  /* Light beam gradient for timeline */
+  .beam-gradient {
+    background: linear-gradient(
+      180deg,
+      hsl(0, 100%, 50%) 0%,
+      hsl(30, 100%, 50%) 16%,
+      hsl(50, 100%, 50%) 33%,
+      hsl(120, 100%, 35%) 50%,
+      hsl(220, 100%, 50%) 66%,
+      hsl(270, 100%, 60%) 83%,
+      hsl(270, 100%, 60%) 100%
+    );
+  }
+
+  /* Sacred glow for Om symbol */
+  .glow-sacred {
+    text-shadow:
+      0 0 10px hsla(45, 100%, 60%, 0.6),
+      0 0 20px hsla(45, 100%, 50%, 0.4),
+      0 0 30px hsla(30, 100%, 50%, 0.3);
+  }
+
+  /* Romantic wavy underline */
+  .underline-wavy {
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-decoration-color: hsl(var(--primary));
+    text-underline-offset: 4px;
+  }
+
+  /* Filter chip spectral colors */
+  .chip-retrieval { @apply bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/30 hover:bg-blue-500/20; }
+  .chip-reranking { @apply bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/30 hover:bg-orange-500/20; }
+  .chip-rag { @apply bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/30 hover:bg-green-500/20; }
+  .chip-llm { @apply bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/30 hover:bg-violet-500/20; }
+  .chip-benchmarking { @apply bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/30 hover:bg-yellow-500/20; }
+  .chip-evaluation { @apply bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/30 hover:bg-red-500/20; }
 }
 
 .prose a {
   @apply text-primary hover:text-primary/80 transition-colors font-medium underline decoration-primary/30 underline-offset-4 hover:decoration-primary;
 }
-

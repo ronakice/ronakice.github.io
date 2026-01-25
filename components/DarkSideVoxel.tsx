@@ -1,8 +1,8 @@
 "use client"
 
-import React, { useMemo, useEffect, useState } from 'react'
+import React, { useMemo, useEffect, useState, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, Edges } from '@react-three/drei'
+import { OrbitControls, Edges, Stars } from '@react-three/drei'
 import { useTheme } from 'next-themes'
 import * as THREE from 'three'
 
@@ -22,33 +22,31 @@ const Voxel = ({ position, color, opacity = 1, transparent = false, borderColor,
         const now = Date.now()
         const timeSinceFlash = (now - flashTime) / 1000 // seconds
 
-        // Exponential decay: starts at 1, decays to ~0.05 in 1s, ~0.002 in 2s
-        // Using a decay rate of 3 makes it last nicely for about 1-1.5 seconds visually
+        // Enhanced flash: slower decay (2.5 instead of 3) for longer lasting effect
+        // Added a quick initial burst followed by slower fade
         let intensity = 0
         if (timeSinceFlash >= 0) {
-            intensity = Math.exp(-timeSinceFlash * 3)
-            // Cut off very small values to save performance/avoid artifacts if needed, 
-            // but smooth decay is better.
+            // Initial burst (first 0.1s) stays at full intensity
+            if (timeSinceFlash < 0.1) {
+                intensity = 1
+            } else {
+                intensity = Math.exp(-(timeSinceFlash - 0.1) * 2.5)
+            }
             if (intensity < 0.01) intensity = 0
         }
 
-        // Interpolate Color
-        // We can use lerp on the color object. 
-        // Note: material.color is a THREE.Color.
+        // Interpolate Color - flash to white
         materialRef.current.color.lerpColors(originalColor, whiteColor, intensity)
 
-        // Interpolate Emissive
-        // Emissive goes from 0 to 0.5
-        materialRef.current.emissive.setScalar(intensity) // White emissive
-        materialRef.current.emissiveIntensity = intensity * 0.5
+        // Enhanced emissive - brighter flash
+        materialRef.current.emissive.setScalar(intensity)
+        materialRef.current.emissiveIntensity = intensity * 0.8
 
-        // Interpolate Edges
-        // Opacity: glow ? 0.8 : 0.3 -> goes to 0.8 or 1? 
-        // Let's make it glow bright white
+        // Interpolate Edges - flash to bright white
         edgesMaterialRef.current.color.lerpColors(originalBorderColor, whiteColor, intensity)
 
         const baseOpacity = glow ? 0.8 : 0.3
-        const targetOpacity = 0.9
+        const targetOpacity = 1.0
         edgesMaterialRef.current.opacity = baseOpacity + (targetOpacity - baseOpacity) * intensity
     })
 
@@ -178,13 +176,29 @@ export function DarkSideVoxel({ onPrismClick }: { onPrismClick?: () => void }) {
 
     return (
         <div className={`h-full w-full flex items-center justify-center overflow-hidden bg-transparent`}>
-            <Canvas camera={{ position: [0, 0, 35], fov: 45 }}>
-                {!isDark && <ambientLight intensity={0.8} />}
-                {isDark && <ambientLight intensity={0.3} />}
-                <pointLight position={[-10, 10, 10]} intensity={1} />
-                <pointLight position={[10, -10, 10]} intensity={0.5} />
+            <Canvas camera={{ position: [0, 0, 30], fov: 50 }}>
+                {/* Star field background - only in dark mode */}
+                {isDark && (
+                    <Stars
+                        radius={100}
+                        depth={50}
+                        count={3000}
+                        factor={4}
+                        saturation={0}
+                        fade
+                        speed={0.5}
+                    />
+                )}
 
-                <group position={[0, 5, 0]} rotation={[0.1, 0.1, 0]}>
+                {!isDark && <ambientLight intensity={0.8} />}
+                {isDark && <ambientLight intensity={0.4} />}
+                <pointLight position={[-10, 10, 10]} intensity={1.2} />
+                <pointLight position={[10, -10, 10]} intensity={0.6} />
+                {/* Add subtle colored lights for spectral effect */}
+                <pointLight position={[15, -5, 5]} intensity={0.3} color="#ff0000" />
+                <pointLight position={[15, -8, 5]} intensity={0.3} color="#8b00ff" />
+
+                <group position={[0, 4, 0]} rotation={[0.1, 0.1, 0]}>
                     {/* Prism */}
                     {prismVoxels.map((voxel, i) => (
                         <Voxel
@@ -219,7 +233,7 @@ export function DarkSideVoxel({ onPrismClick }: { onPrismClick?: () => void }) {
                 <OrbitControls
                     enableZoom={false}
                     autoRotate
-                    autoRotateSpeed={0.5}
+                    autoRotateSpeed={0.4}
                     minPolarAngle={Math.PI / 4}
                     maxPolarAngle={Math.PI * 3 / 4}
                 />
