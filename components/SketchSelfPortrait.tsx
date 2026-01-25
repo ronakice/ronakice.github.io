@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 const SketchSelfPortrait = () => {
     const containerRef = useRef<HTMLDivElement>(null)
     const p5Instance = useRef<p5 | null>(null)
-    const { theme, resolvedTheme } = useTheme()
+    const { resolvedTheme } = useTheme()
     const [mounted, setMounted] = React.useState(false)
     const [currentMessage, setCurrentMessage] = React.useState("")
     const [isVisible, setIsVisible] = React.useState(false)
@@ -131,8 +131,14 @@ const SketchSelfPortrait = () => {
             const sketch = (p: any) => {
                 let timeOffset = 0
 
+                // Portrait proportions - tune these for likeness
+                const FACE_WIDTH = 0.72       // Narrower face (was 0.78)
+                const FACE_HEIGHT = 1.18      // Taller face (was 1.08-1.12)
+                const HAIR_VOLUME = 130       // Hair length/volume
+                const BEARD_LENGTH = 1.15     // Beard extension factor
+
                 p.setup = () => {
-                    const canvas = p.createCanvas(160, 120)
+                    const canvas = p.createCanvas(160, 150) // Taller canvas
                     canvas.parent(containerRef.current!)
                     p.strokeJoin(p.ROUND)
                     p.strokeCap(p.ROUND)
@@ -142,32 +148,31 @@ const SketchSelfPortrait = () => {
                 p.draw = () => {
                     p.clear()
 
-                    // Colors based on theme (Premium Palette)
-                    const baseStroke = isDark ? [240, 240, 255, 180] : [30, 41, 59, 255]      // Slate-800 for Light
-                    const accentStroke = isDark ? [130, 180, 255, 200] : [2, 132, 199, 240]    // Sky-600 for Light
-                    const lipStroke = isDark ? [255, 150, 150, 200] : [190, 18, 60, 250]      // Rose-700 for Light
-                    const hairStroke = isDark ? [100, 200, 255, 100] : [15, 23, 42, 140]       // Deep Indigo/Slate for Light
-                    const glassesStroke = isDark ? [200, 200, 255, 180] : [51, 65, 85, 230]    // Slate-600 for Light
+                    // Colors harmonized with site theme (warm paper + violet primary)
+                    const baseStroke = isDark ? [245, 240, 235, 190] : [45, 38, 32, 230]       // Warm white / Sepia
+                    const accentStroke = isDark ? [155, 89, 245, 175] : [120, 70, 160, 170]    // Violet (matches --primary)
+                    const lipStroke = isDark ? [220, 150, 140, 185] : [150, 85, 75, 210]       // Soft coral / Muted rose
+                    const hairStroke = isDark ? [180, 170, 160, 95] : [40, 35, 28, 100]        // Warm gray / Dark brown
+                    const glassesStroke = isDark ? [215, 210, 205, 190] : [45, 40, 35, 235]    // Warm white / Near black
 
                     const weightMult = isDark ? 1 : 1.4 // Slightly heavier strokes in light mode for clarity
 
                     p.push()
-                    // Scale it down from 800x600 to 160x120 (0.2x scale)
+                    // Scale down from 800x750 to 160x150 (0.2x scale)
                     p.scale(0.2)
-
-                    p.translate(400, 300) // Center of 800x600
+                    p.translate(400, 375) // Center of 800x750
 
                     // Interactive vars
                     const localMouseX = p.constrain(p.mouseX * 5, -200, 1000)
-                    const localMouseY = p.constrain(p.mouseY * 5, -200, 800)
+                    const localMouseY = p.constrain(p.mouseY * 5, -200, 950)
 
                     let mx = p.constrain((localMouseX - 400) * 0.05, -30, 30)
-                    let my = p.constrain((localMouseY - 300) * 0.05, -30, 30)
+                    let my = p.constrain((localMouseY - 375) * 0.05, -30, 30)
                     let nervous = p.mouseIsPressed ? 5 : 1
 
                     timeOffset += 0.02
 
-                    // 1. The Head Shape
+                    // 1. The Head Shape - elongated oval
                     p.stroke(...baseStroke)
                     p.strokeWeight(1.8 * weightMult)
                     for (let k = 0; k < 3; k++) {
@@ -175,12 +180,13 @@ const SketchSelfPortrait = () => {
                         for (let a = 0; a < p.TWO_PI; a += 0.1) {
                             let xoff = p.map(p.cos(a), -1, 1, 0, 2)
                             let yoff = p.map(p.sin(a), -1, 1, 0, 2)
-                            let r = 180 + p.map(p.noise(xoff + k, yoff + k, timeOffset * 0.5), 0, 1, -20, 20) * nervous
+                            let r = 170 + p.map(p.noise(xoff + k, yoff + k, timeOffset * 0.5), 0, 1, -18, 18) * nervous
 
-                            let rAdjust = (a > p.PI / 4 && a < 3 * p.PI / 4) ? 1.05 : 1.0
+                            // Taller in chin area
+                            let heightMod = (a > p.PI / 4 && a < 3 * p.PI / 4) ? FACE_HEIGHT * 1.02 : FACE_HEIGHT
 
-                            let x = r * p.cos(a) * 0.85
-                            let y = r * p.sin(a) * rAdjust
+                            let x = r * p.cos(a) * FACE_WIDTH
+                            let y = r * p.sin(a) * heightMod
 
                             p.splineVertex(x + mx * 0.5, y + my * 0.5)
                         }
@@ -276,33 +282,27 @@ const SketchSelfPortrait = () => {
                     }
                     p.endShape()
 
-                    // 4. The Beard
+                    // 4. The Beard - fuller and longer
                     p.push()
                     p.translate(mx * 1.1, my * 1.1)
-                    p.stroke(...accentStroke)
-                    p.strokeWeight(0.8 * weightMult)
+                    p.stroke(...baseStroke)
+                    p.strokeWeight(0.75 * weightMult)
 
-                    for (let b = 0; b < 60; b++) {
+                    for (let b = 0; b < 55; b++) {
                         p.beginShape()
-                        // Use a slightly wider angle range to cover sideburns properly
-                        for (let a = -0.3; a <= p.PI + 0.3; a += 0.05) {
-                            // Match the head's base radius (~180)
-                            let faceR = 180
-                            // Beard thickness: more volume at the chin, less at the sideburns
-                            let beardThick = p.map(p.sin(a), 0, 1, 15, 70)
+                        for (let a = -0.35; a <= p.PI + 0.35; a += 0.05) {
+                            let faceR = 170
+                            // More volume at chin, tapering at sides
+                            let beardThick = p.map(p.sin(a), 0, 1, 18, 85)
                             let nVal = p.noise(a * 3, b * 0.15, timeOffset)
 
-                            // r follows the face curvature but with some "growth"
-                            let r = faceR + p.map(nVal, 0, 1, -beardThick, beardThick * 0.5)
+                            let r = faceR * BEARD_LENGTH + p.map(nVal, 0, 1, -beardThick, beardThick * 0.6)
 
-                            // Use same scaling factors as the head for consistent curvature
-                            let x = r * p.cos(a) * 0.85
-                            let y = r * p.sin(a) * 1.05
+                            let x = r * p.cos(a) * FACE_WIDTH
+                            let y = r * p.sin(a) * FACE_HEIGHT
 
-                            // Cheek line logic: beard should be lower in the middle (below nose/mouth)
-                            // and higher at the sides (sideburns).
-                            // cos(a) is near 0 at chin (a=PI/2), near 1 or -1 at sides.
-                            let cheekLine = p.map(p.abs(p.cos(a)), 0, 1, 65, -15)
+                            // Cheek line - beard starts lower at sides (sideburns)
+                            let cheekLine = p.map(p.abs(p.cos(a)), 0, 1, 70, -20)
 
                             if (y > cheekLine) {
                                 p.splineVertex(x + p.map(p.noise(a * 10, b), 0, 1, -2, 2) * nervous, y)
@@ -376,20 +376,62 @@ const SketchSelfPortrait = () => {
                     }
                     p.pop()
 
-                    // 6. The Head Hair
+                    // 6. The Head Hair - long and flowing
                     p.stroke(...hairStroke)
-                    p.strokeWeight(0.8 * weightMult)
-                    for (let j = 0; j < 25; j++) {
+                    p.strokeWeight(0.75 * weightMult)
+                    const startA = p.PI - 1.0  // ~2.14 (lower left)
+                    const endA = p.TWO_PI + 1.2  // ~7.48 (lower right)
+                    const hairRange = endA - startA
+
+                    for (let j = 0; j < 38; j++) {
                         p.beginShape()
-                        let startA = p.PI - 0.8
-                        let endA = p.TWO_PI + 1.0
                         for (let a = startA; a <= endA; a += 0.1) {
-                            let baseR = 200
+                            let baseR = 150 // Much closer to face (face is 170)
                             let nVal = p.noise(a * 2, timeOffset + j * 10)
-                            let r = baseR + p.map(nVal, 0, 1, -40, 100)
-                            let x = r * p.cos(a) * 0.9 + mx * 0.2
-                            let y = r * p.sin(a) + my * 0.2
+                            let r = baseR + p.map(nVal, 0, 1, -25, HAIR_VOLUME)
+
+                            // Extra length at back/sides (top of head area)
+                            if (a > p.PI * 1.2 && a < p.PI * 1.8) {
+                                r += 25
+                            }
+
+                            // Calculate how close we are to the ends (0 to 1, where 1 = at end)
+                            let leftEndProximity = p.max(0, 1 - (a - startA) / 1.2)  // Fades over ~1.2 radians
+                            let rightEndProximity = p.max(0, 1 - (endA - a) / 1.2)
+
+                            // Flare outward at ends - increase radius AND push x outward
+                            let endFlare = p.max(leftEndProximity, rightEndProximity)
+                            let flareAmount = p.pow(endFlare, 1.5) * (50 + j * 1.3)
+                            r += flareAmount
+
+                            let x = r * p.cos(a) * 0.82 + mx * 0.2
+                            let y = r * p.sin(a) * 1.08 + my * 0.2
+
+                            // Extra outward push at the very ends
+                            if (leftEndProximity > 0.3) {
+                                x -= leftEndProximity * 25  // Push left
+                                y += leftEndProximity * 15  // Push down
+                            }
+                            if (rightEndProximity > 0.3) {
+                                x += rightEndProximity * 25  // Push right
+                                y += rightEndProximity * 15  // Push down
+                            }
+
                             p.splineVertex(x, y)
+                        }
+                        p.endShape()
+                    }
+
+                    // Wavy strands on top for volume
+                    p.strokeWeight(0.5 * weightMult)
+                    for (let w = 0; w < 7; w++) {
+                        p.beginShape()
+                        let startX = p.map(w, 0, 6, -70, 70)
+                        for (let i = 0; i < 22; i++) {
+                            let t = i / 22.0
+                            let waveX = startX + p.sin(t * 2.8 + timeOffset + w) * 14
+                            let waveY = -185 - t * 55 + p.noise(w, i * 0.2, timeOffset) * 28
+                            p.splineVertex(waveX + mx * 0.1, waveY + my * 0.1)
                         }
                         p.endShape()
                     }
@@ -400,10 +442,10 @@ const SketchSelfPortrait = () => {
                     const centerX = (side === -1 ? -60 : 60)
                     const centerY = -30
                     const localMouseX = p.constrain(p.mouseX * 5, -200, 1000)
-                    const localMouseY = p.constrain(p.mouseY * 5, -200, 800)
+                    const localMouseY = p.constrain(p.mouseY * 5, -200, 950)
 
                     let dx = localMouseX - (400 + centerX)
-                    let dy = localMouseY - (300 + centerY)
+                    let dy = localMouseY - (375 + centerY)
                     let angle = p.atan2(dy, dx)
                     let distVal = p.constrain(p.sqrt(dx * dx + dy * dy), 0, 20)
 
@@ -486,25 +528,45 @@ const SketchSelfPortrait = () => {
                 {isVisible && (
                     <motion.div
                         key={currentMessage}
-                        initial={{ opacity: 0, scale: 0.8, x: 5, y: 5 }}
-                        animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.8, x: 5, y: 5 }}
-                        className="absolute bottom-[80%] right-[70%] mb-1 mr-1 w-44 p-3.5 bg-background/95 backdrop-blur-md border border-border/50 shadow-2xl rounded-2xl rounded-br-none z-[70] pointer-events-none"
+                        initial={{ opacity: 0, scale: 0.92, y: 6 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.92, y: 6 }}
+                        transition={{ type: "spring", stiffness: 380, damping: 22 }}
+                        className="absolute bottom-[85%] right-[60%] mb-2 w-48 p-4
+                            bg-background/97 backdrop-blur-lg
+                            border border-border/40
+                            shadow-xl shadow-primary/[0.08]
+                            rounded-2xl rounded-br-sm
+                            z-[70] pointer-events-none"
                     >
-                        <p className="text-[12px] font-medium leading-normal text-foreground/90 italic">
+                        <p className="text-[11px] leading-relaxed text-foreground/85 font-serif italic tracking-wide">
                             "{currentMessage}"
                         </p>
-                        {/* Speech bubble tail */}
-                        <div className="absolute -bottom-1 -right-0 w-3 h-3 bg-background/95 border-r border-b border-border/50 transform rotate-45" />
+                        {/* Refined speech bubble tail */}
+                        <div className="absolute -bottom-[5px] right-3 w-2.5 h-2.5
+                            bg-background/97 border-r border-b border-border/40
+                            transform rotate-45" />
                     </motion.div>
                 )}
             </AnimatePresence>
 
             <div
                 ref={containerRef}
-                className="w-40 h-[120px] bg-background/40 backdrop-blur-sm border border-border/20 rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 group-hover:scale-110 group-hover:border-primary/30"
+                className="w-40 h-[150px]
+                    bg-background/45 backdrop-blur-sm
+                    border border-border/25
+                    rounded-2xl overflow-hidden
+                    shadow-xl shadow-primary/[0.06]
+                    transition-all duration-300 ease-out
+                    group-hover:scale-105
+                    group-hover:border-primary/35
+                    group-hover:shadow-primary/[0.12]"
             />
-            <div className="absolute -top-1 -right-1 bg-primary w-3 h-3 rounded-full animate-pulse border-2 border-background" />
+            <div className="absolute -top-0.5 -right-0.5
+                w-2.5 h-2.5 rounded-full
+                bg-primary/85
+                animate-pulse
+                ring-2 ring-background" />
         </div>
     )
 }
