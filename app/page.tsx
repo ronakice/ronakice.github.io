@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Mail, FileText, GraduationCap, Twitter, Github, Music, Calendar, ExternalLink, Search } from "lucide-react"
-import { useState, useMemo, useRef } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
@@ -668,9 +668,19 @@ const SketchSelfPortrait = dynamic(
 
 export default function HomePage() {
   const [profileImage, setProfileImage] = useState("/images/RonakPradeep_circle.png")
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   const { scrollY } = useScroll()
-  const opacity = useTransform(scrollY, [0, 800], [1, 0]) // Slower fade out
-  const y = useTransform(scrollY, [0, 800], [0, 100]) // Slower movement
+  // Desktop scroll transforms (same as original)
+  const opacity = useTransform(scrollY, [0, 800], [1, 0])
+  const y = useTransform(scrollY, [0, 800], [0, 100])
   const voxelOpacity = useTransform(scrollY, [0, 900], [1, 0.02])
 
   const toggleImage = () => {
@@ -720,14 +730,17 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background relative selection:bg-primary/30">
-      {/* Voxel Background Layer */}
+      {/* Voxel Background Layer - fades on scroll for both mobile and desktop */}
       <motion.div style={{ opacity: voxelOpacity }} className="fixed top-0 left-0 right-0 h-[85vh] z-0 pointer-events-none">
         <DarkSideVoxel onPrismClick={toggleImage} />
         {/* Gradient Mask to blend into content */}
         <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-background to-transparent pointer-events-none" />
       </motion.div>
 
-      <SketchSelfPortrait />
+      {/* Hide on mobile/narrow screens to prevent covering content */}
+      <div className="hidden lg:block">
+        <SketchSelfPortrait />
+      </div>
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 bg-background/80 backdrop-blur-sm z-50 transition-all duration-300">
@@ -753,13 +766,31 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section id="home" className="pt-[60vh] pb-20 relative z-10 pointer-events-none">
+      {/* Hero Section - enough top padding on mobile to see prism first */}
+      <section id="home" className="pt-[50vh] md:pt-[60vh] pb-20 relative z-10 pointer-events-none">
         <div className="max-w-7xl mx-auto px-6 pointer-events-auto">
           <motion.div
-            style={{ opacity, y }}
-            className="grid md:grid-cols-3 gap-16 items-center"
+            style={isMobile ? {} : { opacity, y }}
+            className="grid md:grid-cols-3 gap-8 md:gap-16 items-center"
           >
+            {/* Photo - show first on mobile, last on desktop */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, type: "spring" }}
+              className="flex justify-center md:hidden mb-4"
+            >
+              <div className="relative w-40 h-40 rounded-full overflow-hidden shadow-2xl ring-2 ring-border/50 hover-glow-spectrum cursor-pointer group" title="Click the prism!">
+                <Image
+                  src={profileImage}
+                  alt="Ronak Pradeep"
+                  width={160}
+                  height={160}
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+              </div>
+            </motion.div>
+
             <div className="md:col-span-2 space-y-8">
               <div>
                 <motion.h1
@@ -861,11 +892,12 @@ export default function HomePage() {
               </motion.div>
             </div>
 
+            {/* Photo - desktop only (mobile version is above) */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.4, type: "spring" }}
-              className="flex justify-center"
+              className="hidden md:flex justify-center"
             >
               <div className="relative w-64 h-64 rounded-full overflow-hidden shadow-2xl ring-2 ring-border/50 hover-glow-spectrum cursor-pointer group" title="Click the prism!">
                 <Image
@@ -1109,7 +1141,7 @@ export default function HomePage() {
               </div>
             </motion.div>
 
-            {/* A Day In The Life - Romantic wavy underline for Antheia */}
+            {}
             <motion.div variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}>
               <h3 className="text-3xl font-display font-semibold text-foreground mb-3">A Day In The Life</h3>
               <p className="text-muted-foreground mb-5 leading-relaxed font-serif">
@@ -1124,8 +1156,11 @@ export default function HomePage() {
                 <Link href="https://en.wikipedia.org/wiki/Antheia" className="underline-wavy italic text-primary/80 hover:text-primary">
                   someone who stole my heart
                 </Link>
-                . Not updated anymore.
-              </p>
+                .
+                </p>
+                <p className="text-muted-foreground/70 mb-5 text-sm font-mono">
+                  Not updated anymore.
+                </p>
               <div className="rounded-lg overflow-hidden shadow-lg">
                 <iframe
                   style={{ borderRadius: "12px" }}
@@ -1140,12 +1175,15 @@ export default function HomePage() {
               </div>
             </motion.div>
 
-            {/* Liebestraume - Distinctive italic display heading */}
+            {}
             <motion.div variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}>
               <h3 className="text-3xl font-display italic text-foreground mb-3">Liebesträume</h3>
               <p className="text-muted-foreground mb-5 leading-relaxed font-serif">
                 And what exactly is a <em className="text-primary">dream of love</em>? Here I take on Liszt and attempt to provide a longer
-                answer to aid with my sleep. Updated semi-regularly.
+                answer to aid with my sleep.
+              </p>
+              <p className="text-muted-foreground/70 mb-5 text-sm font-mono">
+                Updated semi-regularly.
               </p>
               <div className="rounded-lg overflow-hidden shadow-lg">
                 <iframe

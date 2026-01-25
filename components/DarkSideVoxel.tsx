@@ -78,9 +78,15 @@ export function DarkSideVoxel({ onPrismClick }: { onPrismClick?: () => void }) {
     const { theme, resolvedTheme } = useTheme()
     const [mounted, setMounted] = useState(false)
     const [flashTime, setFlashTime] = useState(0)
+    const [isMobile, setIsMobile] = useState(false)
 
     useEffect(() => {
         setMounted(true)
+        // Check for mobile viewport
+        const checkMobile = () => setIsMobile(window.innerWidth < 768)
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
     }, [])
 
     const handlePrismClick = (e: any) => {
@@ -176,7 +182,7 @@ export function DarkSideVoxel({ onPrismClick }: { onPrismClick?: () => void }) {
 
     return (
         <div className={`h-full w-full flex items-center justify-center overflow-hidden bg-transparent`}>
-            <Canvas camera={{ position: [0, 0, 30], fov: 50 }}>
+            <Canvas key={isMobile ? 'mobile' : 'desktop'} camera={{ position: [0, 0, isMobile ? 55 : 30], fov: isMobile ? 65 : 50 }}>
                 {/* Star field background - only in dark mode */}
                 {isDark && (
                     <Stars
