@@ -10,7 +10,20 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+  		fontFamily: {
+  			display: ['var(--font-playfair)', 'Georgia', 'serif'],
+  			serif: ['var(--font-source-serif)', 'Georgia', 'Times New Roman', 'serif'],
+  			mono: ['var(--font-mono)', 'Courier New', 'monospace'],
+  		},
   		colors: {
+  			spectrum: {
+  				red: 'hsl(0, 100%, 50%)',
+  				orange: 'hsl(30, 100%, 50%)',
+  				yellow: 'hsl(50, 100%, 50%)',
+  				green: 'hsl(120, 100%, 35%)',
+  				blue: 'hsl(220, 100%, 50%)',
+  				violet: 'hsl(270, 100%, 60%)',
+  			},
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

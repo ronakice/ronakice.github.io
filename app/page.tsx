@@ -454,6 +454,16 @@ function PapersSection() {
   const selectedYearsArray = Array.from(selectedYears)
   const hasOldYear = selectedYearsArray.some((year) => parseInt(year) < 2024)
 
+  // Map topics to spectral colors
+  const topicColorMap: Record<string, string> = {
+    "Retrieval": "chip-retrieval",
+    "Reranking": "chip-reranking",
+    "Retrieval-Augmented Generation": "chip-rag",
+    "Large Language Models": "chip-llm",
+    "Benchmarking": "chip-benchmarking",
+    "Evaluation": "chip-evaluation",
+  }
+
   return (
     <section id="papers" className="py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-muted/30 -z-10" />
@@ -464,7 +474,7 @@ function PapersSection() {
           viewport={{ once: true }}
           className="mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">Publications</h2>
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">Publications</h2>
 
           <div className="relative max-w-xl">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
@@ -473,7 +483,7 @@ function PapersSection() {
               placeholder="Search papers, authors, venues..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 rounded-xl border border-border bg-background/50 backdrop-blur focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+              className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background/50 font-mono text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
             />
           </div>
         </motion.div>
@@ -482,18 +492,19 @@ function PapersSection() {
         <div className="mb-10 space-y-6">
           {/* Topics Filter */}
           <div>
-            <div className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Topics</div>
+            <div className="font-mono text-xs text-muted-foreground uppercase tracking-widest mb-3">Topics</div>
             <div className="flex flex-wrap gap-2">
               {topics.map((topic) => {
                 const isSelected = selectedTopics.has(topic)
+                const colorClass = topicColorMap[topic] || ""
                 return (
                   <button
                     key={topic}
                     onClick={() => setSelectedTopics(toggleFilter(selectedTopics, topic))}
                     className={cn(
-                      "px-4 py-1.5 rounded-full text-sm transition-all border",
+                      "px-4 py-1.5 rounded-full font-mono text-xs transition-all border",
                       isSelected
-                        ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/25"
+                        ? `${colorClass} border-current shadow-lg`
                         : "bg-background/50 border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
                     )}
                   >
@@ -507,7 +518,7 @@ function PapersSection() {
           <div className="grid md:grid-cols-2 gap-6">
             {/* Year Filter */}
             <div>
-              <div className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Year</div>
+              <div className="font-mono text-xs text-muted-foreground uppercase tracking-widest mb-3">Year</div>
               <div className="flex flex-wrap gap-2">
                 {years.map((year) => {
                   const isSelected = selectedYears.has(year)
@@ -516,7 +527,7 @@ function PapersSection() {
                       key={year}
                       onClick={() => setSelectedYears(toggleFilter(selectedYears, year))}
                       className={cn(
-                        "px-4 py-1.5 rounded-full text-sm transition-all border",
+                        "px-4 py-1.5 rounded-full font-mono text-xs transition-all border",
                         isSelected
                           ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/25"
                           : "bg-background/50 border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
@@ -531,7 +542,7 @@ function PapersSection() {
 
             {/* Venue Filter */}
             <div>
-              <div className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Venue</div>
+              <div className="font-mono text-xs text-muted-foreground uppercase tracking-widest mb-3">Venue</div>
               <div className="flex flex-wrap gap-2">
                 {venues.map((venue) => {
                   const isSelected = selectedVenues.has(venue)
@@ -540,7 +551,7 @@ function PapersSection() {
                       key={venue}
                       onClick={() => setSelectedVenues(toggleFilter(selectedVenues, venue))}
                       className={cn(
-                        "px-4 py-1.5 rounded-full text-sm transition-all border",
+                        "px-4 py-1.5 rounded-full font-mono text-xs transition-all border",
                         isSelected
                           ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/25"
                           : "bg-background/50 border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
@@ -559,15 +570,15 @@ function PapersSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPapers.length === 0 ? (
             <div className="text-center py-20 col-span-full">
-              <p className="text-muted-foreground text-lg mb-2">No papers found matching your criteria.</p>
+              <p className="text-muted-foreground text-lg mb-2 font-serif">No papers found matching your criteria.</p>
               {hasEasterEgg && hasOldYear && (
-                <p className="text-muted-foreground italic mt-2">
-                  <em>If only I had a tardis</em>
+                <p className="text-muted-foreground mt-4 font-display italic text-xl">
+                  If only I had a tardis
                 </p>
               )}
               {hasEasterEgg && !hasOldYear && (
-                <p className="text-muted-foreground italic mt-2">
-                  <em>If only I was more productive</em>
+                <p className="text-muted-foreground mt-4 font-display italic text-xl">
+                  If only I was more productive
                 </p>
               )}
             </div>
@@ -581,16 +592,16 @@ function PapersSection() {
                 transition={{ duration: 0.2, delay: 0 }}
                 className="h-full"
               >
-                <Card className="glass-card hover:scale-[1.02] transition-all duration-300 border-border/50 group h-full">
+                <Card className="bg-card/50 border-border/30 hover:border-primary/30 hover-glow-spectrum transition-all duration-300 group h-full">
                   <CardContent className="p-6 flex flex-col h-full">
                     <div className="flex items-start justify-between gap-4 mb-3">
-                      <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
+                      <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 font-mono text-xs">
                         {paper.venue}
                       </Badge>
                       {paper.year && <span className="text-xs text-muted-foreground font-mono">{paper.year}</span>}
                     </div>
 
-                    <h3 className="font-semibold text-lg text-foreground mb-3 leading-snug group-hover:text-primary transition-colors">
+                    <h3 className="font-display font-semibold text-lg text-foreground mb-3 leading-snug group-hover:text-primary transition-colors">
                       {paper.link ? (
                         <Link href={paper.link} target="_blank">
                           {paper.title}
@@ -600,13 +611,13 @@ function PapersSection() {
                       )}
                     </h3>
 
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-4 flex-grow">
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-4 flex-grow font-serif">
                       {paper.authors}
                     </p>
 
                     {paper.link && (
-                      <div className="mt-auto pt-4 border-t border-border/50">
-                        <Button variant="ghost" size="sm" className="w-full justify-between hover:bg-primary/10 hover:text-primary" asChild>
+                      <div className="mt-auto pt-4 border-t border-border/30">
+                        <Button variant="ghost" size="sm" className="w-full justify-between hover:bg-primary/10 hover:text-primary font-mono text-xs" asChild>
                           <Link href={paper.link} target="_blank">
                             <span>View Paper</span>
                             <ExternalLink className="w-4 h-4" />
@@ -719,10 +730,11 @@ export default function HomePage() {
       <SketchSelfPortrait />
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 bg-background/70 backdrop-blur-md border-b border-white/10 z-50 transition-all duration-300">
+      <nav className="fixed top-0 left-0 right-0 bg-background/80 backdrop-blur-sm z-50 transition-all duration-300">
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <Link href="#home" className="text-xl font-heading font-bold text-foreground tracking-tight">
+            <Link href="#home" className="font-display text-xl font-bold text-foreground tracking-tight">
               Ronak Pradeep
             </Link>
             <div className="hidden md:flex items-center space-x-8">
@@ -730,10 +742,10 @@ export default function HomePage() {
                 <Link
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors relative group"
+                  className="font-mono text-xs uppercase tracking-widest text-muted-foreground hover:text-spectrum-violet transition-colors relative group"
                 >
                   {item}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-spectrum-red via-spectrum-green to-spectrum-violet transition-all group-hover:w-full" />
                 </Link>
               ))}
             </div>
@@ -754,34 +766,21 @@ export default function HomePage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="text-6xl md:text-7xl font-heading font-bold text-foreground mb-6 leading-tight tracking-tight"
+                  className="text-6xl md:text-7xl font-display font-bold text-foreground mb-6 leading-tight"
                 >
-                  <span className="text-gradient">Ronak Pradeep</span>
+                  Ronak Pradeep
                 </motion.h1>
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
-                  className="flex flex-wrap items-center gap-2 md:gap-3 mb-6"
+                  className="flex flex-wrap items-center gap-3 mb-6 font-mono text-sm"
                 >
-                  <Badge
-                    variant="secondary"
-                    className="bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20 px-3 py-1 text-xs sm:text-sm whitespace-nowrap shadow-sm"
-                  >
-                    Research Scientist @ Yupp AI
-                  </Badge>
-                  <Badge
-                    variant="secondary"
-                    className="bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20 px-3 py-1 text-xs sm:text-sm whitespace-nowrap shadow-sm"
-                  >
-                    PhD, University of Waterloo
-                  </Badge>
-                  <Badge
-                    variant="secondary"
-                    className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 px-3 py-1 text-xs sm:text-sm whitespace-nowrap shadow-sm"
-                  >
-                    Apple PhD Fellow
-                  </Badge>
+                  <span className="text-spectrum-blue">Research Scientist @ Yupp AI</span>
+                  <span className="text-muted-foreground">/</span>
+                  <span className="text-spectrum-green">PhD, University of Waterloo</span>
+                  <span className="text-muted-foreground">/</span>
+                  <span className="text-spectrum-orange">Apple PhD Fellow</span>
                 </motion.div>
               </div>
 
@@ -868,13 +867,13 @@ export default function HomePage() {
               transition={{ delay: 0.4, type: "spring" }}
               className="flex justify-center"
             >
-              <div className="relative w-64 h-64 rounded-full overflow-hidden shadow-2xl ring-4 ring-background/50 backdrop-blur-sm">
+              <div className="relative w-64 h-64 rounded-full overflow-hidden shadow-2xl ring-2 ring-border/50 hover-glow-spectrum cursor-pointer group" title="Click the prism!">
                 <Image
                   src={profileImage}
                   alt="Ronak Pradeep"
                   width={256}
                   height={256}
-                  className="object-cover hover:scale-110 transition-transform duration-700"
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
             </motion.div>
@@ -892,9 +891,9 @@ export default function HomePage() {
             className="grid md:grid-cols-3 gap-12"
           >
             <div className="md:col-span-1">
-              <h2 className="text-4xl font-heading font-bold text-foreground mb-6 sticky top-24">Research Interests</h2>
+              <h2 className="text-4xl font-display font-bold text-foreground mb-6 sticky top-24">Research Interests</h2>
             </div>
-            <div className="md:col-span-2 prose prose-lg text-muted-foreground max-w-none leading-relaxed">
+            <div className="md:col-span-2 prose prose-lg text-muted-foreground max-w-none leading-relaxed font-serif">
               <p>
                 My research interests lie at the intersection of <span className="text-foreground font-medium">Information Retrieval</span> and <span className="text-foreground font-medium">Natural Language Processing</span>.
                 More specifically, I'm interested in tasks such as Evaluation, Benchmarking, Retrieval-Augmented Generation, Tool Use, Fact Verification, and
@@ -917,12 +916,15 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl font-heading font-bold text-foreground mb-16 text-center"
+            className="text-4xl font-display font-bold text-foreground mb-16 text-center"
           >
             Latest Updates
           </motion.h2>
 
-          <div className="relative border-l-2 border-border/50 ml-4 md:ml-0 space-y-12">
+          <div className="relative ml-4 md:ml-0 space-y-12">
+            {/* Spectral light beam line */}
+            <div className="absolute left-0 top-0 bottom-0 w-0.5 beam-gradient opacity-60" />
+
             {updates.map((update, index) => (
               <motion.div
                 key={index}
@@ -932,19 +934,23 @@ export default function HomePage() {
                 transition={{ delay: index * 0.1 }}
                 className="relative pl-12 md:pl-0"
               >
-                {/* Timeline Dot */}
-                <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-background border-2 border-primary shadow-[0_0_10px_rgba(var(--primary),0.5)] z-10" />
+                {/* Prism-shaped marker */}
+                <div
+                  className="absolute left-[-6px] top-1 w-3 h-3 rotate-45 bg-background border border-primary z-10"
+                  style={{ clipPath: 'polygon(50% 0%, 100% 100%, 0% 100%)' }}
+                />
 
                 <div className="md:grid md:grid-cols-5 md:gap-8 items-start">
                   <div className="md:col-span-1 md:text-right mb-2 md:mb-0">
-                    <span className="text-sm font-bold text-primary tracking-wider uppercase">{update.date}</span>
+                    <span className="font-mono text-xs text-primary tracking-wider uppercase">{update.date}</span>
                   </div>
                   <div className="md:col-span-4">
-                    <div className="glass-card p-6 rounded-xl relative group hover:-translate-y-1 transition-transform duration-300">
-                      <div className="absolute top-6 right-6 text-muted-foreground/20 group-hover:text-primary/20 transition-colors">
+                    <div className="bg-card/50 border border-border/50 p-6 rounded-lg relative group hover:-translate-y-1 transition-transform duration-300 hover-glow-spectrum">
+                      <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/50 to-transparent rounded-l" />
+                      <div className="absolute top-6 right-6 text-muted-foreground/10 group-hover:text-primary/20 transition-colors">
                         <update.icon className="w-8 h-8" />
                       </div>
-                      <p className="text-muted-foreground leading-relaxed pr-8">
+                      <p className="text-muted-foreground leading-relaxed pr-8 font-serif">
                         {update.link ? (
                           <span>
                             {update.text.split("TREC RAG 2024 Track")[0]}
@@ -969,12 +975,10 @@ export default function HomePage() {
       <PapersSection />
 
       {/* Mentorship Section */}
-      {/* Mentorship Section */}
-      {/* Mentorship Section */}
       <section id="mentorship" className="py-24 bg-muted/30 relative z-10">
         <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-4xl font-heading font-bold text-foreground mb-10">Mentorship</h2>
-          <div className="prose prose-lg text-muted-foreground max-w-none mb-10 leading-relaxed">
+          <h2 className="text-4xl font-display font-bold text-foreground mb-10">Mentorship</h2>
+          <div className="prose prose-lg text-muted-foreground max-w-none mb-10 leading-relaxed font-serif">
             <p>
               During my PhD journey, I had the privilege of mentoring over 40 undergraduate students!
               Below are some of the amazing students I've had the honor to work with (ordered lexicographically by last name):
@@ -1047,9 +1051,9 @@ export default function HomePage() {
                   show: { opacity: 1, scale: 1 }
                 }}
               >
-                <Card className="hover:shadow-lg transition-all duration-300 border-border/50 h-full">
-                  <CardContent className="p-5 text-center flex items-center justify-center h-full">
-                    <p className="text-foreground font-medium">{name}</p>
+                <Card className="bg-card/50 border-border/30 hover:border-primary/30 transition-all duration-300 h-full group">
+                  <CardContent className="p-4 text-center flex items-center justify-center h-full">
+                    <p className="text-foreground font-serif group-hover:text-primary transition-colors">{name}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -1061,8 +1065,8 @@ export default function HomePage() {
       {/* Playlists Section */}
       <section id="playlists" className="py-24 relative z-10">
         <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-4xl font-heading font-bold text-foreground mb-6">Playlists</h2>
-          <p className="text-muted-foreground mb-10 leading-relaxed">
+          <h2 className="text-4xl font-display font-bold text-foreground mb-6">Playlists</h2>
+          <p className="text-muted-foreground mb-10 leading-relaxed font-serif">
             Thanks for making it to here :-) As a token of gratitude and since you asked nicely for it, I shall also
             introduce you to a few of my Spotify playlists.
           </p>
@@ -1080,12 +1084,16 @@ export default function HomePage() {
                 }
               }
             }}
-            className="space-y-12"
+            className="space-y-16"
           >
+            {/* Om - Sacred glow effect */}
             <motion.div variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}>
-              <h3 className="text-3xl font-heading font-semibold text-foreground mb-3">ॐ</h3>
-              <p className="text-muted-foreground mb-5 leading-relaxed">
-                And everything under the sun is in tune. A music dump of sorts. Updated regularly.
+              <h3 className="text-4xl font-display font-semibold text-foreground mb-3 glow-sacred">ॐ</h3>
+              <p className="text-muted-foreground mb-5 leading-relaxed font-serif italic">
+                And everything under the sun is in tune. <span className="text-spectrum-orange">But the sun is eclipsed by the moon.</span>
+              </p>
+              <p className="text-muted-foreground/70 mb-5 text-sm font-mono">
+                A music dump of sorts. Updated regularly.
               </p>
               <div className="rounded-lg overflow-hidden shadow-lg">
                 <iframe
@@ -1101,9 +1109,10 @@ export default function HomePage() {
               </div>
             </motion.div>
 
+            {/* A Day In The Life - Romantic wavy underline for Antheia */}
             <motion.div variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}>
-              <h3 className="text-3xl font-heading font-semibold text-foreground mb-3">A Day In The Life</h3>
-              <p className="text-muted-foreground mb-5 leading-relaxed">
+              <h3 className="text-3xl font-display font-semibold text-foreground mb-3">A Day In The Life</h3>
+              <p className="text-muted-foreground mb-5 leading-relaxed font-serif">
                 An allusion to{" "}
                 <Link
                   href="https://open.spotify.com/track/0hKRSZhUGEhKU6aNSPBACZ?si=e1ab0c90f70042ac"
@@ -1111,9 +1120,9 @@ export default function HomePage() {
                 >
                   the Beatles song
                 </Link>
-                . Curated by a younger me for a{" "}
-                <Link href="https://en.wikipedia.org/wiki/Antheia" className="text-primary hover:text-primary/80">
-                  <em>someone who stole my heart</em>
+                . Curated by a younger me for{" "}
+                <Link href="https://en.wikipedia.org/wiki/Antheia" className="underline-wavy italic text-primary/80 hover:text-primary">
+                  someone who stole my heart
                 </Link>
                 . Not updated anymore.
               </p>
@@ -1131,10 +1140,11 @@ export default function HomePage() {
               </div>
             </motion.div>
 
+            {/* Liebestraume - Distinctive italic display heading */}
             <motion.div variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}>
-              <h3 className="text-3xl font-heading font-semibold text-foreground mb-3">Liebesträume</h3>
-              <p className="text-muted-foreground mb-5 leading-relaxed">
-                And what exactly is a <em>dream of love</em>? Here I take on Liszt and attempt to provide a longer
+              <h3 className="text-3xl font-display italic text-foreground mb-3">Liebesträume</h3>
+              <p className="text-muted-foreground mb-5 leading-relaxed font-serif">
+                And what exactly is a <em className="text-primary">dream of love</em>? Here I take on Liszt and attempt to provide a longer
                 answer to aid with my sleep. Updated semi-regularly.
               </p>
               <div className="rounded-lg overflow-hidden shadow-lg">
@@ -1154,8 +1164,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <footer className="py-12 border-t border-border/50 text-center text-muted-foreground text-sm">
-        <p>© {new Date().getFullYear()} Ronak Pradeep. Built with Next.js & Tailwind.</p>
+      <footer className="py-12 border-t border-border/30 text-center text-muted-foreground">
+        <p className="font-mono text-xs">© {new Date().getFullYear()} Ronak Pradeep. Built with Next.js & Tailwind.</p>
       </footer>
     </div>
   )
