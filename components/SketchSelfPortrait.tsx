@@ -143,6 +143,7 @@ const SketchSelfPortrait = () => {
                     p.strokeJoin(p.ROUND)
                     p.strokeCap(p.ROUND)
                     p.noFill()
+                    p.frameRate(24) // 24fps is plenty for a sketchy animation
                 }
 
                 p.draw = () => {

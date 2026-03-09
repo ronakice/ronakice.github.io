@@ -7,13 +7,53 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Mail, FileText, GraduationCap, Twitter, Github, Music, Calendar, ExternalLink, Search } from "lucide-react"
-import { useState, useMemo, useEffect } from "react"
+import { useState, useMemo, useEffect, useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+// Lazy-loads Spotify iframes only when scrolled into view.
+// Each iframe is ~1MB+; loading 3 eagerly blocks initial paint.
+function LazySpotifyEmbed({ src }: { src: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setLoaded(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: "200px" }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div ref={ref} className="rounded-lg overflow-hidden shadow-lg" style={{ minHeight: 352 }}>
+      {loaded && (
+        <iframe
+          style={{ borderRadius: "12px" }}
+          src={src}
+          width="100%"
+          height="352"
+          frameBorder="0"
+          allowFullScreen
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        />
+      )}
+    </div>
+  )
 }
 
 function PapersSection() {
@@ -584,14 +624,7 @@ function PapersSection() {
             </div>
           ) : (
             filteredPapers.map((paper, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.2, delay: 0 }}
-                className="h-full"
-              >
+              <div key={index} className="h-full">
                 <Card className="bg-card/50 border-border/30 hover:border-primary/30 hover-glow-spectrum transition-all duration-300 group h-full">
                   <CardContent className="p-6 flex flex-col h-full">
                     <div className="flex items-start justify-between gap-4 mb-3">
@@ -627,7 +660,7 @@ function PapersSection() {
                     )}
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
             ))
           )}
         </div>
@@ -731,7 +764,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background relative selection:bg-primary/30">
       {/* Voxel Background Layer - fades on scroll for both mobile and desktop */}
-      <motion.div style={{ opacity: voxelOpacity }} className="fixed top-0 left-0 right-0 h-[85vh] z-0 pointer-events-none">
+      <motion.div style={{ opacity: voxelOpacity }} className="fixed top-0 left-0 right-0 h-[85vh] z-0 pointer-events-none md:translate-y-0 -translate-y-[15vh]">
         <DarkSideVoxel onPrismClick={toggleImage} />
         {/* Gradient Mask to blend into content */}
         <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-background to-transparent pointer-events-none" />
@@ -767,7 +800,7 @@ export default function HomePage() {
       </nav>
 
       {/* Hero Section - enough top padding on mobile to see prism first */}
-      <section id="home" className="pt-[50vh] md:pt-[60vh] pb-20 relative z-10 pointer-events-none">
+      <section id="home" className="pt-[15vh] md:pt-[60vh] pb-20 relative z-10 pointer-events-none">
         <div className="max-w-7xl mx-auto px-6 pointer-events-auto">
           <motion.div
             style={isMobile ? {} : { opacity, y }}
@@ -1127,18 +1160,7 @@ export default function HomePage() {
               <p className="text-muted-foreground/70 mb-5 text-sm font-mono">
                 A music dump of sorts. Updated regularly.
               </p>
-              <div className="rounded-lg overflow-hidden shadow-lg">
-                <iframe
-                  style={{ borderRadius: "12px" }}
-                  src="https://open.spotify.com/embed/playlist/1iM4pb2UpkQt07zsXLkDj7?utm_source=generator"
-                  width="100%"
-                  height="352"
-                  frameBorder="0"
-                  allowFullScreen
-                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                  loading="lazy"
-                />
-              </div>
+              <LazySpotifyEmbed src="https://open.spotify.com/embed/playlist/1iM4pb2UpkQt07zsXLkDj7?utm_source=generator" />
             </motion.div>
 
             {}
@@ -1161,18 +1183,7 @@ export default function HomePage() {
                 <p className="text-muted-foreground/70 mb-5 text-sm font-mono">
                   Not updated anymore.
                 </p>
-              <div className="rounded-lg overflow-hidden shadow-lg">
-                <iframe
-                  style={{ borderRadius: "12px" }}
-                  src="https://open.spotify.com/embed/playlist/1VlYsIRVFv1ze8QDshghDe?utm_source=generator"
-                  width="100%"
-                  height="352"
-                  frameBorder="0"
-                  allowFullScreen
-                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                  loading="lazy"
-                />
-              </div>
+              <LazySpotifyEmbed src="https://open.spotify.com/embed/playlist/1VlYsIRVFv1ze8QDshghDe?utm_source=generator" />
             </motion.div>
 
             {}
@@ -1185,18 +1196,7 @@ export default function HomePage() {
               <p className="text-muted-foreground/70 mb-5 text-sm font-mono">
                 Updated semi-regularly.
               </p>
-              <div className="rounded-lg overflow-hidden shadow-lg">
-                <iframe
-                  style={{ borderRadius: "12px" }}
-                  src="https://open.spotify.com/embed/playlist/7uZRM2KlIGYhJzdv8dPTJ1?utm_source=generator"
-                  width="100%"
-                  height="352"
-                  frameBorder="0"
-                  allowFullScreen
-                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                  loading="lazy"
-                />
-              </div>
+              <LazySpotifyEmbed src="https://open.spotify.com/embed/playlist/7uZRM2KlIGYhJzdv8dPTJ1?utm_source=generator" />
             </motion.div>
           </motion.div>
         </div>
