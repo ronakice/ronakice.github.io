@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 import { Playfair_Display, Source_Serif_4, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
-import { ThemeProvider } from '@/components/theme-provider'
-import { DarkModeToggle } from '@/components/dark-mode-toggle'
+import { LayoutClient } from '@/components/layout-client'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -36,10 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${playfair.variable} ${sourceSerif.variable} ${jetbrainsMono.variable}`}>
       <body className="font-serif">
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
-          {children}
-          <DarkModeToggle />
-        </ThemeProvider>
+        <LayoutClient>{children}</LayoutClient>
       </body>
     </html>
   )

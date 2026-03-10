@@ -63,7 +63,7 @@ function PapersSection() {
   const [searchQuery, setSearchQuery] = useState("")
 
   const topics = ["Retrieval", "Reranking", "Retrieval-Augmented Generation", "Large Language Models", "Benchmarking", "Evaluation"]
-  const years = ["2025", "2024", "2023", "2022", "2021", "2020"]
+  const years = ["2026", "2025", "2024", "2023", "2022", "2021", "2020"]
   const venues = ["SIGIR", "ACL", "EMNLP", "TREC", "EACL", "NAACL", "ECIR", "Preprint", "Others"]
 
   // Helper function to normalize venue
@@ -81,6 +81,14 @@ function PapersSection() {
 
   const papers = useMemo(() => {
     return [
+      {
+        title: "Assembling Your Personal AI Council in Yupp to Provide Multiple Perspectives",
+        authors: "Jimmy Lin, Ronak Pradeep, Gilad Mishne, Pankaj Gupta",
+        venue: "WSDM 2026",
+        link: "https://dl.acm.org/doi/10.1145/3773966.3784973",
+        subtopics: ["Large Language Models", "Evaluation"],
+        year: 2026,
+      },
       {
         title: "NeuCLIRBench: A Modern Evaluation Collection for Monolingual, Cross-Language, and Multilingual Information Retrieval",
         authors: "Dawn Lawrie, James Mayfield, Eugene Yang, Andrew Yates, Sean MacAvaney, Ronak Pradeep, Scott Miller, Paul McNamee, Luca Soldani",
@@ -116,10 +124,11 @@ function PapersSection() {
         year: 2025,
       },
       {
-        title: "Support Evaluation for the TREC 2024 RAG Track: Comparing Human versus LLM Judges",
-        authors: "Nandan Thakur, Ronak Pradeep, Shivani Upadhyay, Daniel Campos, Nick Craswell, Jimmy Lin",
+        title: "Assessing Support for the TREC 2024 RAG Track: A Large-Scale Comparative Study of LLM and Human Evaluations",
+        authors:
+          "Nandan Thakur, Ronak Pradeep, Shivani Upadhyay, Daniel Campos, Nick Craswell, Ian Soboroff, Hoa Trang Dang, Jimmy Lin",
         venue: "SIGIR 2025",
-        link: "https://arxiv.org/abs/2504.15205",
+        link: "https://dl.acm.org/doi/10.1145/3726302.3730165",
         subtopics: ["Retrieval-Augmented Generation", "Evaluation", "Large Language Models"],
         year: 2025,
       },
@@ -150,20 +159,20 @@ function PapersSection() {
         year: 2024,
       },
       {
-        title: "A Large-Scale Study of Relevance Assessments with Large Language Models: An Initial Look",
+        title: "A Large-Scale Study of Relevance Assessments with Large Language Models Using UMBRELA",
         authors: "Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, Hoa Trang Dang, Jimmy Lin",
-        venue: "arXiv",
-        link: "https://arxiv.org/abs/2411.08275",
+        venue: "ICTIR 2025",
+        link: "https://dl.acm.org/doi/10.1145/3731120.3744605",
         subtopics: ["Retrieval", "Evaluation", "Large Language Models"],
-        year: 2024,
+        year: 2025,
       },
       {
-        title: "A FIRST Reproduction and Improvements to Single-Token Decoding for Fast Listwise Reranking",
+        title: "Accelerating Listwise Reranking: Reproducing and Enhancing FIRST",
         authors: "Zijian Chen, Ronak Pradeep, Jimmy Lin",
         venue: "SIGIR 2025",
-        link: "https://arxiv.org/abs/2411.05508",
+        link: "https://dl.acm.org/doi/10.1145/3726302.3730287",
         subtopics: ["Retrieval", "Reranking", "Large Language Models"],
-        year: 2024,
+        year: 2025,
       },
       {
         title: "Ragnarök: A Reusable RAG Framework and Baselines for TREC 2024 Retrieval-Augmented Generation Track",
@@ -190,9 +199,9 @@ function PapersSection() {
         year: 2024,
       },
       {
-        title: "ConvKGYarn: Spinning Configurable and Scalable Conversational Knowledge Graph QA datasets with Large Language Models",
+        title: "ConvKGYarn: Spinning Configurable and Scalable Conversational Knowledge Graph QA Datasets with Large Language Models",
         authors: "Ronak Pradeep, Daniel Lee, Ali Mousavi, Jeffrey Pound, Yisi Sang, Jimmy Lin, Ihab Ilyas, Saloni Potdar, Mostafa Arefiyan, Yunyao Li",
-        venue: "EMNLP 2024 Industry Track, ACL 2024 KaLLM Workshop",
+        venue: "EMNLP 2024 Industry Track",
         link: "https://aclanthology.org/2024.emnlp-industry.89/",
         subtopics: ["Retrieval", "Large Language Models", "Benchmarking", "Evaluation"],
         year: 2024,
@@ -211,15 +220,15 @@ function PapersSection() {
         venue: "ACL 2024",
         link: "https://arxiv.org/abs/2312.16159",
         subtopics: ["Retrieval", "Reranking", "Large Language Models"],
-        year: 2023,
+        year: 2024,
       },
       {
-        title: "LiT and Lean: Distilling Listwise Rerankers Into Encoder-Decoder Models",
+        title: "LiT and Lean: Distilling Listwise Rerankers into Encoder-Decoder Models",
         authors: "Manveer Singh Tamber, Ronak Pradeep, Jimmy Lin",
         venue: "ECIR 2025",
-        link: "https://arxiv.org/abs/2312.16098",
+        link: "https://link.springer.com/chapter/10.1007/978-3-031-88714-7_13",
         subtopics: ["Retrieval", "Reranking", "Large Language Models"],
-        year: 2023,
+        year: 2025,
       },
       {
         title: "RankZephyr: Effective and Robust Zero-Shot Listwise Reranking is a Breeze!",
@@ -243,7 +252,7 @@ function PapersSection() {
         venue: "WSDM 2024 Demo",
         link: "https://dl.acm.org/doi/10.1145/3616855.3635691",
         subtopics: ["Retrieval", "Large Language Models"],
-        year: 2023,
+        year: 2024,
       },
       {
         title:
@@ -260,7 +269,7 @@ function PapersSection() {
         venue: "ECIR 2024",
         link: "https://link.springer.com/chapter/10.1007/978-3-031-56066-8_9",
         subtopics: ["Retrieval", "Large Language Models"],
-        year: 2023,
+        year: 2024,
       },
       {
         title: "How Does Generative Retrieval Scale to Millions of Passages?",
@@ -311,9 +320,9 @@ function PapersSection() {
         year: 2022,
       },
       {
-        title: "Document Expansion Baselines and Learned Sparse Lexical Representations for MS MARCO v1 and v2",
+        title: "Document Expansions and Learned Sparse Lexical Representations for MS MARCO V1 and V2",
         authors: "Xueguang Ma, Ronak Pradeep, Rodrigo Nogueira, Jimmy Lin",
-        venue: "SIGIR 2022 Reproducibility",
+        venue: "SIGIR 2022",
         link: "https://dl.acm.org/doi/10.1145/3477495.3531749",
         subtopics: ["Retrieval"],
         year: 2022,
@@ -343,7 +352,7 @@ function PapersSection() {
         year: 2021
       },
       {
-        title: "Vera: Prediction Techniques for Reducing Harmful Misinformation In Consumer Health Search",
+        title: "Vera: Prediction Techniques for Reducing Harmful Misinformation in Consumer Health Search",
         authors: "Ronak Pradeep, Xueguang Ma, Rodrigo Nogueira, Jimmy Lin",
         venue: "SIGIR 2021",
         link: "https://dl.acm.org/doi/10.1145/3404835.3463120",
@@ -359,9 +368,9 @@ function PapersSection() {
         year: 2021,
       },
       {
-        title: "Pyserini: An Easy-to-Use Python Toolkit to Support Replicable IR Research with Sparse and Dense Representations",
+        title: "Pyserini: A Python Toolkit for Reproducible Information Retrieval Research with Sparse and Dense Representations",
         authors: "Jimmy Lin, Xueguang Ma, Sheng-Chieh Lin, Jheng-Hong Yang, Ronak Pradeep, Rodrigo Nogueira",
-        venue: "SIGIR 2021 Resource",
+        venue: "SIGIR 2021",
         link: "https://dl.acm.org/doi/10.1145/3404835.3463238",
         subtopics: ["Retrieval"],
         year: 2021,
