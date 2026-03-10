@@ -87,6 +87,14 @@ function PapersSection() {
   const papers = useMemo(() => {
     return [
       {
+        title: "Democratizing and Modernizing Information Access: From Open Rerankers to Scalable RAG Evaluation",
+        authors: "Ronak Pradeep",
+        venue: "PhD Thesis",
+        link: "https://uwspace.uwaterloo.ca/items/e4b904e3-a64c-4290-ac1a-5a77025b1c60",
+        subtopics: ["Retrieval", "Retrieval-Augmented Generation", "Evaluation", "Large Language Models"],
+        year: 2025,
+      },
+      {
         title: "Assembling Your Personal AI Council in Yupp to Provide Multiple Perspectives",
         authors: "Jimmy Lin, Ronak Pradeep, Gilad Mishne, Pankaj Gupta",
         venue: "WSDM 2026",
