@@ -100,7 +100,7 @@ function PapersSection() {
       {
         title: "Humanity's Last Exam",
         authors: "Long Phan, Alice Gatti, Ziwen Han, ..., Ronak Pradeep, ...",
-        venue: "arXiv",
+        venue: "Nature",
         link: "https://arxiv.org/abs/2501.14249",
         subtopics: ["Benchmarking", "Evaluation", "Large Language Models"],
         year: 2025,
