@@ -3,6 +3,18 @@ name: Deploy Next.js site to Pages
 on:
   push:
     branches: ["master"]
+    paths:
+      - "app/**"
+      - "components/**"
+      - "hooks/**"
+      - "lib/**"
+      - "public/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "next.config.mjs"
+      - "tailwind.config.ts"
+      - "tsconfig.json"
+      - "postcss.config.mjs"
   workflow_dispatch:
 
 permissions:
