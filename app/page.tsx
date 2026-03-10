@@ -135,7 +135,7 @@ function PapersSection() {
       {
         title: "Chatbot Arena Meets Nuggets: Towards Explanations and Diagnostics in the Evaluation of LLM Responses",
         authors: "Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, Hoa Trang Dang, Jimmy Lin",
-        venue: "Under Review for a Suitable Conference",
+        venue: "Under Review",
         link: "https://arxiv.org/abs/2504.20006",
         subtopics: ["Retrieval-Augmented Generation", "Evaluation", "Large Language Models"],
         year: 2025,
@@ -185,7 +185,7 @@ function PapersSection() {
       {
         title: "Prompts as Auto-Optimized Training Hyperparameters: Training Best-in-Class IR Models from Scratch with 10 Gold Labels",
         authors: "Jasper Xian, Saron Samuel, Faraz Khoubsirat, Ronak Pradeep, Md Arafat Sultan, Radu Florian, Salim Roukos, Avirup Sil, Christopher Potts, Omar Khattab",
-        venue: "Under Review for a Suitable Conference",
+        venue: "arXiv",
         link: "https://arxiv.org/abs/2406.11706",
         subtopics: ["Retrieval", "Reranking", "Large Language Models"],
         year: 2024,
@@ -193,7 +193,7 @@ function PapersSection() {
       {
         title: "UMBRELA: UMbrela is the (Open-Source Reproduction of the) Bing RELevance Assessor",
         authors: "Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Nick Craswell, Jimmy Lin",
-        venue: "Under Review for a Suitable Conference",
+        venue: "arXiv",
         link: "https://arxiv.org/abs/2406.06519",
         subtopics: ["Retrieval", "Evaluation", "Large Language Models"],
         year: 2024,
@@ -233,7 +233,7 @@ function PapersSection() {
       {
         title: "RankZephyr: Effective and Robust Zero-Shot Listwise Reranking is a Breeze!",
         authors: "Ronak Pradeep, Sahel Sharifymoghaddam, Jimmy Lin",
-        venue: "Under Review for a Suitable Conference",
+        venue: "arXiv",
         link: "https://arxiv.org/abs/2312.02724",
         subtopics: ["Retrieval", "Reranking", "Large Language Models"],
         year: 2023,
@@ -241,7 +241,7 @@ function PapersSection() {
       {
         title: "RankVicuna: Zero-Shot Listwise Document Reranking with Open-Source Large Language Models",
         authors: "Ronak Pradeep, Sahel Sharifymoghaddam, Jimmy Lin",
-        venue: "Under Review for a Suitable Conference",
+        venue: "arXiv",
         link: "https://arxiv.org/abs/2309.15088",
         subtopics: ["Retrieval", "Reranking", "Large Language Models"],
         year: 2023,
@@ -410,7 +410,7 @@ function PapersSection() {
       {
         title: "A Replication Study of Dense Passage Retriever",
         authors: "Xueguang Ma, Kai Sun, Ronak Pradeep, Jimmy Lin",
-        venue: "Will be submitted to a suitable venue",
+        venue: "arXiv",
         link: "https://arxiv.org/abs/2104.05740",
         subtopics: ["Retrieval"],
         year: 2021,
@@ -426,7 +426,7 @@ function PapersSection() {
       {
         title: "The Expando-Mono-Duo Design Pattern for Text Ranking with Pretrained Sequence-to-Sequence Models",
         authors: "Ronak Pradeep, Rodrigo Nogueira, Jimmy Lin",
-        venue: "Will be submitted to a suitable venue",
+        venue: "arXiv",
         link: "https://arxiv.org/abs/2101.05667",
         subtopics: ["Retrieval", "Reranking"],
         year: 2020,
