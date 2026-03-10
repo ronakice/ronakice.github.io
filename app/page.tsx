@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Mail, FileText, GraduationCap, Twitter, Github, Music, Calendar, ExternalLink, Search } from "lucide-react"
 import { useState, useMemo, useEffect, useRef } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -32,7 +32,8 @@ function LazySpotifyEmbed({ src }: { src: string }) {
           observer.disconnect()
         }
       },
-      { rootMargin: "200px" }
+      // Start loading well before the embed scrolls into view.
+      { rootMargin: "1200px 0px" }
     )
     observer.observe(el)
     return () => observer.disconnect()
@@ -40,7 +41,7 @@ function LazySpotifyEmbed({ src }: { src: string }) {
 
   return (
     <div ref={ref} className="rounded-lg overflow-hidden shadow-lg" style={{ minHeight: 352 }}>
-      {loaded && (
+      {loaded ? (
         <iframe
           style={{ borderRadius: "12px" }}
           src={src}
@@ -51,6 +52,10 @@ function LazySpotifyEmbed({ src }: { src: string }) {
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
           loading="lazy"
         />
+      ) : (
+        <div className="flex h-[352px] items-center justify-center rounded-lg border border-border/40 bg-card/40">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">Loading playlist...</p>
+        </div>
       )}
     </div>
   )
@@ -719,12 +724,26 @@ const SketchSelfPortrait = dynamic(
 export default function HomePage() {
   const [profileImage, setProfileImage] = useState("/images/RonakPradeep_circle.png")
   const [isMobile, setIsMobile] = useState(false)
+  const [enableHeroVisuals, setEnableHeroVisuals] = useState(false)
+  const [showHeroVisuals, setShowHeroVisuals] = useState(true)
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024)
     checkMobile()
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  useEffect(() => {
+    const loadVisuals = () => setEnableHeroVisuals(true)
+
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      const idleId = window.requestIdleCallback(loadVisuals, { timeout: 1500 })
+      return () => window.cancelIdleCallback(idleId)
+    }
+
+    const timeoutId = window.setTimeout(loadVisuals, 300)
+    return () => window.clearTimeout(timeoutId)
   }, [])
 
   const { scrollY } = useScroll()
@@ -732,6 +751,11 @@ export default function HomePage() {
   const opacity = useTransform(scrollY, [0, 800], [1, 0])
   const y = useTransform(scrollY, [0, 800], [0, 100])
   const voxelOpacity = useTransform(scrollY, [0, 900], [1, 0.02])
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const next = latest < 1100
+    setShowHeroVisuals((prev) => (prev === next ? prev : next))
+  })
 
   const toggleImage = () => {
     setProfileImage((prev) =>
@@ -782,15 +806,13 @@ export default function HomePage() {
     <div className="min-h-screen bg-background relative selection:bg-primary/30">
       {/* Voxel Background Layer - fades on scroll for both mobile and desktop */}
       <motion.div style={{ opacity: voxelOpacity }} className="fixed top-0 left-0 right-0 h-[85vh] z-0 pointer-events-none md:translate-y-0 -translate-y-[15vh]">
-        <DarkSideVoxel onPrismClick={toggleImage} />
+        {enableHeroVisuals && showHeroVisuals ? <DarkSideVoxel onPrismClick={toggleImage} /> : null}
         {/* Gradient Mask to blend into content */}
         <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-background to-transparent pointer-events-none" />
       </motion.div>
 
-      {/* Hide on mobile/narrow screens to prevent covering content */}
-      <div className="hidden lg:block">
-        <SketchSelfPortrait />
-      </div>
+      {/* Only mount the sketch on large screens, and only while the hero visuals are active. */}
+      {!isMobile && enableHeroVisuals && showHeroVisuals ? <SketchSelfPortrait /> : null}
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 bg-background/80 backdrop-blur-sm z-50 transition-all duration-300">
@@ -998,7 +1020,8 @@ export default function HomePage() {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-10% 0px" }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
             className="text-4xl font-display font-bold text-foreground mb-16 text-center"
           >
             Latest Updates
@@ -1013,8 +1036,8 @@ export default function HomePage() {
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true, margin: "-8% 0px" }}
+                transition={{ duration: 0.22, ease: "easeOut" }}
                 className="relative pl-12 md:pl-0"
               >
                 {/* Prism-shaped marker */}
@@ -1071,13 +1094,14 @@ export default function HomePage() {
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-8% 0px" }}
             variants={{
-              hidden: { opacity: 0 },
+              hidden: { opacity: 1 },
               show: {
                 opacity: 1,
                 transition: {
-                  staggerChildren: 0.05
+                  staggerChildren: 0.015,
+                  delayChildren: 0
                 }
               }
             }}
@@ -1130,8 +1154,12 @@ export default function HomePage() {
               <motion.div
                 key={index}
                 variants={{
-                  hidden: { opacity: 0, scale: 0.8 },
-                  show: { opacity: 1, scale: 1 }
+                  hidden: { opacity: 0, y: 8 },
+                  show: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.18, ease: "easeOut" }
+                  }
                 }}
               >
                 <Card className="bg-card/50 border-border/30 hover:border-primary/30 transition-all duration-300 h-full group">
