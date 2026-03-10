@@ -84,7 +84,7 @@ function PapersSection() {
       {
         title: "NeuCLIRBench: A Modern Evaluation Collection for Monolingual, Cross-Language, and Multilingual Information Retrieval",
         authors: "Dawn Lawrie, James Mayfield, Eugene Yang, Andrew Yates, Sean MacAvaney, Ronak Pradeep, Scott Miller, Paul McNamee, Luca Soldani",
-        venue: "arXiv",
+        venue: "Under Review",
         link: "https://arxiv.org/abs/2511.14758",
         subtopics: ["Retrieval", "Benchmarking", "Evaluation", "Large Language Models"],
         year: 2025,
@@ -192,7 +192,7 @@ function PapersSection() {
       {
         title: "ConvKGYarn: Spinning Configurable and Scalable Conversational Knowledge Graph QA datasets with Large Language Models",
         authors: "Ronak Pradeep, Daniel Lee, Ali Mousavi, Jeffrey Pound, Yisi Sang, Jimmy Lin, Ihab Ilyas, Saloni Potdar, Mostafa Arefiyan, Yunyao Li",
-        venue: "EMNLP 2024 Industry Track, EACL 2024 KaLLM + Knowledgeable Language Models Workshop",
+        venue: "EMNLP 2024 Industry Track, ACL 2024 KaLLM Workshop",
         link: "https://aclanthology.org/2024.emnlp-industry.89/",
         subtopics: ["Retrieval", "Large Language Models", "Benchmarking", "Evaluation"],
         year: 2024,
@@ -316,6 +316,14 @@ function PapersSection() {
         venue: "SIGIR 2022 Reproducibility",
         link: "https://dl.acm.org/doi/10.1145/3477495.3531749",
         subtopics: ["Retrieval"],
+        year: 2022,
+      },
+      {
+        title: "Squeezing Water from a Stone: A Bag of Tricks for Further Improving Cross-Encoder Effectiveness for Reranking",
+        authors: "Ronak Pradeep, Yuqi Liu, Xinyu Zhang, Yilin Li, Andrew Yates, Jimmy Lin",
+        venue: "ECIR 2022 Reproducibility",
+        link: "https://dl.acm.org/doi/10.1007/978-3-030-99736-6_44",
+        subtopics: ["Retrieval", "Reranking"],
         year: 2022,
       },
       {
@@ -909,6 +917,7 @@ export default function HomePage() {
               >
                 {[
                   { icon: Mail, label: "Email", href: "mailto:rpradeep@uwaterloo.ca" },
+                  { icon: Mail, label: "Email 2", href: "mailto:ronakice@hotmail.com" },
                   { icon: FileText, label: "CV", href: "/data/RonakPradeep-CV.pdf" },
                   { icon: GraduationCap, label: "Scholar", href: "https://scholar.google.com/citations?user=xH7uDXgAAAAJ&hl" },
                   { icon: Twitter, label: "Twitter", href: "https://twitter.com/rpradeep42" },
@@ -961,7 +970,7 @@ export default function HomePage() {
             <div className="md:col-span-2 prose prose-lg text-muted-foreground max-w-none leading-relaxed font-serif">
               <p>
                 My research interests lie at the intersection of <span className="text-foreground font-medium">Information Retrieval</span> and <span className="text-foreground font-medium">Natural Language Processing</span>.
-                More specifically, I'm interested in tasks such as Evaluation, Benchmarking, Retrieval-Augmented Generation, Tool Use, Fact Verification, and
+                More specifically, I'm interested in tasks such as Evaluation, Benchmarking, Retrieval-Augmented Generation, Reranking, Tool Use, Fact Verification, and
                 Document Ranking.
                 I have also been investigating the <span className="text-foreground font-medium">memory component of Large Language Models</span> and the interplay between the inherent reasoning and memory modules, entangled in a single LLM or
                 otherwise. I look forward to contributing to the next generation of reasoners capable of working with a

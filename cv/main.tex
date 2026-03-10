@@ -1,0 +1,382 @@
+
+\documentclass[letterpaper,12pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[0]{
+  \item\small{ \vspace{-2pt}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubItem}[2]{\resumeItem{#1}{#2}\vspace{-4pt}}
+
+\renewcommand{\labelitemii}{$\circ$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  CV STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+%----------HEADING-----------------
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+  \textbf{\href{linkedin.com/in/rpradeep42}{\Large Ronak Pradeep}} & Email 1 : \href{mailto:ronakice@hotmail.com}{\ ronakice@hotmail.com} \\ & Email 2 : \href{mailto:rpradeep@uwaterloo.ca}{rpradeep@uwaterloo.ca}\\  & Website : \href{ronakice.github.io}{ronakice.github.io}\\ & Mobile : 519-781-6942 \\
+\end{tabular*}
+
+
+%-----------EDUCATION-----------------
+\section{Education}
+  \resumeSubHeadingListStart
+  \resumeSubheading
+      {University of Waterloo}{Waterloo, ON}
+      {PhD - Computer Science}{}
+    
+    \resumeItemListStart
+        \resumeItem Neural Information Retrieval and Large Language Models with Professor Jimmy Lin
+        \resumeItem Fellowship - Apple PhD Fellow
+        \resumeItem Coursework: Differential Privacy, Optimization for Data Science, High Stakes Information Retrieval, Affective Computing, Deep Learning for Biotechnology
+        \resumeItem Teaching Assistant: Algorithms, Data Structures, Introduction to Computer Science II
+   \resumeItemListEnd
+    \resumeSubheading
+      {University of Waterloo}{Waterloo, ON}
+      {BMath - Double Major in Computer Science and Combinatorics and Optimization}{}
+    
+    \resumeItemListStart
+        \resumeItem Graduate Level Coursework: Deep Reinforcement Learning, Randomized Algorithms,  Formal Languages and Parsing (100\%),  Computational Vision, Statistical Learning, Dependent Types and Software Verification (100\%)
+        \resumeItem Part of the Term Dean's Honours List; Graduate Level Coursework Average 96.5\%
+   \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+
+%-----------EXPERIENCE-----------------
+\section{Research Interests}
+Evaluation, Benchmarking, Retrieval-Augmented Large Language Models, Reranking, Tool Use, Factuality, Document Ranking, Fact Verification, Biomedical NLP
+
+%-----------EXPERIENCE-----------------
+\section{Experience}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Yupp AI}{Waterloo, ON}
+      {Research Scientist}{Jan 2025 - Present}
+      \resumeItemListStart
+        \resumeItem Working on agents, models, labelers, evaluations, and leaderboards.
+      \resumeItemListEnd
+    \resumeSubheading
+      {Apple - Siri Information Intelligence}{Seattle, WA}
+      {Research Intern}{May 2023 - Aug 2023}
+      \resumeItemListStart
+        \resumeItem Worked with Yunyao Li on the Siri Team on Knowledge Graphs and Large Language Models
+      \resumeItemListEnd
+    \resumeSubheading
+      {Google AI}{Remote}
+      {Student Researcher}{Feb 2022 - Feb 2023}
+      \resumeItemListStart
+        \resumeItem Worked with Donald Metzler on scaling Differentiable Search Indexes to large corpora and models
+      \resumeItemListEnd
+    \resumeSubheading
+      {University of Waterloo}{Waterloo, ON}
+      {Undergraduate Researcher}{Apr 2017 - Aug 2020}
+      \resumeItemListStart
+        \resumeItem Worked with Professor Jimmy Lin and Rodrigo Nogueira on Paragraph Retrieval and Ranking
+          \resumeItem Worked with Professor Pascal Poupart on Reading Comprehension tasks
+          \resumeItem Worked with Professor Jeff Orchard on a Deep Biologically Plausible Vision Model
+      \resumeItemListEnd
+    \resumeSubheading
+      {Montreal Institute for Learning Algorithms (MILA)}{Montreal, QC}
+      {Visiting Researcher}{May 2019 - Dec 2019}
+      \resumeItemListStart
+          \resumeItem Worked with Professor Chris Pal and Dr.\ Jie Fu on Open Domain Question Answering and Graph Representation Learning
+      \resumeItemListEnd
+    \resumeSubheading
+      {ContextLogic}{San Francisco, CA}
+      {AI Research Intern}{Jan 2018 - Apr 2018}
+      \resumeItemListStart
+        \resumeItem Worked on Neural Title Generation for e-Commerce Products and Attribute Categorization
+        \resumeItem Curated the iMaterialist Challenge for the FGVC Workshop at CVPR 2018
+      \resumeItemListEnd
+    
+    \resumeSubheading
+      {Royal Bank of Canada}{Toronto, ON}
+      {Research Developer}{Aug 2016 - Dec 2016}
+      \resumeItemListStart
+        \resumeItem Worked on Document Ranking and Question Answering using Dual Embedding Space \& Seq2Seq models 
+      \resumeItemListEnd
+    \resumeSubheading
+      {University of Waterloo}{Waterloo, ON}
+      {Undergraduate Teaching Assistant for Math 136 - Linear Algebra}{Jan 2017 - Apr 2017}
+  \resumeSubHeadingListEnd
+
+%-----------EXPERIENCE-----------------
+\section{Notable Professional Activities}
+  \resumeSubHeadingListStart
+  \resumeSubheading
+      {TREC 2025--2026 Retrieval-Augmented Generation Track}{}
+      {Co-organizer}{}
+      \resumeItemListStart
+        \resumeItem The focus of this track is on building a realistic test collection to facilitate scalable, diverse, and reproducible Retrieval-Augmented Generation (RAG) pipelines. 
+        \resumeItem Organized with Shivani Upadhyay (lead organizer), Nandan Thakur, Daniel Campos, Ian Soboroff, Nick Craswell, and Jimmy Lin. 
+      \resumeItemListEnd
+    \resumeSubheading
+      {TREC 2024 Retrieval-Augmented Generation Track}{}
+      {Lead Organizer}{}
+      \resumeItemListStart
+        \resumeItem The focus of this track is on building a realistic test collection to facilitate scalable, diverse, and reproducible Retrieval-Augmented Generation (RAG) pipelines. 
+        \resumeItem Done in collaboration with Nandan Thakur, Shivani Upadhyay, Daniel Campos, Ian Soboroff, Nick Craswell, and Jimmy Lin. 
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+
+\section{Publications}
+  \resumeSubHeadingListStart
+  \resumeItem{\textbf{NeuCLIRBench: A Modern Evaluation Collection for Monolingual, Cross-Language, and Multilingual Information Retrieval} (Under Review)}\\
+\textit{Dawn Lawrie, James Mayfield, Eugene Yang, Andrew Yates, Sean MacAvaney, \textbf{Ronak Pradeep}, Scott Miller, Paul McNamee, Luca Soldani}
+
+\resumeItem{\textbf{Humanity's Last Exam} (arXiv 2025)}\\
+\textit{Long Phan, Alice Gatti, Ziwen Han, ..., \textbf{Ronak Pradeep}, ... [and other co-authors]}
+  \resumeItem{\textbf{RankLLM: A Python Package for Reranking with LLMs} (SIGIR 2025)}\\
+\textit{Sahel Sharifymoghaddam, \textbf{Ronak Pradeep}, Andre Slavescu, Ryan Nguyen, Andrew Xu, Zijian Chen, Yilin Zhang, Yidi Chen, Jasper Xian, Jimmy Lin}
+
+  \resumeItem{\textbf{Gosling Grows Up: Retrieval with Learned Dense and Sparse Representations Using Anserini} (SIGIR 2025)}\\
+\textit{Jimmy Lin, Arthur Haonan Chen, Carlos Lassance, Xueguang Ma, \textbf{Ronak Pradeep}, Tommaso Teofili, Jasper Xian, Jheng-Hong Yang, Brayden Zhong, Vincent Zhong}
+
+  \resumeItem{\textbf{Support Evaluation for the TREC 2024 RAG Track: Comparing Human versus LLM Judges} (SIGIR 2025)}\\
+\textit{Nandan Thakur, \textbf{Ronak Pradeep}, Shivani Upadhyay, Daniel Campos, Nick Craswell, Jimmy Lin}
+
+  \resumeItem{\textbf{Chatbot Arena Meets Nuggets: Towards Explanations and Diagnostics in the Evaluation of LLM Responses} (Under Review)}\\
+\textit{Shivani Upadhyay, \textbf{Ronak Pradeep}, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, Hoa Trang Dang, Jimmy Lin}
+
+  \resumeItem{\textbf{The Great Nugget Recall: Automating Fact Extraction and RAG Evaluation with Large Language Models} (SIGIR 2025)}\\
+\textit{\textbf{Ronak Pradeep}, Nandan Thakur, Shivani Upadhyay, Daniel Campos, Nick Craswell, Jimmy Lin}
+
+
+  \resumeItem{\textbf{A FIRST Reproduction and Improvements to Single-Token Decoding for Fast Listwise Reranking} (SIGIR 2025)}\\
+\textit{Zijian Chen, \textbf{Ronak Pradeep}, Jimmy Lin}
+
+\resumeItem{\textbf{Initial Nugget Evaluation Results for the TREC 2024 RAG Track with the AutoNuggetizer Framework} (arXiv 2024)}\\
+\textit{\textbf{Ronak Pradeep}, Nandan Thakur, Shivani Upadhyay, Daniel Campos, Nick Craswell, Jimmy Lin}
+  \resumeItem{\textbf{A Large-Scale Study of Relevance Assessments with Large Language Models: An Initial Look} (arXiv 2024)}\\
+\textit{Shivani Upadhyay, \textbf{Ronak Pradeep}, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, Hoa Trang Dang, Jimmy Lin}
+
+  \resumeItem{\textbf{Ragnarok: A Reusable RAG Framework and Baselines for TREC 2024 Retrieval-Augmented Generation Track} (ECIR 2025)}\\
+\textit{\textbf{Ronak Pradeep}, Nandan Thakur, Sahel Sharifymoghaddam, Eric Zhang, Ryan Nguyen, Daniel Campos, Nick Craswell, Jimmy Lin} 
+
+\resumeItem{\textbf{Prompts as Auto-Optimized Training Hyperparameters: Training Best-in-Class IR Models from Scratch with 10 Gold Labels} (Under Review for a Suitable Conference)}\\
+\textit{Jasper Xian, Saron Samuel, Faraz Khoubsirat, \textbf{Ronak Pradeep}, Md Arafat Sultan, Radu Florian, Salim Roukos, Avirup Sil, Christopher Potts, Omar Khattab}
+
+\resumeItem{\textbf{UMBRELA: UMbrela is the (Open-Source Reproduction of the) Bing RELevance Assessor} (Under Review for a Suitable Conference)}\\
+\textit{Shivani Upadhyay, \textbf{Ronak Pradeep}, Nandan Thakur, Nick Craswell, Jimmy Lin} 
+
+\resumeItem{\textbf{ConvKGYarn: Spinning Configurable and Scalable Conversational Knowledge Graph QA datasets with Large Language Models} (ACL 2024 KaLLM Workshop, EMNLP 2024 Industry Track)}\\
+\textit{\textbf{Ronak Pradeep}, Daniel Lee, Ali Mousavi, Jeffrey Pound, Yisi Sang, Jimmy Lin, Ihab Ilyas, Saloni Potdar, Mostafa Arefiyan, Yunyao Li}
+
+\resumeItem{\textbf{Entity Disambiguation via Fusion Entity Decoding} (NAACL 2024)}\\
+\textit{Junxiong Wang, Ali Mousavi, Omar Attia, \textbf{Ronak Pradeep}, Saloni Potdar, Alexander Rush, Umar Farooq Minhas, Yunyao Li}
+  \resumeItem{\textbf{Zero-Shot Cross-Lingual Reranking with Large Language Models for Low-Resource Languages} (ACL 2024)}\\
+\textit{Mofetoluwa Adeyemi, Akintunde Oladipo, \textbf{Ronak Pradeep}, Jimmy Lin}
+
+\resumeItem{\textbf{LiT and Lean: Distilling Listwise Rerankers Into Encoder-Decoder Models} (ECIR 2025)}\\
+\textit{Manveer Singh Tamber, \textbf{Ronak Pradeep}, Jimmy Lin}
+
+\resumeItem{\textbf{RankZephyr: Effective and Robust Zero-Shot Listwise Reranking is a Breeze!} (Under Review for a Suitable Conference)}\\
+\textit{\textbf{Ronak Pradeep}, Sahel Sharifymoghaddam, Jimmy Lin}
+
+  \resumeItem{\textbf{RankVicuna: Zero-Shot Listwise Document Reranking with Open-Source Large Language Models} (Under Review for a Suitable Conference)}\\
+\textit{\textbf{Ronak Pradeep}*, Sahel Sharifymoghaddam*, Jimmy Lin}
+\resumeItem{\textbf{Vector Search with OpenAI Embeddings: Lucene Is All You Need} (WSDM 2024 Demo)}\\
+    \textit{Jimmy Lin, \textbf{Ronak Pradeep}, Tommaso Teofili, Jasper Xian}\\
+  \resumeItem{\textbf{How Does Generative Retrieval Scale to Millions of Passages?} (EMNLP 2023, SIGIR 2023 GenIR Workshop)}\\
+\textit{\textbf{Ronak Pradeep}*, Kai Hui*, Jai Gupta, Adam D Lelkes, Honglei Zhuang, Jimmy Lin, Donald Metzler, Vinh Q Tran*}
+
+\resumeItem{\textbf{naverloo @ TREC Deep Learning and NeuCLIR 2023: As Easy as Zero, One, Two, Three --- Cascading Dual Encoders, Mono, Duo, and Listo for Ad-Hoc Retrieval} (TREC 2023)}\\
+\textit{Carlos Lassance, \textbf{Ronak Pradeep}, Jimmy Lin}
+
+\resumeItem{\textbf{Towards Automated End-to-End Health Misinformation Free Search with a Large Language Model} (ECIR 2024)}\\
+    \textit{\textbf{Ronak Pradeep}, Jimmy Lin}\\
+  \resumeItem{\textbf{Zero-Shot Listwise Document Reranking with a Large Language Model} (arXiv)}\\
+\textit{Xueguang Ma, Xinyu Zhang, \textbf{Ronak Pradeep}, Jimmy Lin}
+
+\resumeItem{\textbf{ReadProbe: A Demo of Retrieval-Enhanced Large Language Models to Support Lateral Reading} (arXiv)}\\
+\textit{Dake Zhang, \textbf{Ronak Pradeep}}
+
+  \resumeItem{\textbf{Pre-Processing Matters! Improved Wikipedia Corpora for Open-Domain Question Answering} (ECIR 2023 Reproducibility)}\\
+    \textit{Manveer Singh Tamber, \textbf{Ronak Pradeep}, Jimmy Lin}\\
+  \resumeItem{\textbf{PyGaggle: A Gaggle of Resources for Open-Domain Question Answering} (ECIR 2023 Reproducibility)}\\
+    \textit{\textbf{Ronak Pradeep}, Haonan Chen, Lingwei Gu, Manveer Singh Tamber, Jimmy Lin}\\
+  \resumeItem{\textbf{Neural Query Synthesis and Domain-Specific Ranking Templates for Multi-Stage Clinical Trial Matching} (SIGIR 2022)}\\
+    \textit{\textbf{Ronak Pradeep}, Yilin Li, Yuetong Wang, Jimmy Lin}\\
+    \resumeItem{\textbf{Document Expansion Baselines and Learned Sparse Lexical Representations for MS MARCO V1 and V2} (SIGIR 2022 Resource)}\\
+    \textit{Xueguang Ma*, \textbf{Ronak Pradeep}*, Rodrigo Nogueira, Jimmy Lin}\\
+  \resumeItem{\textbf{Squeezing Water from a Stone: A Bag of Tricks for Further Improving Cross-encoder Effectiveness for Reranking} (ECIR 2022 Reproducibility)}\\
+    \textit{\textbf{Ronak Pradeep}, 
+              Yuqi Liu, 
+              Xinyu Zhang, 
+              Yilin Li, 
+              Andrew Yates,
+              Jimmy Lin}\\
+   \resumeItem{\textbf{Another Look at DPR: Reproduction of Training and Replication of Retrieval} (ECIR 2022 Reproducibility)}\\
+    \textit{Xueguang Ma,
+              Kai Sun,
+              \textbf{Ronak Pradeep}, 
+              Minghan Li,
+              Jimmy Lin}\\
+    \resumeItem{\textbf{New Nails for Old Hammers: Anserini and Pyserini at TREC 2021} (TREC 2021 Proceedings)}\\
+    \textit{Jimmy Lin,
+              Haonen Chen,
+              Chengcheng Hu,
+              Sheng-Chieh Lin,
+              Yilin Li,
+              Xueguang Ma,
+          \textbf{Ronak Pradeep}, 
+              Jheng-Hong Yang,
+              Chuan-Ju Wang,
+              Andrew Yates,
+              Xinyu Zhang}\\
+    \resumeItem{\textbf{Vera: Prediction Techniques for Reducing Harmful Misinformation in Consumer Health Search} (SIGIR 2021)}\\
+    \textit{\textbf{Ronak Pradeep}, Xueguang Ma, Rodrigo Nogueira, Jimmy Lin}\\
+    \resumeItem{\textbf{Chatty Goose: A Python Framework for Conversational Search} (SIGIR 2021 Demo)}\\
+    \textit{Edwin Zhang, Sheng-Chieh Lin, Jheng-Hong Yang, \textbf{Ronak Pradeep}, Rodrigo Nogueira, and Jimmy Lin}\\
+    \resumeItem{\textbf{Pyserini: An Easy-to-Use Python Toolkit to Support Replicable IR Research with Sparse and Dense Representations} (SIGIR 2021 Resource)}\\
+    \textit{Jimmy Lin, Xueguang Ma, Sheng-Chieh Lin, Jheng-Hong Yang, \textbf{Ronak Pradeep}, and Rodrigo Nogueira}\\
+    \resumeItem{\textbf{H$_2$oloo at TAC 2020: Epidemic Question Answering } (TAC 2020 Proceedings)}\\
+    \textit{Justin Borromeo*, \textbf{Ronak Pradeep}*, Jimmy Lin}\\
+    \resumeItem{\textbf{Exploring Listwise Evidence Reasoning with T5 for Fact Verification} (ACL 2021)}\\
+    \textit{Kelvin Jiang*, \textbf{Ronak Pradeep}*, Jimmy Lin}\\
+    \resumeItem{\textbf{H$_2$oloo at TREC 2020: When all you got is a Hammer... Deep Learning, Health Misinformation, and Precision Medicine} (TREC 2020 Proceedings)}\\
+    \textit{\textbf{Ronak Pradeep}, Xueguang Ma, Xinyu Zhang, Hang Cui, Ruizhou Xu, Rodrigo Nogueira, Jimmy Lin}
+    \resumeItem{\textbf{Scientific Claim Verification with VerT5erini} (LOUHI 2021: The 12th International Workshop on Health Text Mining and Information Analysis colocated with EACL 2021)}\\
+    \textit{\textbf{Ronak Pradeep}, Xueguang Ma, Rodrigo Nogueira, Jimmy Lin}
+    \resumeItem{\textbf{A Replication Study of Dense Passage Retriever} (Will be submitted to a suitable venue)}\\
+    \textit{Xueguang Ma, \textbf{Ronak Pradeep}, Kai Sun, Jimmy Lin}
+    \resumeItem{\textbf{Covidex: Neural Ranking Models and Keyword Search Infrastructure for the COVID-19 Open Research Dataset} (Scholarly Document Processing @ EMNLP 2020)}\\
+    \textit{Edwin Zhang, Nikhil Gupta, Raphael Tang, Xiao Han, \textbf{Ronak Pradeep}, Kuang Lu, Yue Zhang, Rodrigo Nogueira, Kyunghyun Cho, Hui Fang, Jimmy Lin}
+    \resumeItem{\textbf{The Expando-Mono-Duo Design Pattern for Text Ranking with Pretrained Sequence-to-Sequence Models} (arXiv)}\\
+    \textit{\textbf{Ronak Pradeep}, Rodrigo Nogueira, Jimmy Lin}
+    \resumeItem{\textbf{Document Ranking with a Pretrained Sequence-to-Sequence Model} (EMNLP 2020 Findings)}\\
+    \textit{Rodrigo Nogueira, Zhiying Jiang, \textbf{Ronak Pradeep}, Jimmy Lin}
+    \resumeItem{\textbf{Modular Diversity-Seeking Query Reformulation for Open-Domain Question Answering}}\\
+    \textit{\textbf{Ronak Pradeep}*, Jie Fu*, Xingdi Yuan, Zhouhan Lin, Yi Tay, Chris Pal}
+    \resumeItem{\textbf{Foveated Down-Sampling Techniques} (CVIS 2020)}\\
+    \textit{Parsa Torabian, \textbf{Ronak Pradeep}, Jeff Orchard, Bryan Tripp}
+  \resumeSubHeadingListEnd
+%-----------ACHIEVEMENTS-----------------
+\section{Accomplishments}
+    \resumeSubHeadingListStart
+    \resumeItem{\textbf{TREC NeuCLIR 2023}}: A track that studies cross-lingual information retrieval --- Top Submission.
+                 \vspace{-6pt}
+\resumeItem{\textbf{SCIVER: Verifying Scientific Claims with Evidence (Scholarly Document Processing @ NAACL 2021)}}: Top Submission based on primary metric.
+         \vspace{-6pt}
+\resumeItem{\textbf{Fact Extraction and VERification (FEVER) - 1st (As of Jan 14th 2021)}}: State-of-the-Art model in a widely popular Fact Verification dataset
+    \vspace{-6pt}
+    \resumeItem{\textbf{TREC Clinical Trials 2021/2022}}: A task that matches patient descriptions to clinical trials --- Top Submission.
+    \vspace{-6pt}
+    \resumeItem{\textbf{TREC Health Misinformation 2020/2021/2022}}: A task that studies search technologies that promote credible and correct information over incorrect information --- Top Submission in the AdHoc Retrieval task.
+    \vspace{-6pt}
+    \resumeItem{\textbf{TREC Deep Learning 2020/2023}}: A track that studies information retrieval in a large training data regime - Top Submission in the Document Ranking task
+    \vspace{-6pt}
+    \resumeItem{\textbf{TREC-COVID 2020}}: A multi-round COVID-19 Literature Ranking Task - Best Round 4, 5 Automatic Run, Best Round 3 Feedback run
+    \vspace{-6pt}
+    \resumeItem{\textbf{Fact Extraction and VERification (FEVER) - 1st (As of Jan 14th)}}: State-of-the-Art model in a widely popular Fact Verification dataset
+    \vspace{-6pt}
+    \resumeItem{\textbf{MS MARCO Document Ranking - 1st (As of Sep 8th 2020)}}: State-of-the-Art model in a widely popular Neural Document Ranking dataset
+    \vspace{-6pt}
+    \resumeItem{\textbf{MS MARCO Passage Ranking - 1st (As of May 20th 2020)}}: State-of-the-Art model in a widely popular Neural Passage Ranking dataset
+    \vspace{-6pt}
+    \resumeItem{\textbf{DiMarco Undergraduate Scholarship in Computational Rhetoric}}:  Annually awarded to a single student based on academic achievement combined with a well-demonstrated interest in the area of Computational Rhetoric
+    \vspace{-6pt}
+    \resumeItem{\textbf{Terminal AI - Winner}}: Developed an heuristic-based AI game bot that placed 1st among teams of top Waterloo students. Globally ranked 2nd among 15k players (at the time of submission)
+    \vspace{-6pt}
+    \resumeItem{\textbf{Citadel Datathon - NYC}}:  Placed 2nd among teams from top universities in North America
+    \vspace{-6pt}
+    \resumeItem{\textbf{HackPrinceton - Top 10}}:  Implemented a tool for the Sentiment Analysis of Twitter and Guardian News using Vader Lexicon and Encoder-Decoder LSTMs and visualized the trends
+    \vspace{-6pt}
+    \resumeItem{\textbf{University of Waterloo President's Scholarship of Distinction and Research Award}}:  Awarded based on high academic average and research terms
+    \vspace{-6pt}
+  \resumeSubHeadingListEnd
+
+% \section{Projects}
+% \resumeSubHeadingListStart
+%     \resumeItem{\textbf{Covidex.ai}}: A neural search engine that applies state-of-the-art neural network models to answer questions using the COVID-19 Open Research Dataset (CORD-19) corpus provided by the Allen Institute for AI \vspace{-4pt}
+%     \resumeItem{\textbf{PyGaggle}}: A framework providing a gaggle of deep neural architectures for Text Ranking and Question Answering inference
+%     \vspace{-4pt}
+%      \resumeItem{\textbf{Pyserini}}: A framework supporting sparse retrieval, dense retrieval, as well as hybrid retrieval that integrates both approaches
+%     \vspace{-4pt}
+%    \resumeItem{\textbf{NumBERT}}: An open-sourced neural Passage Ranking framework integrated closely with Castorini's Anserini and HuggingFace's Transformers \vspace{-4pt}
+%    \resumeItem{\textbf{Deep RL for Generative Conversational Agents}}
+%     \vspace{-4pt}: Course Project for Deep Reinforcement Learning
+%     \resumeItem{\textbf{Approximate Nearest Neighbour Algorithms}}:  Course Project for Randomized Algorithms
+%     \vspace{-4pt}
+%     \resumeItem{\textbf{Traffic Sign Recognition using Convolutional Neural Networks}}:  Course Project for Computational Vision
+%     \vspace{-4pt}
+%     \resumeItem{\textbf{Halite - Two Sigma}}:  A heuristic-based agent that uses clustering as well as multi-agent path finding techniques like Windowed Hierarchical Cooperative A* to perform well in the game environment
+%     \vspace{-4pt}
+% \resumeSubHeadingListEnd
+
+% % \section{Junior Students Supervised}
+% % \resumeSubHeadingListStart
+% %     \resumeItem{\textbf{Kelvin Jiang, Xueguang Ma, Kai Sun, Hang Cui, Ruizhou Xu, Qing Guo, Justin Borromeo, Lizzy Zhang, Kevin Xu, Yuxuan Ji, Will Tan, Jerry Huang, Estella Liu, Larry Li}}
+% %     \vspace{-4pt}
+% % \resumeSubHeadingListEnd
+% %
+% % %--------PROGRAMMING SKILLS------------
+% % \section{Programming Skills}
+% %  \resumeSubHeadingListStart
+% %     \item{
+% %      \textbf{Languages}{: Python, C++, Ocaml (basic), Racket (basic), Agda (basic)}
+% %      \hfill
+% %     }
+% %     \item{
+% %      \textbf{Frameworks}{: Torch, TensorFlow, HuggingFace Transformers}
+% %     }
+% %  \resumeSubHeadingListEnd
+
+
+% %-------------------------------------------
+\end{document}
