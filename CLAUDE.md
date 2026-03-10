@@ -54,7 +54,7 @@ When updating CV content (publications, experience, etc.), update both `cv/main.
 
 Push to `master` triggers GitHub Actions (`.github/workflows/deploy.yml`): Node 18 + pnpm 9 → build → deploy to GitHub Pages. No branch workflow — commit and push directly to `master`.
 
-When the user explicitly asks to "commit and push" or makes an equivalent direct request, do it automatically without asking for an extra confirmation. Stage the intended source/artifact changes, leave out obvious local/generated junk such as `.DS_Store` and temporary build directories, create a reasonable commit message, and push `master` to `origin`.
+For any user-requested repository change that you complete, commit and push it automatically without asking for extra confirmation. Stage the intended source/artifact changes, leave out obvious local/generated junk such as `.DS_Store` and temporary build directories, create a reasonable commit message, and push `master` to `origin`.
 
 ## Gotchas
 
