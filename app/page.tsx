@@ -95,6 +95,14 @@ function PapersSection() {
         year: 2025,
       },
       {
+        title: "Overview of the TREC 2025 Retrieval Augmented Generation (RAG) Track",
+        authors: "Shivani Upadhyay, Nandan Thakur, Ronak Pradeep, Nick Craswell, Daniel Campos, Jimmy Lin",
+        venue: "TREC 2025",
+        link: "https://arxiv.org/abs/2603.09891",
+        subtopics: ["Retrieval-Augmented Generation", "Benchmarking", "Evaluation", "Large Language Models"],
+        year: 2025,
+      },
+      {
         title: "Assembling Your Personal AI Council in Yupp to Provide Multiple Perspectives",
         authors: "Jimmy Lin, Ronak Pradeep, Gilad Mishne, Pankaj Gupta",
         venue: "WSDM 2026",
@@ -151,14 +159,6 @@ function PapersSection() {
         venue: "SIGIR 2025",
         link: "https://dl.acm.org/doi/10.1145/3726302.3730165",
         subtopics: ["Retrieval-Augmented Generation", "Evaluation", "Large Language Models"],
-        year: 2025,
-      },
-      {
-        title: "Overview of the TREC 2025 Retrieval Augmented Generation (RAG) Track",
-        authors: "Shivani Upadhyay, Nandan Thakur, Ronak Pradeep, Nick Craswell, Daniel Campos, Jimmy Lin",
-        venue: "TREC 2025",
-        link: "https://arxiv.org/abs/2603.09891",
-        subtopics: ["Retrieval-Augmented Generation", "Benchmarking", "Evaluation", "Large Language Models"],
         year: 2025,
       },
       {
