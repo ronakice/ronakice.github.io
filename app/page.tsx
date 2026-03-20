@@ -104,7 +104,7 @@ function PapersSection() {
       },
       {
         title: "NeuCLIRBench: A Modern Evaluation Collection for Monolingual, Cross-Language, and Multilingual Information Retrieval",
-        authors: "Dawn Lawrie, James Mayfield, Eugene Yang, Andrew Yates, Sean MacAvaney, Ronak Pradeep, Scott Miller, Paul McNamee, Luca Soldani",
+        authors: "Dawn Lawrie, James Mayfield, Eugene Yang, Andrew Yates, Sean MacAvaney, Ronak Pradeep, Scott Miller, Paul McNamee, Luca Soldaini",
         venue: "Under Review",
         link: "https://arxiv.org/abs/2511.14758",
         subtopics: ["Retrieval", "Benchmarking", "Evaluation", "Large Language Models"],
