@@ -116,7 +116,7 @@ function PapersSection() {
         venue: "Under Review",
         link: "https://arxiv.org/abs/2602.05334",
         subtopics: ["Retrieval", "Benchmarking", "Evaluation", "Cross-Language Information Retrieval"],
-        year: 2025,
+        year: 2026,
       },
       {
         title: "Humanity's Last Exam",
