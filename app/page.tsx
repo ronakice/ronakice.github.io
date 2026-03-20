@@ -111,6 +111,14 @@ function PapersSection() {
         year: 2025,
       },
       {
+        title: "NeuCLIRTech: Chinese Monolingual and Cross-Language Information Retrieval Evaluation in a Challenging Domain",
+        authors: "Dawn Lawrie, James Mayfield, Eugene Yang, Andrew Yates, Sean MacAvaney, Ronak Pradeep, Scott Miller, Paul McNamee, Luca Soldaini",
+        venue: "Under Review",
+        link: "https://arxiv.org/abs/2602.05334",
+        subtopics: ["Retrieval", "Benchmarking", "Evaluation", "Cross-Language Information Retrieval"],
+        year: 2025,
+      },
+      {
         title: "Humanity's Last Exam",
         authors: "Long Phan, Alice Gatti, Ziwen Han, ..., Ronak Pradeep, ...",
         venue: "Nature",
@@ -143,6 +151,14 @@ function PapersSection() {
         venue: "SIGIR 2025",
         link: "https://dl.acm.org/doi/10.1145/3726302.3730165",
         subtopics: ["Retrieval-Augmented Generation", "Evaluation", "Large Language Models"],
+        year: 2025,
+      },
+      {
+        title: "Overview of the TREC 2025 Retrieval Augmented Generation (RAG) Track",
+        authors: "Shivani Upadhyay, Nandan Thakur, Ronak Pradeep, Nick Craswell, Daniel Campos, Jimmy Lin",
+        venue: "TREC 2025",
+        link: "https://arxiv.org/abs/2603.09891",
+        subtopics: ["Retrieval-Augmented Generation", "Benchmarking", "Evaluation", "Large Language Models"],
         year: 2025,
       },
       {
