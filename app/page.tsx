@@ -6,7 +6,7 @@ import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Mail, FileText, GraduationCap, Twitter, Github, Music, Calendar, ExternalLink, Search } from "lucide-react"
+import { Mail, AtSign, FileText, GraduationCap, Twitter, Github, Music, Calendar, ExternalLink, Search } from "lucide-react"
 import { useState, useMemo, useEffect, useRef } from "react"
 import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion"
 import { clsx, type ClassValue } from "clsx"
@@ -972,7 +972,7 @@ export default function HomePage() {
               >
                 {[
                   { icon: Mail, label: "Email", href: "mailto:rpradeep@uwaterloo.ca" },
-                  { icon: Mail, label: "Email 2", href: "mailto:ronakice@hotmail.com" },
+                  { icon: AtSign, label: "Alt Email", href: "mailto:ronakice@hotmail.com" },
                   { icon: FileText, label: "CV", href: "/data/RonakPradeep-CV.pdf" },
                   { icon: GraduationCap, label: "Scholar", href: "https://scholar.google.com/citations?user=xH7uDXgAAAAJ&hl" },
                   { icon: Twitter, label: "Twitter", href: "https://twitter.com/rpradeep42" },
