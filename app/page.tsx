@@ -775,7 +775,6 @@ export default function HomePage() {
   const opacity = useTransform(scrollY, [0, 800], [1, 0])
   const y = useTransform(scrollY, [0, 800], [0, 100])
   const voxelOpacity = useTransform(scrollY, [0, 900], [1, 0.02])
-  const heroScrimOpacity = useTransform(scrollY, [0, 500, 1000], [0.92, 0.78, 0.45])
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const next = latest < 1100
@@ -832,12 +831,8 @@ export default function HomePage() {
       {/* Voxel Background Layer - fades on scroll for both mobile and desktop */}
       <motion.div style={{ opacity: voxelOpacity }} className="fixed top-0 left-0 right-0 h-[85vh] z-0 pointer-events-none md:translate-y-0 -translate-y-[15vh]">
         {enableHeroVisuals && showHeroVisuals ? <DarkSideVoxel onPrismClick={toggleImage} /> : null}
-        <motion.div
-          style={{ opacity: heroScrimOpacity }}
-          className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%),linear-gradient(90deg,rgba(4,4,4,0.96)_0%,rgba(4,4,4,0.86)_32%,rgba(4,4,4,0.58)_54%,rgba(4,4,4,0.18)_72%,transparent_100%)] pointer-events-none"
-        />
         {/* Gradient Mask to blend into content */}
-        <div className="absolute bottom-0 left-0 right-0 h-72 bg-gradient-to-t from-background via-background/90 to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-background to-transparent pointer-events-none" />
       </motion.div>
 
       {/* Only mount the sketch on large screens, and only while the hero visuals are active. */}
@@ -892,13 +887,13 @@ export default function HomePage() {
               </div>
             </motion.div>
 
-            <div className="md:col-span-2">
-              <div className="space-y-8 rounded-[2rem] border border-white/10 bg-background/70 p-6 shadow-[0_24px_80px_rgba(0,0,0,0.42)] backdrop-blur-xl md:p-10">
+            <div className="md:col-span-2 space-y-8">
+              <div>
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="text-5xl md:text-7xl font-display font-bold text-foreground mb-6 leading-[0.95] tracking-tight"
+                  className="text-6xl md:text-7xl font-display font-bold text-foreground mb-6 leading-tight"
                 >
                   Ronak Pradeep
                 </motion.h1>
@@ -906,98 +901,92 @@ export default function HomePage() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
-                  className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-2xl border border-white/8 bg-black/20 px-4 py-3 font-mono text-sm"
+                  className="flex flex-wrap items-center gap-3 mb-6 font-mono text-sm"
                 >
-                  <span className="text-spectrum-blue font-medium">Research Scientist @ Yupp AI</span>
-                  <span className="text-muted-foreground/70">/</span>
-                  <span className="text-spectrum-green font-medium">PhD, University of Waterloo</span>
-                  <span className="text-muted-foreground/70">/</span>
-                  <span className="text-spectrum-orange font-medium">Apple PhD Fellow</span>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4, duration: 0.5 }}
-                  className="prose prose-lg max-w-2xl space-y-5 leading-relaxed text-foreground/88"
-                >
-                  <p>
-                    Hi! I am a Research Scientist at{" "}
-                    <Link href="https://yupp.ai/" className="text-primary hover:text-primary/80">
-                      Yupp AI
-                    </Link>{" "}
-                    working on benchmarking and evaluating LLMs. I completed my PhD in the{" "}
-                    <Link href="https://cs.uwaterloo.ca/" className="text-primary hover:text-primary/80">
-                      David R. Cheriton School of Computer Science
-                    </Link>{" "}
-                    at the{" "}
-                    <Link href="https://uwaterloo.ca/" className="text-primary hover:text-primary/80">
-                      University of Waterloo
-                    </Link>
-                    , where I was advised by{" "}
-                    <Link
-                      href="https://cs.uwaterloo.ca/~jimmylin/index.html"
-                      className="text-primary hover:text-primary/80"
-                    >
-                      Jimmy Lin
-                    </Link>
-                    . During my PhD, I also had the chance to work at{" "}
-                    <Link href="https://research.google/" className="text-primary hover:text-primary/80">
-                      Google
-                    </Link>{" "}
-                    and{" "}
-                    <Link href="https://machinelearning.apple.com/" className="text-primary hover:text-primary/80">
-                      Apple
-                    </Link>
-                    .
-                  </p>
-                  <p>
-                    Previously, I completed my undergraduate studies at the University of Waterloo, where I majored in
-                    Computer Science and{" "}
-                    <Link
-                      href="https://uwaterloo.ca/combinatorics-and-optimization/"
-                      className="text-primary hover:text-primary/80"
-                    >
-                      Combinatorics and Optimization
-                    </Link>
-                    . During my undergrad, I had the chance to intern at{" "}
-                    <Link href="https://mila.quebec/en/" className="text-primary hover:text-primary/80">
-                      Quebec Artificial Intelligence Institute (Mila)
-                    </Link>
-                    , ContextLogic, and RBC Research.
-                  </p>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6, duration: 0.5 }}
-                  className="flex flex-wrap gap-3"
-                >
-                  {[
-                    { icon: Mail, label: "Email", href: "mailto:rpradeep@uwaterloo.ca" },
-                    { icon: AtSign, label: "Alt Email", href: "mailto:ronakice@hotmail.com" },
-                    { icon: FileText, label: "CV", href: "/data/RonakPradeep-CV.pdf" },
-                    { icon: GraduationCap, label: "Scholar", href: "https://scholar.google.com/citations?user=xH7uDXgAAAAJ&hl" },
-                    { icon: Twitter, label: "Twitter", href: "https://twitter.com/rpradeep42" },
-                    { icon: Github, label: "Github", href: "https://github.com/ronakice" },
-                    { icon: Music, label: "Spotify", href: "https://open.spotify.com/user/qsjnogh907vnv3c6js7vcjccs?si=4139788b14f54573" },
-                  ].map((item, i) => (
-                    <Button
-                      key={i}
-                      variant="outline"
-                      size="sm"
-                      className="rounded-full border-white/10 bg-background/45 hover:border-primary/50 hover:bg-primary/8 hover:text-primary transition-all"
-                      asChild
-                    >
-                      <Link href={item.href}>
-                        <item.icon className="w-4 h-4 mr-2" />
-                        {item.label}
-                      </Link>
-                    </Button>
-                  ))}
+                  <span className="text-spectrum-blue">Research Scientist @ Yupp AI</span>
+                  <span className="text-muted-foreground">/</span>
+                  <span className="text-spectrum-green">PhD, University of Waterloo</span>
+                  <span className="text-muted-foreground">/</span>
+                  <span className="text-spectrum-orange">Apple PhD Fellow</span>
                 </motion.div>
               </div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+                className="prose prose-lg text-muted-foreground space-y-5 leading-relaxed max-w-2xl"
+              >
+                <p>
+                  Hi! I am a Research Scientist at{" "}
+                  <Link href="https://yupp.ai/" className="text-primary hover:text-primary/80">
+                    Yupp AI
+                  </Link>{" "}
+                  working on benchmarking and evaluating LLMs. I completed my PhD in the{" "}
+                  <Link href="https://cs.uwaterloo.ca/" className="text-primary hover:text-primary/80">
+                    David R. Cheriton School of Computer Science
+                  </Link>{" "}
+                  at the{" "}
+                  <Link href="https://uwaterloo.ca/" className="text-primary hover:text-primary/80">
+                    University of Waterloo
+                  </Link>
+                  , where I was advised by{" "}
+                  <Link
+                    href="https://cs.uwaterloo.ca/~jimmylin/index.html"
+                    className="text-primary hover:text-primary/80"
+                  >
+                    Jimmy Lin
+                  </Link>
+                  . During my PhD, I also had the chance to work at{" "}
+                  <Link href="https://research.google/" className="text-primary hover:text-primary/80">
+                    Google
+                  </Link>{" "}
+                  and{" "}
+                  <Link href="https://machinelearning.apple.com/" className="text-primary hover:text-primary/80">
+                    Apple
+                  </Link>
+                  .
+                </p>
+                <p>
+                  Previously, I completed my undergraduate studies at the University of Waterloo, where I majored in
+                  Computer Science and{" "}
+                  <Link
+                    href="https://uwaterloo.ca/combinatorics-and-optimization/"
+                    className="text-primary hover:text-primary/80"
+                  >
+                    Combinatorics and Optimization
+                  </Link>
+                  . During my undergrad, I've had the chance to intern at{" "}
+                  <Link href="https://mila.quebec/en/" className="text-primary hover:text-primary/80">
+                    Quebec Artificial Intelligence Institute (Mila)
+                  </Link>
+                  , ContextLogic, and RBC Research.
+                </p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
+                className="flex flex-wrap gap-3"
+              >
+                {[
+                  { icon: Mail, label: "Email", href: "mailto:rpradeep@uwaterloo.ca" },
+                  { icon: AtSign, label: "Alt Email", href: "mailto:ronakice@hotmail.com" },
+                  { icon: FileText, label: "CV", href: "/data/RonakPradeep-CV.pdf" },
+                  { icon: GraduationCap, label: "Scholar", href: "https://scholar.google.com/citations?user=xH7uDXgAAAAJ&hl" },
+                  { icon: Twitter, label: "Twitter", href: "https://twitter.com/rpradeep42" },
+                  { icon: Github, label: "Github", href: "https://github.com/ronakice" },
+                  { icon: Music, label: "Spotify", href: "https://open.spotify.com/user/qsjnogh907vnv3c6js7vcjccs?si=4139788b14f54573" },
+                ].map((item, i) => (
+                  <Button key={i} variant="outline" size="sm" className="rounded-full border-border/50 hover:border-primary/50 hover:bg-primary/5 hover:text-primary transition-all" asChild>
+                    <Link href={item.href}>
+                      <item.icon className="w-4 h-4 mr-2" />
+                      {item.label}
+                    </Link>
+                  </Button>
+                ))}
+              </motion.div>
             </div>
 
             {/* Photo - desktop only (mobile version is above) */}
