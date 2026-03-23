@@ -24,6 +24,7 @@
 \addtolength{\textwidth}{1in}
 \addtolength{\topmargin}{-.5in}
 \addtolength{\textheight}{1.0in}
+\setlength{\footskip}{6pt}
 
 \urlstyle{same}
 
@@ -38,9 +39,8 @@
 
 %-------------------------
 % Custom commands
-\newcommand{\resumeItem}[0]{
-  \item\small{ \vspace{-2pt}
-  }
+\newcommand{\resumeItem}[1]{
+  \item \small{#1 \vspace{-2pt}}
 }
 
 \newcommand{\resumeSubheading}[4]{
@@ -51,13 +51,13 @@
     \end{tabular*}\vspace{-5pt}
 }
 
-\newcommand{\resumeSubItem}[2]{\resumeItem{#1}{#2}\vspace{-4pt}}
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
 
 \renewcommand{\labelitemii}{$\circ$}
 
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*]}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=1.5em, itemsep=1pt, topsep=2pt]}
 \newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
 
 %-------------------------------------------
@@ -67,8 +67,12 @@
 \begin{document}
 
 %----------HEADING-----------------
-\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
-  \textbf{\href{linkedin.com/in/rpradeep42}{\Large Ronak Pradeep}} & Personal Email: \href{mailto:ronakice@hotmail.com}{\ ronakice@hotmail.com} \\ & Academic Email: \href{mailto:rpradeep@uwaterloo.ca}{rpradeep@uwaterloo.ca}\\  & Website: \href{ronakice.github.io}{ronakice.github.io}\\ & Phone: 519-992-8842 \\
+\begin{tabular*}{0.98\textwidth}{l@{\extracolsep{\fill}}r}
+  \textbf{\Large Ronak Pradeep} & Personal Email: \href{mailto:ronakice@hotmail.com}{ronakice@hotmail.com} \\
+  & Academic Email: \href{mailto:rpradeep@uwaterloo.ca}{rpradeep@uwaterloo.ca} \\
+  & Website: \href{https://ronakice.github.io}{ronakice.github.io} \\
+  & LinkedIn: \href{https://linkedin.com/in/rpradeep42}{linkedin.com/in/rpradeep42} \\
+  & Phone: 519-992-8842 \\
 \end{tabular*}
 
 
@@ -77,7 +81,7 @@
   \resumeSubHeadingListStart
   \resumeSubheading
       {University of Waterloo}{Waterloo, ON}
-      {PhD - Computer Science}{}
+      {PhD in Computer Science}{}
     
     \resumeItemListStart
         \resumeItem Thesis: \href{https://uwspace.uwaterloo.ca/items/e4b904e3-a64c-4290-ac1a-5a77025b1c60}{\textit{Democratizing and Modernizing Information Access: From Open Rerankers to Scalable RAG Evaluation}}
@@ -89,7 +93,7 @@
    \resumeItemListEnd
     \resumeSubheading
       {University of Waterloo}{Waterloo, ON}
-      {BMath - Double Major in Computer Science and Combinatorics and Optimization}{}
+      {BMath in Computer Science and Combinatorics and Optimization}{}
     
     \resumeItemListStart
         \resumeItem Graduate Level Coursework: Deep Reinforcement Learning, Randomized Algorithms,  Formal Languages and Parsing (100\%),  Computational Vision, Statistical Learning, Dependent Types and Software Verification (100\%)
@@ -112,7 +116,7 @@ Retrieval-Augmented Large Language Models, Reranking, Post-Training, Evaluation,
         \resumeItem Working on agents, judges, models, labelers, evaluations, and leaderboards
       \resumeItemListEnd
     \resumeSubheading
-      {Apple - Siri Information Intelligence}{Seattle, WA}
+      {Apple, Siri Information Intelligence}{Seattle, WA}
       {Research Intern}{May 2023 - Aug 2023}
       \resumeItemListStart
         \resumeItem Worked with Yunyao Li and Ihab Ilyas on knowledge graphs and large language models
@@ -315,19 +319,19 @@ Retrieval-Augmented Large Language Models, Reranking, Post-Training, Evaluation,
                  \vspace{-6pt}
 \resumeItem{\textbf{SCIVER: Verifying Scientific Claims with Evidence (Scholarly Document Processing @ NAACL 2021)}}: Top submission based on the primary metric
          \vspace{-6pt}
-\resumeItem{\textbf{Fact Extraction and VERification (FEVER) - 1st (As of Jan 2021)}}: State-of-the-art result on a widely used fact verification benchmark
+\resumeItem{\textbf{Fact Extraction and VERification (FEVER) - 1st (as of Jan. 2021)}}: State-of-the-art result on a widely used fact verification benchmark
     \vspace{-6pt}
-    \resumeItem{\textbf{TREC Clinical Trials 2021/2022}}: Top submission in a clinical trial matching task
+    \resumeItem{\textbf{TREC Clinical Trials 2021--2022}}: Top submission in a clinical trial matching task
     \vspace{-6pt}
-    \resumeItem{\textbf{TREC Health Misinformation 2020/2021/2022}}: Top submission in the ad hoc retrieval task of a health misinformation benchmark
+    \resumeItem{\textbf{TREC Health Misinformation 2020--2022}}: Top submission in the ad hoc retrieval task of a health misinformation benchmark
     \vspace{-6pt}
-    \resumeItem{\textbf{TREC Deep Learning 2020/2023}}: Top submission in the document ranking task of a large-scale retrieval benchmark
+    \resumeItem{\textbf{TREC Deep Learning 2020--2023}}: Top submission in the document ranking task of a large-scale retrieval benchmark
     \vspace{-6pt}
     \resumeItem{\textbf{TREC-COVID 2020}}: Best automatic run in rounds 4 and 5, and best feedback run in round 3
     \vspace{-6pt}
-    \resumeItem{\textbf{MS MARCO Document Ranking - 1st (As of Sep 2020)}}: State-of-the-art result on a widely used neural document ranking benchmark
+    \resumeItem{\textbf{MS MARCO Document Ranking - 1st (as of Sep. 2020)}}: State-of-the-art result on a widely used neural document ranking benchmark
     \vspace{-6pt}
-    \resumeItem{\textbf{MS MARCO Passage Ranking - 1st (As of May 2020)}}: State-of-the-art result on a widely used neural passage ranking benchmark
+    \resumeItem{\textbf{MS MARCO Passage Ranking - 1st (as of May 2020)}}: State-of-the-art result on a widely used neural passage ranking benchmark
     \vspace{-6pt}
     \resumeItem{\textbf{DiMarco Undergraduate Scholarship in Computational Rhetoric}}: Awarded annually to a single student for academic achievement and demonstrated interest in computational rhetoric
     \vspace{-6pt}
