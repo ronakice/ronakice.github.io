@@ -563,11 +563,6 @@ const SketchSelfPortrait = () => {
                     group-hover:border-primary/35
                     group-hover:shadow-primary/[0.12]"
             />
-            <div className="absolute -top-0.5 -right-0.5
-                w-2.5 h-2.5 rounded-full
-                bg-primary/85
-                animate-pulse
-                ring-2 ring-background" />
         </div>
     )
 }

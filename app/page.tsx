@@ -835,8 +835,8 @@ export default function HomePage() {
         <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-background to-transparent pointer-events-none" />
       </motion.div>
 
-      {/* Only mount the sketch on large screens, and only while the hero visuals are active. */}
-      {!isMobile && enableHeroVisuals && showHeroVisuals ? <SketchSelfPortrait /> : null}
+      {/* Keep the sketch available on large screens even after the hero visuals fade out. */}
+      {!isMobile && enableHeroVisuals ? <SketchSelfPortrait /> : null}
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 bg-background/80 backdrop-blur-sm z-50 transition-all duration-300">
