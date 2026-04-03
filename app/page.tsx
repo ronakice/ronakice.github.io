@@ -100,7 +100,7 @@ function PapersSection() {
         venue: "TREC 2025",
         link: "https://arxiv.org/abs/2603.09891",
         subtopics: ["Retrieval-Augmented Generation", "Benchmarking", "Evaluation", "Large Language Models"],
-        year: 2025,
+        year: 2026,
       },
       {
         title: "Assembling Your Personal AI Council in Yupp to Provide Multiple Perspectives",
@@ -476,13 +476,18 @@ function PapersSection() {
         subtopics: [],
         year: 2020,
       },
-    ].map((paper, index) => ({
-      ...paper,
-      year: paper.year?.toString() ?? "",
-      venueNormalized: normalizeVenue(paper.venue),
-      topics: paper.subtopics,
-      originalIndex: index,
-    }))
+    ]
+      .map((paper, index) => ({
+        ...paper,
+        year: paper.year?.toString() ?? "",
+        venueNormalized: normalizeVenue(paper.venue),
+        topics: paper.subtopics,
+        originalIndex: index,
+      }))
+      .sort((a, b) => {
+        const yearDiff = parseInt(b.year, 10) - parseInt(a.year, 10)
+        return yearDiff !== 0 ? yearDiff : a.originalIndex - b.originalIndex
+      })
   }, [])
 
   const toggleFilter = (set: Set<string>, value: string) => {
