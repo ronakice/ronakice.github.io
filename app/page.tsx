@@ -111,6 +111,23 @@ function PapersSection() {
         year: 2026,
       },
       {
+        title: "Auto-Judge: A Cross-Task Benchmark for Comparing LLM Judges for Citation-Grounded RAG",
+        authors:
+          "Naghmeh Farzi, Tim Hagen, Eugene Yang, Maik Fröbe, Ronak Pradeep, Hossein A. Rahmani, Xi Wang, Oleg Zendel, Martin Potthast, Laura Dietz",
+        venue: "SIGIR 2026",
+        link: "",
+        subtopics: ["Retrieval-Augmented Generation", "Benchmarking", "Evaluation", "Large Language Models"],
+        year: 2026,
+      },
+      {
+        title: "Automating Generation of Long-Form Queries",
+        authors: "Shivani Upadhyay, Daniel Campos, Nandan Thakur, Ronak Pradeep, Nick Craswell, Jimmy Lin",
+        venue: "SIGIR 2026",
+        link: "",
+        subtopics: ["Retrieval", "Benchmarking", "Large Language Models"],
+        year: 2026,
+      },
+      {
         title: "NeuCLIRBench: A Modern Evaluation Collection for Monolingual, Cross-Language, and Multilingual Information Retrieval",
         authors: "Dawn Lawrie, James Mayfield, Eugene Yang, Andrew Yates, Sean MacAvaney, Ronak Pradeep, Scott Miller, Paul McNamee, Luca Soldaini",
         venue: "Under Review",
@@ -800,6 +817,7 @@ export default function HomePage() {
       text: "Wrapped up my PhD at Waterloo.",
       icon: GraduationCap
     },
+    { date: "Apr 2026", text: "Two papers accepted at SIGIR 2026!", icon: FileText },
     { date: "Apr 2025", text: "We have five papers accepted at SIGIR 2025! See you all in Padova!", icon: FileText },
     {
       date: "Nov 2024",
