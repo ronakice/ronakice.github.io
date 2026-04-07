@@ -817,7 +817,6 @@ export default function HomePage() {
       text: "Wrapped up my PhD at Waterloo.",
       icon: GraduationCap
     },
-    { date: "Apr 2026", text: "Two papers accepted at SIGIR 2026!", icon: FileText },
     { date: "Apr 2025", text: "We have five papers accepted at SIGIR 2025! See you all in Padova!", icon: FileText },
     {
       date: "Nov 2024",
