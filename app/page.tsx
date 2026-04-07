@@ -87,6 +87,23 @@ function PapersSection() {
   const papers = useMemo(() => {
     return [
       {
+        title: "Auto-Judge: A Cross-Task Benchmark for Comparing LLM Judges for Citation-Grounded RAG",
+        authors:
+          "Naghmeh Farzi, Tim Hagen, Eugene Yang, Maik Fröbe, Ronak Pradeep, Hossein A. Rahmani, Xi Wang, Oleg Zendel, Martin Potthast, Laura Dietz",
+        venue: "SIGIR 2026",
+        link: "",
+        subtopics: ["Retrieval-Augmented Generation", "Benchmarking", "Evaluation", "Large Language Models"],
+        year: 2026,
+      },
+      {
+        title: "Automating Generation of Long-Form Queries",
+        authors: "Shivani Upadhyay, Daniel Campos, Nandan Thakur, Ronak Pradeep, Nick Craswell, Jimmy Lin",
+        venue: "SIGIR 2026",
+        link: "",
+        subtopics: ["Retrieval", "Benchmarking", "Large Language Models"],
+        year: 2026,
+      },
+      {
         title: "Democratizing and Modernizing Information Access: From Open Rerankers to Scalable RAG Evaluation",
         authors: "Ronak Pradeep",
         venue: "PhD Thesis",
@@ -108,23 +125,6 @@ function PapersSection() {
         venue: "WSDM 2026",
         link: "https://dl.acm.org/doi/10.1145/3773966.3784973",
         subtopics: ["Large Language Models", "Evaluation"],
-        year: 2026,
-      },
-      {
-        title: "Auto-Judge: A Cross-Task Benchmark for Comparing LLM Judges for Citation-Grounded RAG",
-        authors:
-          "Naghmeh Farzi, Tim Hagen, Eugene Yang, Maik Fröbe, Ronak Pradeep, Hossein A. Rahmani, Xi Wang, Oleg Zendel, Martin Potthast, Laura Dietz",
-        venue: "SIGIR 2026",
-        link: "",
-        subtopics: ["Retrieval-Augmented Generation", "Benchmarking", "Evaluation", "Large Language Models"],
-        year: 2026,
-      },
-      {
-        title: "Automating Generation of Long-Form Queries",
-        authors: "Shivani Upadhyay, Daniel Campos, Nandan Thakur, Ronak Pradeep, Nick Craswell, Jimmy Lin",
-        venue: "SIGIR 2026",
-        link: "",
-        subtopics: ["Retrieval", "Benchmarking", "Large Language Models"],
         year: 2026,
       },
       {
