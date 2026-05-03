@@ -812,11 +812,6 @@ export default function HomePage() {
   }
 
   const updates = [
-    {
-      date: "Dec 2025",
-      text: "Wrapped up my PhD at Waterloo.",
-      icon: GraduationCap
-    },
     { date: "Apr 2025", text: "We have five papers accepted at SIGIR 2025! See you all in Padova!", icon: FileText },
     {
       date: "Nov 2024",
