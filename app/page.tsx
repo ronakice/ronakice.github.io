@@ -812,6 +812,11 @@ export default function HomePage() {
   }
 
   const updates = [
+    {
+      date: "Jun 2026",
+      text: "Life update: I joined Databricks AI Research!",
+      icon: Calendar
+    },
     { date: "Apr 2025", text: "We have five papers accepted at SIGIR 2025! See you all in Padova!", icon: FileText },
     {
       date: "Nov 2024",
@@ -920,7 +925,7 @@ export default function HomePage() {
                   transition={{ delay: 0.2, duration: 0.5 }}
                   className="flex flex-wrap items-center gap-3 mb-6 font-mono text-sm"
                 >
-                  <span className="text-spectrum-blue">Research Scientist @ Yupp AI</span>
+                  <span className="text-spectrum-blue">Research Scientist @ Databricks AI Research</span>
                   <span className="text-muted-foreground">/</span>
                   <span className="text-spectrum-green">PhD, University of Waterloo</span>
                   <span className="text-muted-foreground">/</span>
@@ -936,10 +941,10 @@ export default function HomePage() {
               >
                 <p>
                   Hi! I am a Research Scientist at{" "}
-                  <Link href="https://yupp.ai/" className="text-primary hover:text-primary/80">
-                    Yupp AI
+                  <Link href="https://www.databricks.com/research" className="text-primary hover:text-primary/80">
+                    Databricks AI Research
                   </Link>{" "}
-                  working on benchmarking and evaluating LLMs. I completed my PhD in the{" "}
+                  working on information-seeking agents in the wild. I completed my PhD in the{" "}
                   <Link href="https://cs.uwaterloo.ca/" className="text-primary hover:text-primary/80">
                     David R. Cheriton School of Computer Science
                   </Link>{" "}
@@ -954,13 +959,15 @@ export default function HomePage() {
                   >
                     Jimmy Lin
                   </Link>
-                  . During my PhD, I also had the chance to work at{" "}
+                  . I have also had the chance to work at{" "}
                   <Link href="https://research.google/" className="text-primary hover:text-primary/80">
                     Google
-                  </Link>{" "}
-                  and{" "}
+                  </Link>,{" "}
                   <Link href="https://machinelearning.apple.com/" className="text-primary hover:text-primary/80">
                     Apple
+                  </Link>, and{" "}
+                  <Link href="https://yupp.ai/" className="text-primary hover:text-primary/80">
+                    Yupp AI
                   </Link>
                   .
                 </p>
