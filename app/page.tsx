@@ -179,8 +179,8 @@ function PapersSection() {
         year: 2025,
       },
       {
-        title: "Chatbot Arena Meets Nuggets: Towards Explanations and Diagnostics in the Evaluation of LLM Responses",
-        authors: "Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, Hoa Trang Dang, Jimmy Lin",
+        title: "Search Arena Meets Nuggets: Towards Explanations and Diagnostics in the Evaluation of LLM Responses",
+        authors: "Sahel Sharifymoghaddam, Shivani Upadhyay, Nandan Thakur, Ronak Pradeep, Jimmy Lin",
         venue: "ICTIR 2026",
         link: "https://arxiv.org/abs/2504.20006",
         subtopics: ["Retrieval-Augmented Generation", "Evaluation", "Large Language Models"],
