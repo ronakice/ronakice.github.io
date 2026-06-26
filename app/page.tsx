@@ -944,7 +944,7 @@ export default function HomePage() {
                   <Link href="https://www.databricks.com/research" className="text-primary hover:text-primary/80">
                     Databricks AI Research
                   </Link>{" "}
-                  working on information-seeking agents in the wild. I completed my PhD in the{" "}
+                  working on synthetic data and reinforcement learning for post-training information-seeking agents. I completed my PhD in the{" "}
                   <Link href="https://cs.uwaterloo.ca/" className="text-primary hover:text-primary/80">
                     David R. Cheriton School of Computer Science
                   </Link>{" "}
