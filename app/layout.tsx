@@ -1,30 +1,49 @@
 import type { Metadata } from 'next'
-import { Playfair_Display, Source_Serif_4, JetBrains_Mono } from 'next/font/google'
+import { IBM_Plex_Mono, Literata, Recursive } from 'next/font/google'
 import './globals.css'
 import { LayoutClient } from '@/components/layout-client'
 
-const playfair = Playfair_Display({
+const recursive = Recursive({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-recursive',
+  weight: 'variable',
   display: 'swap',
 })
 
-const sourceSerif = Source_Serif_4({
+const literata = Literata({
   subsets: ['latin'],
-  variable: '--font-source-serif',
+  variable: '--font-literata',
+  weight: 'variable',
   display: 'swap',
 })
 
-const jetbrainsMono = JetBrains_Mono({
+const plexMono = IBM_Plex_Mono({
   subsets: ['latin'],
-  variable: '--font-mono',
+  variable: '--font-plex-mono',
+  weight: ['400', '600'],
   display: 'swap',
 })
 
 export const metadata: Metadata = {
-  title: 'Ronak Pradeep',
-  description: 'Research at Yupp AI; PhD, University of Waterloo',
-  generator: 'v0.dev',
+  metadataBase: new URL('https://ronakice.github.io'),
+  title: 'Ronak Pradeep — Information Retrieval & AI Research',
+  description: 'Research Scientist at Databricks AI Research working on synthetic data, reinforcement learning, retrieval, and evaluation for information-seeking agents.',
+  alternates: { canonical: '/' },
+  icons: { icon: '/icon.svg' },
+  openGraph: {
+    title: 'Ronak Pradeep — The Retrieval Spectrum',
+    description: 'Research on open rerankers, scalable RAG evaluation, and information-seeking agents.',
+    url: '/',
+    siteName: 'Ronak Pradeep',
+    type: 'website',
+    images: [{ url: '/og-retrieval-spectrum.png', width: 1200, height: 630, alt: 'Ronak Pradeep and the Retrieval Spectrum' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ronak Pradeep — The Retrieval Spectrum',
+    description: 'Research on open rerankers, scalable RAG evaluation, and information-seeking agents.',
+    images: ['/og-retrieval-spectrum.png'],
+  },
 }
 
 export default function RootLayout({
@@ -33,8 +52,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${playfair.variable} ${sourceSerif.variable} ${jetbrainsMono.variable}`}>
-      <body className="font-serif">
+    <html lang="en" suppressHydrationWarning className={`${recursive.variable} ${literata.variable} ${plexMono.variable}`}>
+      <body>
         <LayoutClient>{children}</LayoutClient>
       </body>
     </html>

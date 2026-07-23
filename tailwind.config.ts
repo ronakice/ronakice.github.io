@@ -10,10 +10,10 @@ const config: Config = {
   ],
   theme: {
   	extend: {
-  		fontFamily: {
-  			display: ['var(--font-playfair)', 'Georgia', 'serif'],
-  			serif: ['var(--font-source-serif)', 'Georgia', 'Times New Roman', 'serif'],
-  			mono: ['var(--font-mono)', 'Courier New', 'monospace'],
+		fontFamily: {
+			display: ['var(--font-recursive)', 'Arial', 'sans-serif'],
+			serif: ['var(--font-literata)', 'Georgia', 'Times New Roman', 'serif'],
+			mono: ['var(--font-plex-mono)', 'Courier New', 'monospace'],
   		},
   		colors: {
   			spectrum: {

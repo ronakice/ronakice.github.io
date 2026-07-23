@@ -3,3 +3,11 @@ node_modules
 .next.pre-react18-fix
 out
 .DS_Store
+*.tsbuildinfo
+/tmp/
+/main.aux
+/main.fdb_latexmk
+/main.fls
+/main.log
+/main.out
+/main.pdf

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs><linearGradient id="s" x1="0" x2="1"><stop stop-color="#28C7BE"/><stop offset=".55" stop-color="#F2A541"/><stop offset="1" stop-color="#E95D5D"/></linearGradient></defs>
+  <rect width="1200" height="630" fill="#101820"/>
+  <g opacity=".12" stroke="#F2F4F1"><path d="M0 70h1200M0 140h1200M0 210h1200M0 280h1200M0 350h1200M0 420h1200M0 490h1200M0 560h1200"/><path d="M100 0v630M200 0v630M300 0v630M400 0v630M500 0v630M600 0v630M700 0v630M800 0v630M900 0v630M1000 0v630M1100 0v630"/></g>
+  <text x="72" y="112" fill="#28C7BE" font-family="monospace" font-size="22" letter-spacing="5">THE RETRIEVAL SPECTRUM</text>
+  <text x="72" y="232" fill="#F2F4F1" font-family="sans-serif" font-size="78" font-weight="700">Ronak Pradeep</text>
+  <text x="72" y="292" fill="#AAB6B8" font-family="serif" font-size="30">Information retrieval · RAG evaluation · information-seeking agents</text>
+  <path d="M82 430h330" stroke="#F2F4F1" stroke-width="6" stroke-dasharray="16 12"/>
+  <path d="m410 532 105-210 105 210Z" fill="#102A33" stroke="#F2F4F1" stroke-width="5"/>
+  <path d="M565 425 1120 338M574 438l546 20M566 452l554 116" fill="none" stroke="url(#s)" stroke-width="10"/>
+  <text x="82" y="410" fill="#F2F4F1" font-family="monospace" font-size="20">QUERY</text>
+</svg>
