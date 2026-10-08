@@ -1,5 +1,5 @@
 node_modules
 .next
-.next.pre-react18-fix
 out
 .DS_Store
+*.tsbuildinfo
