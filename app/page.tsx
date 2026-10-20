@@ -4,8 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Mail, AtSign, FileText, GraduationCap, Twitter, Github, Music, Calendar, ExternalLink, Search } from "lucide-react"
+import { Mail, FileText, GraduationCap, Github, Music, Search } from "lucide-react"
 import { useState, useMemo, useEffect, useRef } from "react"
 import { DarkModeToggle } from "@/components/dark-mode-toggle"
 import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion"
@@ -14,6 +13,14 @@ import { twMerge } from "tailwind-merge"
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+function XLogo({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={className} fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  )
 }
 
 // Lazy-loads Spotify iframes only when scrolled into view.
@@ -54,7 +61,7 @@ function LazySpotifyEmbed({ src }: { src: string }) {
         />
       ) : (
         <div className="flex h-[352px] items-center justify-center rounded-lg border border-border/40 bg-card/40">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">Loading playlist...</p>
+          <p className="text-sm text-muted-foreground">Loading playlist…</p>
         </div>
       )}
     </div>
@@ -597,7 +604,7 @@ function PapersSection() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               aria-label="Search publications"
-              className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background/50 font-mono text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+              className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background/50 text-base focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
             />
           </div>
         </div>
@@ -606,7 +613,7 @@ function PapersSection() {
         <div className="mb-10 space-y-6">
           {/* Topics Filter */}
           <div>
-            <div className="font-mono text-xs text-muted-foreground uppercase tracking-widest mb-3">Topics</div>
+            <div className="text-sm font-semibold text-foreground/80 mb-3">Topics</div>
             <div className="flex flex-wrap gap-2">
               {topics.map((topic) => {
                 const isSelected = selectedTopics.has(topic)
@@ -614,9 +621,10 @@ function PapersSection() {
                 return (
                   <button
                     key={topic}
+                    aria-pressed={isSelected}
                     onClick={() => setSelectedTopics(toggleFilter(selectedTopics, topic))}
                     className={cn(
-                      "px-4 py-1.5 rounded-full font-mono text-xs transition-all border",
+                      "px-3.5 py-1.5 rounded-full text-sm transition-colors border",
                       isSelected
                         ? `${colorClass} border-current shadow-lg`
                         : "bg-background/50 border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
@@ -632,16 +640,17 @@ function PapersSection() {
           <div className="grid md:grid-cols-2 gap-6">
             {/* Year Filter */}
             <div>
-              <div className="font-mono text-xs text-muted-foreground uppercase tracking-widest mb-3">Year</div>
+              <div className="text-sm font-semibold text-foreground/80 mb-3">Year</div>
               <div className="flex flex-wrap gap-2">
                 {years.map((year) => {
                   const isSelected = selectedYears.has(year)
                   return (
                     <button
                       key={year}
+                      aria-pressed={isSelected}
                       onClick={() => setSelectedYears(toggleFilter(selectedYears, year))}
                       className={cn(
-                        "px-4 py-1.5 rounded-full font-mono text-xs transition-all border",
+                        "px-3.5 py-1.5 rounded-full text-sm transition-colors border",
                         isSelected
                           ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/25"
                           : "bg-background/50 border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
@@ -656,16 +665,17 @@ function PapersSection() {
 
             {/* Venue Filter */}
             <div>
-              <div className="font-mono text-xs text-muted-foreground uppercase tracking-widest mb-3">Venue</div>
+              <div className="text-sm font-semibold text-foreground/80 mb-3">Venue</div>
               <div className="flex flex-wrap gap-2">
                 {venues.map((venue) => {
                   const isSelected = selectedVenues.has(venue)
                   return (
                     <button
                       key={venue}
+                      aria-pressed={isSelected}
                       onClick={() => setSelectedVenues(toggleFilter(selectedVenues, venue))}
                       className={cn(
-                        "px-4 py-1.5 rounded-full font-mono text-xs transition-all border",
+                        "px-3.5 py-1.5 rounded-full text-sm transition-colors border",
                         isSelected
                           ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/25"
                           : "bg-background/50 border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
@@ -735,7 +745,7 @@ function PapersSection() {
         )}
 
         {filteredPapers.length > 0 && (
-          <div className="text-center pt-12">
+          <div className="max-w-4xl pt-10">
             <p className="text-muted-foreground">
               ... and a few more papers I might have potentially missed! See my{" "}
               <Link
@@ -821,54 +831,46 @@ export default function HomePage() {
   }
 
   // `linkText` must appear verbatim in `text`; that span becomes the link.
-  const updates: { date: string; text: string; link?: string; linkText?: string; icon: typeof Calendar }[] = [
+  const updates: { date: string; text: string; link?: string; linkText?: string }[] = [
     {
       date: "Jun 2026",
-      text: "Life update: I joined Databricks AI Research!",
-      icon: Calendar
+      text: "Life update: I joined Databricks AI Research!"
     },
     {
       date: "Apr 2026",
-      text: "Two papers accepted at SIGIR 2026: Auto-Judge, a benchmark for LLM judges in citation-grounded RAG, and automating long-form query generation!",
-      icon: FileText
+      text: "Two papers accepted at SIGIR 2026: Auto-Judge, a benchmark for LLM judges in citation-grounded RAG, and automating long-form query generation!"
     },
     {
       date: "Mar 2026",
       text: "The overview of the TREC 2025 RAG Track is out! We are running the track again in 2026.",
       link: "https://arxiv.org/abs/2603.09891",
-      linkText: "overview of the TREC 2025 RAG Track",
-      icon: FileText
+      linkText: "overview of the TREC 2025 RAG Track"
     },
-    { date: "Apr 2025", text: "We have five papers accepted at SIGIR 2025! See you all in Padova!", icon: FileText },
+    { date: "Apr 2025", text: "We have five papers accepted at SIGIR 2025! See you all in Padova!" },
     {
       date: "Nov 2024",
       text: "We had a successful first year of the TREC RAG 2024 Track with many submissions! Looking forward to Y2.",
       link: "https://trec-rag.github.io/",
-      linkText: "TREC RAG 2024 Track",
-      icon: Calendar
+      linkText: "TREC RAG 2024 Track"
     },
     {
       date: "Feb 2024",
       text: "Organizing the TREC RAG 2024 Track! Do submit your systems :))",
       link: "https://trec-rag.github.io/",
-      linkText: "TREC RAG 2024 Track",
-      icon: Calendar
+      linkText: "TREC RAG 2024 Track"
     },
-    { date: "Dec 2023", text: "We introduced RankZephyr which garnered great community engagement!", icon: FileText },
+    { date: "Dec 2023", text: "We introduced RankZephyr which garnered great community engagement!" },
     {
       date: "Dec 2023",
-      text: 'I\'m excited to visit Singapore for EMNLP 2023 to present our work "How Does Generative Retrieval Scale to Millions of Passages?"',
-      icon: ExternalLink
+      text: 'I\'m excited to visit Singapore for EMNLP 2023 to present our work "How Does Generative Retrieval Scale to Millions of Passages?"'
     },
     {
       date: "Nov 2023",
-      text: "I will be leading the TREC 2024 Retrieval-Augmented Generation Track! More information coming soon!",
-      icon: Calendar
+      text: "I will be leading the TREC 2024 Retrieval-Augmented Generation Track! More information coming soon!"
     },
     {
       date: "Sep 2023",
-      text: "We introduced RankVicuna, the first zero-shot listwise reranker that leverages open-source LLMs!",
-      icon: FileText
+      text: "We introduced RankVicuna, the first zero-shot listwise reranker that leverages open-source LLMs!"
     },
   ]
 
@@ -892,12 +894,12 @@ export default function HomePage() {
             <Link href="#home" className="font-display text-xl font-bold text-foreground tracking-tight">
               Ronak Pradeep
             </Link>
-            <div className="order-last md:order-none w-full md:w-auto flex items-center gap-6 md:gap-8 overflow-x-auto no-scrollbar md:ml-auto pb-1 md:pb-0">
+            <div className="order-last md:order-none w-full md:w-auto flex items-center gap-6 md:gap-8 overflow-x-auto no-scrollbar md:ml-auto pb-1 md:pb-0 pr-6 md:pr-0 [mask-image:linear-gradient(to_right,black_80%,transparent)] md:[mask-image:none]">
               {["Home", "Research", "Updates", "Papers", "Mentorship", "Playlists"].map((item) => (
                 <Link
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  className="font-mono text-xs uppercase tracking-widest text-muted-foreground hover:text-spectrum-violet transition-colors relative group"
+                  className="shrink-0 text-[0.95rem] text-muted-foreground hover:text-foreground transition-colors relative group"
                 >
                   {item}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-spectrum-red via-spectrum-green to-spectrum-violet transition-all group-hover:w-full" />
@@ -947,13 +949,13 @@ export default function HomePage() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
-                  className="flex flex-wrap items-center gap-3 mb-6 font-mono text-sm"
+                  className="space-y-1"
                 >
-                  <span className="text-spectrum-blue">Research Scientist @ Databricks AI Research</span>
-                  <span className="text-muted-foreground">/</span>
-                  <span className="text-spectrum-green">PhD, University of Waterloo</span>
-                  <span className="text-muted-foreground">/</span>
-                  <span className="text-spectrum-orange">Apple PhD Fellow</span>
+                  {/* Databricks brand red (#FF3621). Set at 20px semibold so it meets WCAG large-text contrast in both themes. */}
+                  <p className="text-xl font-semibold text-foreground">
+                    Research Scientist at <span className="text-[#FF3621]">Databricks AI Research</span>
+                  </p>
+                  <p className="text-lg text-muted-foreground">PhD, University of Waterloo. Apple PhD Fellow.</p>
                 </motion.div>
               </div>
 
@@ -1016,24 +1018,37 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.5 }}
-                className="flex flex-wrap gap-3"
+                className="flex flex-wrap items-center gap-3"
               >
                 {[
                   { icon: Mail, label: "Email", href: "mailto:rpradeep@uwaterloo.ca" },
-                  { icon: AtSign, label: "Alt Email", href: "mailto:ronakice@hotmail.com" },
                   { icon: FileText, label: "CV", href: "/data/RonakPradeep-CV.pdf" },
                   { icon: GraduationCap, label: "Scholar", href: "https://scholar.google.com/citations?user=xH7uDXgAAAAJ&hl" },
-                  { icon: Twitter, label: "Twitter", href: "https://twitter.com/rpradeep42" },
-                  { icon: Github, label: "Github", href: "https://github.com/ronakice" },
-                  { icon: Music, label: "Spotify", href: "https://open.spotify.com/user/qsjnogh907vnv3c6js7vcjccs?si=4139788b14f54573" },
-                ].map((item, i) => (
-                  <Button key={i} variant="outline" size="sm" className="rounded-full border-border/50 hover:border-primary/50 hover:bg-primary/5 hover:text-primary transition-all" asChild>
+                ].map((item) => (
+                  <Button key={item.label} variant="outline" className="rounded-full border-border/60 hover:border-primary/50 hover:bg-primary/5 hover:text-primary transition-colors" asChild>
                     <Link href={item.href}>
-                      <item.icon className="w-4 h-4 mr-2" />
+                      <item.icon className="w-4 h-4 mr-2" aria-hidden="true" />
                       {item.label}
                     </Link>
                   </Button>
                 ))}
+                <div className="flex items-center gap-1 -ml-3 sm:ml-1">
+                  {[
+                    { icon: Github, label: "GitHub", href: "https://github.com/ronakice" },
+                    { icon: XLogo, label: "X (Twitter)", href: "https://x.com/rpradeep42" },
+                    { icon: Music, label: "Spotify", href: "https://open.spotify.com/user/qsjnogh907vnv3c6js7vcjccs?si=4139788b14f54573" },
+                  ].map((item) => (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      aria-label={item.label}
+                      title={item.label}
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                    >
+                      <item.icon className="w-[18px] h-[18px]" />
+                    </Link>
+                  ))}
+                </div>
               </motion.div>
             </div>
 
@@ -1081,71 +1096,50 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Updates Section - Timeline */}
+      {/* Updates Section */}
       <section id="updates" className="py-24 relative z-10">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-4xl font-display font-bold text-foreground mb-16 text-center">
-            Latest Updates
-          </h2>
-
-          <div className="relative ml-4 md:ml-0 space-y-12">
-            {/* Spectral light beam line */}
-            <div className="absolute left-0 top-0 bottom-0 w-0.5 beam-gradient opacity-60" />
-
-            {updates.map((update, index) => (
-              <div key={index} className="relative pl-12 md:pl-0">
-                {/* Prism-shaped marker */}
-                <div
-                  className="absolute left-[-6px] top-1 w-3 h-3 rotate-45 bg-background border border-primary z-10"
-                  style={{ clipPath: 'polygon(50% 0%, 100% 100%, 0% 100%)' }}
-                />
-
-                <div className="md:grid md:grid-cols-5 md:gap-8 items-start">
-                  <div className="md:col-span-1 md:text-right mb-2 md:mb-0">
-                    <span className="font-mono text-xs text-primary tracking-wider uppercase">{update.date}</span>
-                  </div>
-                  <div className="md:col-span-4">
-                    <div className="bg-card/50 border border-border/50 p-6 rounded-lg relative">
-                      <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/50 to-transparent rounded-l" />
-                      <div className="absolute top-6 right-6 text-muted-foreground/10">
-                        <update.icon className="w-8 h-8" />
-                      </div>
-                      <p className="text-muted-foreground leading-relaxed pr-8 font-serif">
-                        {update.link && update.linkText && update.text.includes(update.linkText) ? (
-                          <span>
-                            {update.text.slice(0, update.text.indexOf(update.linkText))}
-                            <Link href={update.link} className="text-primary hover:underline">
-                              {update.linkText}
-                            </Link>
-                            {update.text.slice(update.text.indexOf(update.linkText) + update.linkText.length)}
-                          </span>
-                        ) : (
-                          update.text
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-4xl font-display font-bold text-foreground mb-10">Latest Updates</h2>
+          <ol className="max-w-4xl">
+            {updates.map((update) => (
+              <li
+                key={update.date + update.text}
+                className="grid grid-cols-1 sm:grid-cols-[6rem_1fr] gap-1 sm:gap-8 py-4 border-t border-border/50 first:border-t-0"
+              >
+                <time className="text-sm text-primary pt-0.5">{update.date}</time>
+                <p className="text-foreground/90 leading-relaxed">
+                  {update.link && update.linkText && update.text.includes(update.linkText) ? (
+                    <>
+                      {update.text.slice(0, update.text.indexOf(update.linkText))}
+                      <Link href={update.link} className="text-primary underline decoration-primary/30 underline-offset-4 hover:decoration-primary">
+                        {update.linkText}
+                      </Link>
+                      {update.text.slice(update.text.indexOf(update.linkText) + update.linkText.length)}
+                    </>
+                  ) : (
+                    update.text
+                  )}
+                </p>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
       <PapersSection />
 
       {/* Mentorship Section */}
-      <section id="mentorship" className="py-24 bg-muted/30 relative z-10">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="mentorship" className="py-24 relative z-10">
+        <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-4xl font-display font-bold text-foreground mb-10">Mentorship</h2>
-          <div className="prose prose-lg text-muted-foreground max-w-none mb-10 leading-relaxed font-serif">
+          <div className="prose prose-lg text-muted-foreground max-w-3xl mb-10 leading-relaxed font-serif">
             <p>
               During my PhD journey, I had the privilege of mentoring over 40 undergraduate and graduate students!
               Below are some of the amazing students I've had the honor to work with (ordered lexicographically by last name):
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <ul className="columns-2 md:columns-3 lg:columns-4 gap-x-8 max-w-5xl text-foreground">
             {[
               "Vikram Chandramohan",
               "Haonan (Arthur) Chen",
@@ -1191,22 +1185,16 @@ export default function HomePage() {
               "Vincent Zhong",
               "Catherine Zhou",
               "Joe Zou"
-            ].map((name, index) => (
-              <div key={index}>
-                <Card className="bg-card/50 border-border/30 h-full">
-                  <CardContent className="p-4 text-center flex items-center justify-center h-full">
-                    <p className="text-foreground font-serif">{name}</p>
-                  </CardContent>
-                </Card>
-              </div>
+            ].map((name) => (
+              <li key={name} className="py-1.5 break-inside-avoid">{name}</li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
       {/* Playlists Section */}
-      <section id="playlists" className="py-24 relative z-10">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="playlists" className="py-24 bg-muted/30 relative z-10">
+        <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-4xl font-display font-bold text-foreground mb-6">Playlists</h2>
           <p className="text-muted-foreground mb-10 leading-relaxed font-serif">
             Thanks for making it to here :-) As a token of gratitude and since you asked nicely for it, I shall also
@@ -1220,7 +1208,7 @@ export default function HomePage() {
               <p className="text-muted-foreground mb-5 leading-relaxed font-serif italic">
                 And everything under the sun is in tune. <span className="text-spectrum-orange">But the sun is eclipsed by the moon.</span>
               </p>
-              <p className="text-muted-foreground/70 mb-5 text-sm font-mono">
+              <p className="text-muted-foreground mb-5 text-sm italic">
                 A music dump of sorts. Updated regularly.
               </p>
               <LazySpotifyEmbed src="https://open.spotify.com/embed/playlist/1iM4pb2UpkQt07zsXLkDj7?utm_source=generator" />
@@ -1242,7 +1230,7 @@ export default function HomePage() {
                 </Link>
                 .
                 </p>
-                <p className="text-muted-foreground/70 mb-5 text-sm font-mono">
+                <p className="text-muted-foreground mb-5 text-sm italic">
                   Not updated anymore.
                 </p>
               <LazySpotifyEmbed src="https://open.spotify.com/embed/playlist/1VlYsIRVFv1ze8QDshghDe?utm_source=generator" />
@@ -1254,7 +1242,7 @@ export default function HomePage() {
                 And what exactly is a <em className="text-primary">dream of love</em>? Here I take on Liszt and attempt to provide a longer
                 answer to aid with my sleep.
               </p>
-              <p className="text-muted-foreground/70 mb-5 text-sm font-mono">
+              <p className="text-muted-foreground mb-5 text-sm italic">
                 Updated semi-regularly.
               </p>
               <LazySpotifyEmbed src="https://open.spotify.com/embed/playlist/7uZRM2KlIGYhJzdv8dPTJ1?utm_source=generator" />
@@ -1264,7 +1252,7 @@ export default function HomePage() {
       </section>
 
       <footer className="py-12 border-t border-border/30 text-center text-muted-foreground">
-        <p className="font-mono text-xs">© {new Date().getFullYear()} Ronak Pradeep. Built with Next.js & Tailwind.</p>
+        <p className="text-sm">© {new Date().getFullYear()} Ronak Pradeep. Last updated {process.env.NEXT_PUBLIC_LAST_UPDATED}.</p>
       </footer>
     </div>
   )
