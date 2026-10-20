@@ -1134,7 +1134,7 @@ export default function HomePage() {
           <h2 className="text-4xl font-display font-bold text-foreground mb-10">Mentorship</h2>
           <div className="prose prose-lg text-muted-foreground max-w-none mb-10 leading-relaxed font-serif">
             <p>
-              During my PhD journey, I had the privilege of mentoring over 40 undergraduate students!
+              During my PhD journey, I had the privilege of mentoring over 40 undergraduate and graduate students!
               Below are some of the amazing students I've had the honor to work with (ordered lexicographically by last name):
             </p>
           </div>
@@ -1212,14 +1212,15 @@ export default function HomePage() {
                   }
                 }}
               >
-                <Card className="bg-card/50 border-border/30 hover:border-primary/30 transition-all duration-300 h-full group">
+                <Card className="bg-card/50 border-border/30 h-full">
                   <CardContent className="p-4 text-center flex items-center justify-center h-full">
-                    <p className="text-foreground font-serif group-hover:text-primary transition-colors">{name}</p>
+                    <p className="text-foreground font-serif">{name}</p>
                   </CardContent>
                 </Card>
               </motion.div>
             ))}
           </motion.div>
+          <p className="text-muted-foreground mt-8 text-center font-serif italic">...and many, many others.</p>
         </div>
       </section>
 
