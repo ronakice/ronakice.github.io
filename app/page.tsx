@@ -5,7 +5,6 @@ import Link from "next/link"
 import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Mail, AtSign, FileText, GraduationCap, Twitter, Github, Music, Calendar, ExternalLink, Search } from "lucide-react"
 import { useState, useMemo, useEffect, useRef } from "react"
 import { DarkModeToggle } from "@/components/dark-mode-toggle"
@@ -558,6 +557,16 @@ function PapersSection() {
     })
   }, [selectedTopics, selectedYears, selectedVenues, papers, searchQuery])
 
+  const papersByYear = useMemo(() => {
+    const groups = new Map<string, typeof filteredPapers>()
+    for (const paper of filteredPapers) {
+      const group = groups.get(paper.year) ?? []
+      group.push(paper)
+      groups.set(paper.year, group)
+    }
+    return Array.from(groups.entries())
+  }, [filteredPapers])
+
   // Check for easter egg conditions
   const hasEasterEgg = filteredPapers.length === 0 && selectedYears.size > 0
   const selectedYearsArray = Array.from(selectedYears)
@@ -577,12 +586,7 @@ function PapersSection() {
     <section id="papers" className="py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-muted/30 -z-10" />
       <div className="max-w-7xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-12"
-        >
+        <div className="mb-12">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">Publications</h2>
 
           <div className="relative max-w-xl">
@@ -592,10 +596,11 @@ function PapersSection() {
               placeholder="Search papers, authors, venues..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              aria-label="Search publications"
               className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background/50 font-mono text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
             />
           </div>
-        </motion.div>
+        </div>
 
         {/* Filter Section */}
         <div className="mb-10 space-y-6">
@@ -675,64 +680,59 @@ function PapersSection() {
           </div>
         </div>
 
-        {/* Papers List - Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPapers.length === 0 ? (
-            <div className="text-center py-20 col-span-full">
-              <p className="text-muted-foreground text-lg mb-2 font-serif">No papers found matching your criteria.</p>
-              {hasEasterEgg && hasOldYear && (
-                <p className="text-muted-foreground mt-4 font-display italic text-xl">
-                  If only I had a tardis
-                </p>
-              )}
-              {hasEasterEgg && !hasOldYear && (
-                <p className="text-muted-foreground mt-4 font-display italic text-xl">
-                  If only I was more productive
-                </p>
-              )}
-            </div>
-          ) : (
-            filteredPapers.map((paper, index) => (
-              <div key={index} className="h-full">
-                <Card className="bg-card/50 border-border/30 hover:border-primary/30 hover-glow-spectrum transition-all duration-300 group h-full">
-                  <CardContent className="p-6 flex flex-col h-full">
-                    <div className="flex items-start justify-between gap-4 mb-3">
-                      <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 font-mono text-xs">
-                        {paper.venue}
-                      </Badge>
-                      {paper.year && <span className="text-xs text-muted-foreground font-mono">{paper.year}</span>}
-                    </div>
-
-                    <h3 className="font-display font-semibold text-lg text-foreground mb-3 leading-snug group-hover:text-primary transition-colors">
-                      {paper.link ? (
-                        <Link href={paper.link} target="_blank">
-                          {paper.title}
-                        </Link>
-                      ) : (
-                        paper.title
-                      )}
-                    </h3>
-
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-4 flex-grow font-serif">
-                      {paper.authors}
-                    </p>
-
-                    {paper.link && (
-                      <div className="mt-auto pt-4 border-t border-border/30">
-                        <Button variant="ghost" size="sm" className="w-full justify-between hover:bg-primary/10 hover:text-primary font-mono text-xs" asChild>
-                          <Link href={paper.link} target="_blank">
-                            <span>View Paper</span>
-                            <ExternalLink className="w-4 h-4" />
+        {/* Papers list, grouped by year */}
+        <p className="text-sm text-muted-foreground font-serif mb-8" aria-live="polite">
+          {filteredPapers.length === papers.length
+            ? `${papers.length} papers`
+            : `Showing ${filteredPapers.length} of ${papers.length} papers`}
+        </p>
+        {filteredPapers.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-muted-foreground text-lg mb-2 font-serif">No papers match these filters. Clear a filter or try a different search.</p>
+            {hasEasterEgg && hasOldYear && (
+              <p className="text-muted-foreground mt-4 font-display italic text-xl">
+                If only I had a tardis
+              </p>
+            )}
+            {hasEasterEgg && !hasOldYear && (
+              <p className="text-muted-foreground mt-4 font-display italic text-xl">
+                If only I was more productive
+              </p>
+            )}
+          </div>
+        ) : (
+          <div className="max-w-4xl">
+            {papersByYear.map(([year, yearPapers]) => (
+              <div key={year} className="grid grid-cols-[3.5rem_1fr] md:grid-cols-[6rem_1fr] gap-4 md:gap-8 border-t border-border/60 pt-5 mt-5 first:mt-0">
+                <h3 className="font-display font-bold text-2xl md:text-3xl text-muted-foreground md:sticky md:top-24 self-start">{year}</h3>
+                <ul>
+                  {yearPapers.map((paper) => (
+                    <li key={paper.title} className="py-3 border-b border-border/30 last:border-b-0">
+                      <p className="font-display font-semibold text-lg leading-snug text-foreground">
+                        {paper.link ? (
+                          <Link href={paper.link} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                            {paper.title}
                           </Link>
-                        </Button>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
+                        ) : (
+                          paper.title
+                        )}
+                      </p>
+                      <p className="text-muted-foreground text-[0.95rem] leading-relaxed font-serif mt-1">
+                        {paper.authors.split("Ronak Pradeep").map((part, i, parts) => (
+                          <span key={i}>
+                            {part}
+                            {i < parts.length - 1 && <span className="text-foreground font-semibold">Ronak Pradeep</span>}
+                          </span>
+                        ))}
+                      </p>
+                      <p className="text-sm text-primary font-serif mt-0.5">{paper.venue}</p>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
 
         {filteredPapers.length > 0 && (
           <div className="text-center pt-12">
@@ -771,8 +771,10 @@ const SketchSelfPortrait = dynamic(
 export default function HomePage() {
   const [profileImage, setProfileImage] = useState("/images/RonakPradeep_circle.png")
   const [isMobile, setIsMobile] = useState(false)
-  // The sketch is fixed bottom-right; only show it when the viewport has a gutter wide enough to keep it off the content.
+  // The sketch is fixed bottom-right. Without a wide gutter it would sit on the hero photo,
+  // so on those screens it waits until the visitor scrolls a little before sliding in.
   const [hasSketchGutter, setHasSketchGutter] = useState(false)
+  const [pastHeroTop, setPastHeroTop] = useState(false)
   const [enableHeroVisuals, setEnableHeroVisuals] = useState(false)
   const [showHeroVisuals, setShowHeroVisuals] = useState(true)
 
@@ -806,6 +808,8 @@ export default function HomePage() {
   useMotionValueEvent(scrollY, "change", (latest) => {
     const next = latest < 1100
     setShowHeroVisuals((prev) => (prev === next ? prev : next))
+    const past = latest > 240
+    setPastHeroTop((prev) => (prev === past ? prev : past))
   })
 
   const toggleImage = () => {
@@ -878,7 +882,7 @@ export default function HomePage() {
       </motion.div>
 
       {/* Keep the sketch available on large screens even after the hero visuals fade out. */}
-      {!isMobile && hasSketchGutter && enableHeroVisuals ? <SketchSelfPortrait /> : null}
+      {!isMobile && enableHeroVisuals ? <SketchSelfPortrait tucked={!hasSketchGutter && !pastHeroTop} /> : null}
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 bg-background/80 backdrop-blur-sm z-50 transition-all duration-300">
@@ -918,13 +922,13 @@ export default function HomePage() {
               transition={{ delay: 0.2, type: "spring" }}
               className="flex justify-center md:hidden mb-4"
             >
-              <div className="relative w-40 h-40 rounded-full overflow-hidden shadow-2xl ring-2 ring-border/50 hover-glow-spectrum cursor-pointer group" title="Click the prism!">
+              <div className="relative w-40 h-40 rounded-full overflow-hidden shadow-2xl ring-2 ring-border/50" title="Click the prism!">
                 <Image
                   src={profileImage}
                   alt="Ronak Pradeep"
                   width={160}
                   height={160}
-                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  className="object-cover"
                 />
               </div>
             </motion.div>
@@ -1040,13 +1044,13 @@ export default function HomePage() {
               transition={{ delay: 0.4, type: "spring" }}
               className="hidden md:flex justify-center"
             >
-              <div className="relative w-64 h-64 rounded-full overflow-hidden shadow-2xl ring-2 ring-border/50 hover-glow-spectrum cursor-pointer group" title="Click the prism!">
+              <div className="relative w-64 h-64 rounded-full overflow-hidden shadow-2xl ring-2 ring-border/50" title="Click the prism!">
                 <Image
                   src={profileImage}
                   alt="Ronak Pradeep"
                   width={256}
                   height={256}
-                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  className="object-cover"
                 />
               </div>
             </motion.div>
@@ -1057,12 +1061,7 @@ export default function HomePage() {
       {/* Research Section */}
       <section id="research" className="py-24 bg-muted/30 relative">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="grid md:grid-cols-3 gap-12"
-          >
+          <div className="grid md:grid-cols-3 gap-12">
             <div className="md:col-span-1">
               <h2 className="text-4xl font-display font-bold text-foreground mb-6 sticky top-24">Research Interests</h2>
             </div>
@@ -1078,36 +1077,23 @@ export default function HomePage() {
                 domains such as biomedical texts.
               </p>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Updates Section - Timeline */}
       <section id="updates" className="py-24 relative z-10">
         <div className="max-w-4xl mx-auto px-6">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10% 0px" }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="text-4xl font-display font-bold text-foreground mb-16 text-center"
-          >
+          <h2 className="text-4xl font-display font-bold text-foreground mb-16 text-center">
             Latest Updates
-          </motion.h2>
+          </h2>
 
           <div className="relative ml-4 md:ml-0 space-y-12">
             {/* Spectral light beam line */}
             <div className="absolute left-0 top-0 bottom-0 w-0.5 beam-gradient opacity-60" />
 
             {updates.map((update, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-8% 0px" }}
-                transition={{ duration: 0.22, ease: "easeOut" }}
-                className="relative pl-12 md:pl-0"
-              >
+              <div key={index} className="relative pl-12 md:pl-0">
                 {/* Prism-shaped marker */}
                 <div
                   className="absolute left-[-6px] top-1 w-3 h-3 rotate-45 bg-background border border-primary z-10"
@@ -1119,9 +1105,9 @@ export default function HomePage() {
                     <span className="font-mono text-xs text-primary tracking-wider uppercase">{update.date}</span>
                   </div>
                   <div className="md:col-span-4">
-                    <div className="bg-card/50 border border-border/50 p-6 rounded-lg relative group hover:-translate-y-1 transition-transform duration-300 hover-glow-spectrum">
+                    <div className="bg-card/50 border border-border/50 p-6 rounded-lg relative">
                       <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/50 to-transparent rounded-l" />
-                      <div className="absolute top-6 right-6 text-muted-foreground/10 group-hover:text-primary/20 transition-colors">
+                      <div className="absolute top-6 right-6 text-muted-foreground/10">
                         <update.icon className="w-8 h-8" />
                       </div>
                       <p className="text-muted-foreground leading-relaxed pr-8 font-serif">
@@ -1140,7 +1126,7 @@ export default function HomePage() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -1159,22 +1145,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-8% 0px" }}
-            variants={{
-              hidden: { opacity: 1 },
-              show: {
-                opacity: 1,
-                transition: {
-                  staggerChildren: 0.015,
-                  delayChildren: 0
-                }
-              }
-            }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               "Vikram Chandramohan",
               "Haonan (Arthur) Chen",
@@ -1221,26 +1192,15 @@ export default function HomePage() {
               "Catherine Zhou",
               "Joe Zou"
             ].map((name, index) => (
-              <motion.div
-                key={index}
-                variants={{
-                  hidden: { opacity: 0, y: 8 },
-                  show: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { duration: 0.18, ease: "easeOut" }
-                  }
-                }}
-              >
+              <div key={index}>
                 <Card className="bg-card/50 border-border/30 h-full">
                   <CardContent className="p-4 text-center flex items-center justify-center h-full">
                     <p className="text-foreground font-serif">{name}</p>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
-          <p className="text-muted-foreground mt-8 text-center font-serif italic">...and many, many others.</p>
+          </div>
         </div>
       </section>
 
@@ -1253,23 +1213,9 @@ export default function HomePage() {
             introduce you to a few of my Spotify playlists.
           </p>
 
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={{
-              hidden: { opacity: 0 },
-              show: {
-                opacity: 1,
-                transition: {
-                  staggerChildren: 0.2
-                }
-              }
-            }}
-            className="space-y-16"
-          >
+          <div className="space-y-16">
             {/* Om - Sacred glow effect */}
-            <motion.div variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}>
+            <div>
               <h3 className="text-4xl font-display font-semibold text-foreground mb-3 glow-sacred">ॐ</h3>
               <p className="text-muted-foreground mb-5 leading-relaxed font-serif italic">
                 And everything under the sun is in tune. <span className="text-spectrum-orange">But the sun is eclipsed by the moon.</span>
@@ -1278,10 +1224,9 @@ export default function HomePage() {
                 A music dump of sorts. Updated regularly.
               </p>
               <LazySpotifyEmbed src="https://open.spotify.com/embed/playlist/1iM4pb2UpkQt07zsXLkDj7?utm_source=generator" />
-            </motion.div>
+            </div>
 
-            {}
-            <motion.div variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}>
+            <div>
               <h3 className="text-3xl font-display font-semibold text-foreground mb-3">A Day In The Life</h3>
               <p className="text-muted-foreground mb-5 leading-relaxed font-serif">
                 An allusion to{" "}
@@ -1301,10 +1246,9 @@ export default function HomePage() {
                   Not updated anymore.
                 </p>
               <LazySpotifyEmbed src="https://open.spotify.com/embed/playlist/1VlYsIRVFv1ze8QDshghDe?utm_source=generator" />
-            </motion.div>
+            </div>
 
-            {}
-            <motion.div variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}>
+            <div>
               <h3 className="text-3xl font-display italic text-foreground mb-3">Liebesträume</h3>
               <p className="text-muted-foreground mb-5 leading-relaxed font-serif">
                 And what exactly is a <em className="text-primary">dream of love</em>? Here I take on Liszt and attempt to provide a longer
@@ -1314,8 +1258,8 @@ export default function HomePage() {
                 Updated semi-regularly.
               </p>
               <LazySpotifyEmbed src="https://open.spotify.com/embed/playlist/7uZRM2KlIGYhJzdv8dPTJ1?utm_source=generator" />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 

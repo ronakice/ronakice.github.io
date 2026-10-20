@@ -5,7 +5,8 @@ import type p5 from 'p5'
 import { useTheme } from 'next-themes'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const SketchSelfPortrait = () => {
+// `tucked` slides the sketch out of view (it stays mounted so the p5 canvas isn't rebuilt).
+const SketchSelfPortrait = ({ tucked = false }: { tucked?: boolean }) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const p5Instance = useRef<p5 | null>(null)
     const { resolvedTheme } = useTheme()
@@ -15,6 +16,8 @@ const SketchSelfPortrait = () => {
     const [activeSection, setActiveSection] = React.useState<string | null>(null)
     const lastMessageTime = useRef(Date.now())
     const shownMessages = useRef<Set<string>>(new Set())
+    const tuckedRef = useRef(tucked)
+    tuckedRef.current = tucked
 
     const messages: Record<string, string[]> = {
         home: [
@@ -79,6 +82,8 @@ const SketchSelfPortrait = () => {
         if (!mounted || !activeSection) return
 
         const triggerMessage = () => {
+            // Don't spend messages while the sketch is out of view.
+            if (tuckedRef.current) return
             const now = Date.now()
             if (now - lastMessageTime.current < 6000) return
 
@@ -491,7 +496,10 @@ const SketchSelfPortrait = () => {
 
     return (
         <div
-            className="fixed bottom-6 right-6 z-[60] group cursor-pointer"
+            aria-hidden={tucked}
+            className={`fixed bottom-6 right-6 z-[60] group cursor-pointer transition-[transform,opacity] duration-500 ease-out ${
+                tucked ? "translate-y-[calc(100%+2rem)] opacity-0 pointer-events-none" : "translate-y-0 opacity-100"
+            }`}
             onClick={(e) => {
                 e.stopPropagation()
                 const effectiveSection = activeSection || "home"
