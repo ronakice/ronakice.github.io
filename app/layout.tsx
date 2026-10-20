@@ -21,10 +21,22 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 })
 
+const description =
+  'Research Scientist at Databricks AI Research working on information retrieval, RAG, and evaluation. PhD, University of Waterloo.'
+
 export const metadata: Metadata = {
+  metadataBase: new URL('https://ronakice.github.io'),
   title: 'Ronak Pradeep',
-  description: 'Research at Yupp AI; PhD, University of Waterloo',
-  generator: 'v0.dev',
+  description,
+  icons: { icon: '/images/RonakPradeep_circle.png', apple: '/images/RonakPradeep_circle.png' },
+  openGraph: {
+    title: 'Ronak Pradeep',
+    description,
+    url: '/',
+    type: 'website',
+    images: [{ url: '/images/RonakPradeep.png', width: 1004, height: 912, alt: 'Ronak Pradeep' }],
+  },
+  twitter: { card: 'summary', creator: '@rpradeep42', images: ['/images/RonakPradeep.png'] },
 }
 
 export default function RootLayout({

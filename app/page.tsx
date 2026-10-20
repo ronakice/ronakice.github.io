@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Mail, AtSign, FileText, GraduationCap, Twitter, Github, Music, Calendar, ExternalLink, Search } from "lucide-react"
 import { useState, useMemo, useEffect, useRef } from "react"
+import { DarkModeToggle } from "@/components/dark-mode-toggle"
 import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
@@ -770,11 +771,16 @@ const SketchSelfPortrait = dynamic(
 export default function HomePage() {
   const [profileImage, setProfileImage] = useState("/images/RonakPradeep_circle.png")
   const [isMobile, setIsMobile] = useState(false)
+  // The sketch is fixed bottom-right; only show it when the viewport has a gutter wide enough to keep it off the content.
+  const [hasSketchGutter, setHasSketchGutter] = useState(false)
   const [enableHeroVisuals, setEnableHeroVisuals] = useState(false)
   const [showHeroVisuals, setShowHeroVisuals] = useState(true)
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024)
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024)
+      setHasSketchGutter(window.innerWidth >= 1680)
+    }
     checkMobile()
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
@@ -793,10 +799,9 @@ export default function HomePage() {
   }, [])
 
   const { scrollY } = useScroll()
-  // Desktop scroll transforms (same as original)
-  const opacity = useTransform(scrollY, [0, 800], [1, 0])
-  const y = useTransform(scrollY, [0, 800], [0, 100])
-  const voxelOpacity = useTransform(scrollY, [0, 900], [1, 0.02])
+  // The prism layer scrolls with the page (absolute, not fixed) and fades as it leaves,
+  // so it never sits behind the hero text. The text itself is never faded.
+  const voxelOpacity = useTransform(scrollY, [0, 500], [1, 0])
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const next = latest < 1100
@@ -811,23 +816,38 @@ export default function HomePage() {
     )
   }
 
-  const updates = [
+  // `linkText` must appear verbatim in `text`; that span becomes the link.
+  const updates: { date: string; text: string; link?: string; linkText?: string; icon: typeof Calendar }[] = [
     {
       date: "Jun 2026",
       text: "Life update: I joined Databricks AI Research!",
       icon: Calendar
+    },
+    {
+      date: "Apr 2026",
+      text: "Two papers accepted at SIGIR 2026: Auto-Judge, a benchmark for LLM judges in citation-grounded RAG, and automating long-form query generation!",
+      icon: FileText
+    },
+    {
+      date: "Mar 2026",
+      text: "The overview of the TREC 2025 RAG Track is out! We are running the track again in 2026.",
+      link: "https://arxiv.org/abs/2603.09891",
+      linkText: "overview of the TREC 2025 RAG Track",
+      icon: FileText
     },
     { date: "Apr 2025", text: "We have five papers accepted at SIGIR 2025! See you all in Padova!", icon: FileText },
     {
       date: "Nov 2024",
       text: "We had a successful first year of the TREC RAG 2024 Track with many submissions! Looking forward to Y2.",
       link: "https://trec-rag.github.io/",
+      linkText: "TREC RAG 2024 Track",
       icon: Calendar
     },
     {
       date: "Feb 2024",
       text: "Organizing the TREC RAG 2024 Track! Do submit your systems :))",
       link: "https://trec-rag.github.io/",
+      linkText: "TREC RAG 2024 Track",
       icon: Calendar
     },
     { date: "Dec 2023", text: "We introduced RankZephyr which garnered great community engagement!", icon: FileText },
@@ -851,24 +871,24 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background relative selection:bg-primary/30">
       {/* Voxel Background Layer - fades on scroll for both mobile and desktop */}
-      <motion.div style={{ opacity: voxelOpacity }} className="fixed top-0 left-0 right-0 h-[85vh] z-0 pointer-events-none md:translate-y-0 -translate-y-[15vh]">
+      <motion.div style={{ opacity: voxelOpacity }} className="absolute top-0 left-0 right-0 h-[85vh] z-0 pointer-events-none md:translate-y-0 -translate-y-[15vh]">
         {enableHeroVisuals && showHeroVisuals ? <DarkSideVoxel onPrismClick={toggleImage} /> : null}
         {/* Gradient Mask to blend into content */}
         <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-background to-transparent pointer-events-none" />
       </motion.div>
 
       {/* Keep the sketch available on large screens even after the hero visuals fade out. */}
-      {!isMobile && enableHeroVisuals ? <SketchSelfPortrait /> : null}
+      {!isMobile && hasSketchGutter && enableHeroVisuals ? <SketchSelfPortrait /> : null}
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 bg-background/80 backdrop-blur-sm z-50 transition-all duration-300">
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 py-3 md:py-4">
+          <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-x-8 gap-y-2">
             <Link href="#home" className="font-display text-xl font-bold text-foreground tracking-tight">
               Ronak Pradeep
             </Link>
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="order-last md:order-none w-full md:w-auto flex items-center gap-6 md:gap-8 overflow-x-auto no-scrollbar md:ml-auto pb-1 md:pb-0">
               {["Home", "Research", "Updates", "Papers", "Mentorship", "Playlists"].map((item) => (
                 <Link
                   key={item}
@@ -880,15 +900,15 @@ export default function HomePage() {
                 </Link>
               ))}
             </div>
+            <DarkModeToggle />
           </div>
         </div>
       </nav>
 
       {/* Hero Section - enough top padding on mobile to see prism first */}
-      <section id="home" className="pt-[15vh] md:pt-[60vh] pb-20 relative z-10 pointer-events-none">
+      <section id="home" className="pt-[36vh] md:pt-[60vh] pb-20 relative z-10 pointer-events-none">
         <div className="max-w-7xl mx-auto px-6 pointer-events-auto">
           <motion.div
-            style={isMobile ? {} : { opacity, y }}
             className="grid md:grid-cols-3 gap-8 md:gap-16 items-center"
           >
             {/* Photo - show first on mobile, last on desktop */}
@@ -1053,7 +1073,7 @@ export default function HomePage() {
                 Document Ranking.
                 I have also been investigating the <span className="text-foreground font-medium">memory component of Large Language Models</span> and the interplay between the inherent reasoning and memory modules, entangled in a single LLM or
                 otherwise. I look forward to contributing to the next generation of reasoners capable of working with a
-                constantly evolving ocean of both structured and unstructured data
+                constantly evolving ocean of both structured and unstructured data.
                 Some of my earlier work explores how to build neural search systems that promote correct and reliable information and work well in low-resource
                 domains such as biomedical texts.
               </p>
@@ -1105,13 +1125,13 @@ export default function HomePage() {
                         <update.icon className="w-8 h-8" />
                       </div>
                       <p className="text-muted-foreground leading-relaxed pr-8 font-serif">
-                        {update.link ? (
+                        {update.link && update.linkText && update.text.includes(update.linkText) ? (
                           <span>
-                            {update.text.split("TREC RAG 2024 Track")[0]}
+                            {update.text.slice(0, update.text.indexOf(update.linkText))}
                             <Link href={update.link} className="text-primary hover:underline">
-                              TREC RAG 2024 Track
+                              {update.linkText}
                             </Link>
-                            {update.text.split("TREC RAG 2024 Track")[1]}
+                            {update.text.slice(update.text.indexOf(update.linkText) + update.linkText.length)}
                           </span>
                         ) : (
                           update.text
