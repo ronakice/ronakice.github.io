@@ -1082,14 +1082,10 @@ export default function HomePage() {
             </div>
             <div className="md:col-span-2 prose prose-lg text-muted-foreground max-w-none leading-relaxed font-serif">
               <p>
-                My research interests lie at the intersection of <span className="text-foreground font-medium">Information Retrieval</span> and <span className="text-foreground font-medium">Natural Language Processing</span>.
-                More specifically, I'm interested in tasks such as Evaluation, Benchmarking, Retrieval-Augmented Generation, Reranking, Tool Use, Fact Verification, and
-                Document Ranking.
-                I have also been investigating the <span className="text-foreground font-medium">memory component of Large Language Models</span> and the interplay between the inherent reasoning and memory modules, entangled in a single LLM or
-                otherwise. I look forward to contributing to the next generation of reasoners capable of working with a
-                constantly evolving ocean of both structured and unstructured data.
-                Some of my earlier work explores how to build neural search systems that promote correct and reliable information and work well in low-resource
-                domains such as biomedical texts.
+                I work on <span className="text-foreground font-medium">knowledge agents</span>: systems that search, read, and reason over large collections of structured and unstructured data to answer hard questions.
+                I approach this from both the data side and the model side, through data environments and reinforcement learning.
+                I have also worked extensively on evaluation, including nugget-based assessment of RAG, LLM judges, and community-wide benchmarks such as the TREC RAG Track.
+                These threads are connected, because better evaluation leads directly to better rewards.
               </p>
             </div>
           </div>
