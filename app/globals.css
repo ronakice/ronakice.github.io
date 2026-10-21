@@ -222,3 +222,18 @@ html {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* Footer heartbeat: a bright segment sweeps along the ECG trace. */
+.heartbeat-trace {
+  stroke-dasharray: 24 110;
+  animation: heartbeat-sweep 1.8s linear infinite;
+}
+
+@keyframes heartbeat-sweep {
+  from { stroke-dashoffset: 24; }
+  to { stroke-dashoffset: -110; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heartbeat-trace { animation: none; stroke-dasharray: none; stroke-opacity: 0.6; }
+}

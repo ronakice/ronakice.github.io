@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Mail, FileText, GraduationCap, Github, Music, Search } from "lucide-react"
 import { useState, useMemo, useEffect, useRef } from "react"
 import { DarkModeToggle } from "@/components/dark-mode-toggle"
+import { DaySigil, EclipseSigil, Heartbeat, NocturneSigil } from "@/components/PlaylistSigils"
 import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
@@ -22,6 +23,10 @@ function XLogo({ className }: { className?: string }) {
     </svg>
   )
 }
+
+// Playlist rows: illustration on the left, copy and player on the right; stacked on phones.
+const playlistRow =
+  "grid grid-cols-1 md:grid-cols-[11rem_1fr] gap-4 md:gap-10 py-10 border-t border-border/50 first:border-t-0 first:pt-0"
 
 // Lazy-loads Spotify iframes only when scrolled into view.
 // Each iframe is ~1MB+; loading 3 eagerly blocks initial paint.
@@ -47,20 +52,20 @@ function LazySpotifyEmbed({ src }: { src: string }) {
   }, [])
 
   return (
-    <div ref={ref} className="rounded-lg overflow-hidden shadow-lg" style={{ minHeight: 352 }}>
+    <div ref={ref} className="rounded-lg overflow-hidden shadow-lg" style={{ minHeight: 152 }}>
       {loaded ? (
         <iframe
           style={{ borderRadius: "12px" }}
           src={src}
           width="100%"
-          height="352"
+          height="152"
           frameBorder="0"
           allowFullScreen
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
           loading="lazy"
         />
       ) : (
-        <div className="flex h-[352px] items-center justify-center rounded-lg border border-border/40 bg-card/40">
+        <div className="flex h-[152px] items-center justify-center rounded-lg border border-border/40 bg-card/40">
           <p className="text-sm text-muted-foreground">Loading playlist…</p>
         </div>
       )}
@@ -1197,9 +1202,10 @@ export default function HomePage() {
             introduce you to a few of my Spotify playlists.
           </p>
 
-          <div className="space-y-16">
-            {/* Om - Sacred glow effect */}
-            <div>
+          <div className="max-w-5xl">
+            <div className={playlistRow}>
+              <EclipseSigil />
+              <div className="min-w-0">
               <h3 className="text-4xl font-display font-semibold text-foreground mb-3 glow-sacred">ॐ</h3>
               <p className="text-muted-foreground mb-5 leading-relaxed font-serif italic">
                 And everything under the sun is in tune. <span className="text-spectrum-orange">But the sun is eclipsed by the moon.</span>
@@ -1208,9 +1214,12 @@ export default function HomePage() {
                 A music dump of sorts. Updated regularly.
               </p>
               <LazySpotifyEmbed src="https://open.spotify.com/embed/playlist/1iM4pb2UpkQt07zsXLkDj7?utm_source=generator" />
+              </div>
             </div>
 
-            <div>
+            <div className={playlistRow}>
+              <DaySigil />
+              <div className="min-w-0">
               <h3 className="text-3xl font-display font-semibold text-foreground mb-3">A Day In The Life</h3>
               <p className="text-muted-foreground mb-5 leading-relaxed font-serif">
                 An allusion to{" "}
@@ -1230,9 +1239,12 @@ export default function HomePage() {
                   Not updated anymore.
                 </p>
               <LazySpotifyEmbed src="https://open.spotify.com/embed/playlist/1VlYsIRVFv1ze8QDshghDe?utm_source=generator" />
+              </div>
             </div>
 
-            <div>
+            <div className={playlistRow}>
+              <NocturneSigil />
+              <div className="min-w-0">
               <h3 className="text-3xl font-display italic text-foreground mb-3">Liebesträume</h3>
               <p className="text-muted-foreground mb-5 leading-relaxed font-serif">
                 And what exactly is a <em className="text-primary">dream of love</em>? Here I take on Liszt and attempt to provide a longer
@@ -1242,12 +1254,16 @@ export default function HomePage() {
                 Updated semi-regularly.
               </p>
               <LazySpotifyEmbed src="https://open.spotify.com/embed/playlist/7uZRM2KlIGYhJzdv8dPTJ1?utm_source=generator" />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       <footer className="py-12 border-t border-border/30 text-center text-muted-foreground">
+        <p className="font-serif italic text-muted-foreground/90 mb-3 px-6">
+          &ldquo;There is no dark side of the moon really. Matter of fact, it&rsquo;s all dark.&rdquo; <Heartbeat />
+        </p>
         <p className="text-sm">© {new Date().getFullYear()} Ronak Pradeep. Last updated {process.env.NEXT_PUBLIC_LAST_UPDATED}.</p>
       </footer>
     </div>
