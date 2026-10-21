@@ -24,9 +24,9 @@ function XLogo({ className }: { className?: string }) {
   )
 }
 
-// Playlist rows: illustration on the left, copy and player on the right; stacked on phones.
+// Playlist rows: illustration on the left, copy and player on the right (lg+ only).
 const playlistRow =
-  "grid grid-cols-1 md:grid-cols-[11rem_1fr] gap-4 md:gap-10 py-10 border-t border-border/50 first:border-t-0 first:pt-0"
+  "grid grid-cols-1 lg:grid-cols-[11rem_1fr] lg:gap-10 py-10 border-t border-border/50 first:border-t-0 first:pt-0"
 
 // Lazy-loads Spotify iframes only when scrolled into view.
 // Each iframe is ~1MB+; loading 3 eagerly blocks initial paint.

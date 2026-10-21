@@ -14,8 +14,9 @@ import {
 
 // Small animated illustrations for the playlist section. Each one is decorative
 // (aria-hidden) and settles into a meaningful still frame for reduced motion.
+// Hidden below lg: on phones and narrow windows they only push the player down.
 
-const SIGIL_CLASS = "relative w-28 h-28 md:w-44 md:h-44 shrink-0 select-none"
+const SIGIL_CLASS = "relative hidden lg:block w-44 h-44 shrink-0 select-none"
 
 // ---------------------------------------------------------------------------
 // ॐ: a solar eclipse driven by scroll. Totality, when the corona and the ॐ
@@ -105,7 +106,7 @@ export function EclipseSigil() {
       </svg>
 
       <motion.span
-        className="absolute inset-0 grid place-items-center text-2xl md:text-[1.9rem] text-amber-200 [text-shadow:0_0_14px_rgba(251,191,36,0.85)]"
+        className="absolute inset-0 grid place-items-center text-[1.9rem] text-amber-200 [text-shadow:0_0_14px_rgba(251,191,36,0.85)]"
         style={{ opacity: corona, scale: omScale }}
       >
         ॐ
