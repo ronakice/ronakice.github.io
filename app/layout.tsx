@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://ronakice.github.io'),
   title: 'Ronak Pradeep',
   description,
-  icons: { icon: '/images/RonakPradeep_circle.png', apple: '/images/RonakPradeep_circle.png' },
+  icons: { icon: '/images/MrPenguin_icon.png', apple: '/images/MrPenguin_apple.png' },
   openGraph: {
     title: 'Ronak Pradeep',
     description,
