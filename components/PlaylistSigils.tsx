@@ -283,7 +283,7 @@ export function NocturneSigil() {
             y={KEY_Y - 6}
             textAnchor="middle"
             fontSize="15"
-            className="fill-primary"
+            className="fill-violet-500 dark:fill-violet-300"
             initial={{ opacity: 0, y: 0, x: 0 }}
             animate={{ opacity: [0, 0.9, 0], y: -64, x: i % 2 ? 10 : -8 }}
             transition={{ duration: 2.4, ease: "easeOut" }}

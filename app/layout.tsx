@@ -1,22 +1,28 @@
 import type { Metadata } from 'next'
-import { Playfair_Display, Source_Serif_4, JetBrains_Mono } from 'next/font/google'
+import { Barlow_Condensed, IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google'
 import './globals.css'
 import { LayoutClient } from '@/components/layout-client'
 
-const playfair = Playfair_Display({
+// Condensed display for headings (record-sleeve lettering); Plex Sans for prose.
+const display = Barlow_Condensed({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  weight: ['500', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-display',
   display: 'swap',
 })
 
-const sourceSerif = Source_Serif_4({
+const sans = IBM_Plex_Sans({
   subsets: ['latin'],
-  variable: '--font-source-serif',
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-sans',
   display: 'swap',
 })
 
-const jetbrainsMono = JetBrains_Mono({
+const mono = IBM_Plex_Mono({
   subsets: ['latin'],
+  weight: ['400'],
   variable: '--font-mono',
   display: 'swap',
 })
@@ -45,8 +51,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${playfair.variable} ${sourceSerif.variable} ${jetbrainsMono.variable}`}>
-      <body className="font-serif">
+    <html lang="en" suppressHydrationWarning className={`${display.variable} ${sans.variable} ${mono.variable}`}>
+      <body className="font-sans">
         <LayoutClient>{children}</LayoutClient>
       </body>
     </html>

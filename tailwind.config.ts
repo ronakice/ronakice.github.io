@@ -11,9 +11,9 @@ const config: Config = {
   theme: {
   	extend: {
   		fontFamily: {
-  			display: ['var(--font-playfair)', 'Georgia', 'serif'],
-  			serif: ['var(--font-source-serif)', 'Georgia', 'Times New Roman', 'serif'],
-  			mono: ['var(--font-mono)', 'Courier New', 'monospace'],
+  			display: ['var(--font-display)', 'Arial Narrow', 'sans-serif'],
+  			sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+  			mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
   		},
   		colors: {
   			spectrum: {

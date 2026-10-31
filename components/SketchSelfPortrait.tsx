@@ -154,9 +154,9 @@ const SketchSelfPortrait = ({ tucked = false }: { tucked?: boolean }) => {
                 p.draw = () => {
                     p.clear()
 
-                    // Colors harmonized with site theme (warm paper + violet primary)
+                    // Colors harmonized with site theme (paper and ink, muted grey accent)
                     const baseStroke = isDark ? [245, 240, 235, 190] : [45, 38, 32, 230]       // Warm white / Sepia
-                    const accentStroke = isDark ? [155, 89, 245, 175] : [120, 70, 160, 170]    // Violet (matches --primary)
+                    const accentStroke = isDark ? [166, 163, 155, 175] : [102, 100, 95, 170]   // Muted grey (matches --muted-foreground)
                     const lipStroke = isDark ? [220, 150, 140, 185] : [150, 85, 75, 210]       // Soft coral / Muted rose
                     const hairStroke = isDark ? [180, 170, 160, 95] : [40, 35, 28, 100]        // Warm gray / Dark brown
                     const glassesStroke = isDark ? [215, 210, 205, 190] : [45, 40, 35, 235]    // Warm white / Near black
@@ -544,11 +544,11 @@ const SketchSelfPortrait = ({ tucked = false }: { tucked?: boolean }) => {
                         className="absolute bottom-[85%] right-[60%] mb-2 w-48 p-4
                             bg-background/97 backdrop-blur-lg
                             border border-border/40
-                            shadow-xl shadow-primary/[0.08]
+                            shadow-xl shadow-black/[0.08]
                             rounded-2xl rounded-br-sm
                             z-[70] pointer-events-none"
                     >
-                        <p className="text-[11px] leading-relaxed text-foreground/85 font-serif italic tracking-wide">
+                        <p className="text-[11px] leading-relaxed text-foreground/85 italic tracking-wide">
                             "{currentMessage}"
                         </p>
                         {/* Refined speech bubble tail */}
@@ -565,11 +565,11 @@ const SketchSelfPortrait = ({ tucked = false }: { tucked?: boolean }) => {
                     bg-background/45 backdrop-blur-sm
                     border border-border/25
                     rounded-2xl overflow-hidden
-                    shadow-xl shadow-primary/[0.06]
+                    shadow-xl shadow-black/[0.06]
                     transition-all duration-300 ease-out
                     group-hover:scale-105
-                    group-hover:border-primary/35
-                    group-hover:shadow-primary/[0.12]"
+                    group-hover:border-foreground/25
+                    group-hover:shadow-black/[0.12]"
             />
         </div>
     )

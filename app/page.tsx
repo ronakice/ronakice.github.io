@@ -584,22 +584,13 @@ function PapersSection() {
   const selectedYearsArray = Array.from(selectedYears)
   const hasOldYear = selectedYearsArray.some((year) => parseInt(year) < 2024)
 
-  // Map topics to spectral colors
-  const topicColorMap: Record<string, string> = {
-    "Retrieval": "chip-retrieval",
-    "Reranking": "chip-reranking",
-    "Retrieval-Augmented Generation": "chip-rag",
-    "Large Language Models": "chip-llm",
-    "Benchmarking": "chip-benchmarking",
-    "Evaluation": "chip-evaluation",
-  }
 
   return (
     <section id="papers" className="py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-muted/30 -z-10" />
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-12">
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">Publications</h2>
+          <h2 className="text-[2rem] md:text-[2.5rem] leading-[1.1] font-display font-semibold text-foreground mb-6">Publications</h2>
 
           <div className="relative max-w-xl">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
@@ -609,7 +600,7 @@ function PapersSection() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               aria-label="Search publications"
-              className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background/50 text-base focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+              className="w-full pl-10 pr-4 py-3 rounded-lg border border-input bg-background/50 text-base focus-visible:border-foreground transition-colors"
             />
           </div>
         </div>
@@ -622,7 +613,6 @@ function PapersSection() {
             <div className="flex flex-wrap gap-2">
               {topics.map((topic) => {
                 const isSelected = selectedTopics.has(topic)
-                const colorClass = topicColorMap[topic] || ""
                 return (
                   <button
                     key={topic}
@@ -631,8 +621,8 @@ function PapersSection() {
                     className={cn(
                       "px-3.5 py-1.5 rounded-full text-sm transition-colors border",
                       isSelected
-                        ? `${colorClass} border-current shadow-lg`
-                        : "bg-background/50 border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                        ? "bg-foreground text-background border-foreground"
+                        : "border-input text-muted-foreground hover:bg-accent hover:text-foreground"
                     )}
                   >
                     {topic}
@@ -657,8 +647,8 @@ function PapersSection() {
                       className={cn(
                         "px-3.5 py-1.5 rounded-full text-sm transition-colors border",
                         isSelected
-                          ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/25"
-                          : "bg-background/50 border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                          ? "bg-foreground text-background border-foreground"
+                          : "border-input text-muted-foreground hover:bg-accent hover:text-foreground"
                       )}
                     >
                       {year}
@@ -682,8 +672,8 @@ function PapersSection() {
                       className={cn(
                         "px-3.5 py-1.5 rounded-full text-sm transition-colors border",
                         isSelected
-                          ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/25"
-                          : "bg-background/50 border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                          ? "bg-foreground text-background border-foreground"
+                          : "border-input text-muted-foreground hover:bg-accent hover:text-foreground"
                       )}
                     >
                       {venue}
@@ -696,14 +686,14 @@ function PapersSection() {
         </div>
 
         {/* Papers list, grouped by year */}
-        <p className="text-sm text-muted-foreground font-serif mb-8" aria-live="polite">
+        <p className="text-sm text-muted-foreground mb-8" aria-live="polite">
           {filteredPapers.length === papers.length
             ? `${papers.length} papers`
             : `Showing ${filteredPapers.length} of ${papers.length} papers`}
         </p>
         {filteredPapers.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-muted-foreground text-lg mb-2 font-serif">No papers match these filters. Clear a filter or try a different search.</p>
+            <p className="text-muted-foreground text-lg mb-2">No papers match these filters. Clear a filter or try a different search.</p>
             {hasEasterEgg && hasOldYear && (
               <p className="text-muted-foreground mt-4 font-display italic text-xl">
                 If only I had a tardis
@@ -719,20 +709,20 @@ function PapersSection() {
           <div className="max-w-4xl">
             {papersByYear.map(([year, yearPapers]) => (
               <div key={year} className="grid grid-cols-[3.5rem_1fr] md:grid-cols-[6rem_1fr] gap-4 md:gap-8 border-t border-border/60 pt-5 mt-5 first:mt-0">
-                <h3 className="font-display font-bold text-2xl md:text-3xl text-muted-foreground md:sticky md:top-24 self-start">{year}</h3>
+                <h3 className="font-display font-semibold text-3xl md:text-4xl text-muted-foreground md:sticky md:top-24 self-start">{year}</h3>
                 <ul>
                   {yearPapers.map((paper) => (
                     <li key={paper.title} className="py-3 border-b border-border/30 last:border-b-0">
-                      <p className="font-display font-semibold text-lg leading-snug text-foreground">
+                      <p className="font-medium text-lg md:text-xl leading-[1.35] tracking-[-0.01em] text-foreground">
                         {paper.link ? (
-                          <Link href={paper.link} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                          <Link href={paper.link} target="_blank" rel="noopener noreferrer" className="underline decoration-transparent underline-offset-[3px] decoration-1 hover:decoration-[hsl(var(--link-underline))] transition-colors">
                             {paper.title}
                           </Link>
                         ) : (
                           paper.title
                         )}
                       </p>
-                      <p className="text-muted-foreground text-[0.95rem] leading-relaxed font-serif mt-1">
+                      <p className="text-muted-foreground text-[0.95rem] leading-relaxed mt-1">
                         {paper.authors.split("Ronak Pradeep").map((part, i, parts) => (
                           <span key={i}>
                             {part}
@@ -740,7 +730,7 @@ function PapersSection() {
                           </span>
                         ))}
                       </p>
-                      <p className="text-sm text-primary font-serif mt-0.5">{paper.venue}</p>
+                      <p className="text-sm text-muted-foreground mt-0.5">{paper.venue}</p>
                     </li>
                   ))}
                 </ul>
@@ -755,7 +745,7 @@ function PapersSection() {
               ... and a few more papers I might have potentially missed! See my{" "}
               <Link
                 href="https://scholar.google.com/citations?user=xH7uDXgAAAAJ&hl"
-                className="text-primary hover:text-primary/80 font-medium underline decoration-primary/30 underline-offset-4"
+                className="link"
               >
                 Google Scholar
               </Link>{" "}
@@ -880,7 +870,7 @@ export default function HomePage() {
   ]
 
   return (
-    <div className="min-h-screen bg-background relative selection:bg-primary/30">
+    <div className="min-h-screen bg-background relative selection:bg-foreground selection:text-background">
       {/* Voxel Background Layer - fades on scroll for both mobile and desktop */}
       <motion.div style={{ opacity: voxelOpacity }} className="absolute top-0 left-0 right-0 h-[85vh] z-0 pointer-events-none md:translate-y-0 -translate-y-[15vh]">
         {enableHeroVisuals && showHeroVisuals ? <DarkSideVoxel onPrismClick={toggleImage} /> : null}
@@ -893,10 +883,10 @@ export default function HomePage() {
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 bg-background/80 backdrop-blur-sm z-50 transition-all duration-300">
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-border" />
         <div className="max-w-7xl mx-auto px-6 py-3 md:py-4">
           <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-x-8 gap-y-2">
-            <Link href="#home" className="font-display text-xl font-bold text-foreground tracking-tight">
+            <Link href="#home" className="font-display text-2xl font-semibold text-foreground">
               Ronak Pradeep
             </Link>
             <div className="order-last md:order-none w-full md:w-auto flex items-center gap-6 md:gap-8 overflow-x-auto no-scrollbar md:ml-auto pb-1 md:pb-0 pr-6 md:pr-0 [mask-image:linear-gradient(to_right,black_80%,transparent)] md:[mask-image:none]">
@@ -907,7 +897,7 @@ export default function HomePage() {
                   className="shrink-0 text-[0.95rem] text-muted-foreground hover:text-foreground transition-colors relative group"
                 >
                   {item}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-spectrum-red via-spectrum-green to-spectrum-violet transition-all group-hover:w-full" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-foreground transition-all group-hover:w-full" />
                 </Link>
               ))}
             </div>
@@ -946,7 +936,7 @@ export default function HomePage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="text-6xl md:text-7xl font-display font-bold text-foreground mb-6 leading-tight"
+                  className="text-[3.5rem] md:text-[5.5rem] font-display font-medium text-foreground mb-6 leading-[0.98] tracking-[-0.015em]"
                 >
                   Ronak Pradeep
                 </motion.h1>
@@ -956,8 +946,8 @@ export default function HomePage() {
                   transition={{ delay: 0.2, duration: 0.5 }}
                   className="space-y-1"
                 >
-                  {/* Databricks brand red (#FF3621). Set at 20px semibold so it meets WCAG large-text contrast in both themes. */}
-                  <p className="text-xl font-semibold text-foreground">
+                  {/* Databricks brand red (#FF3621) is 3.4:1 on paper, so it is set at 24px to count as large text. */}
+                  <p className="text-2xl font-semibold text-foreground">
                     Research Scientist at <span className="text-[#FF3621]">Databricks AI Research</span>
                   </p>
                   <p className="text-lg text-muted-foreground">PhD, University of Waterloo. Apple PhD Fellow.</p>
@@ -972,32 +962,32 @@ export default function HomePage() {
               >
                 <p>
                   Hi! I am a Research Scientist at{" "}
-                  <Link href="https://www.databricks.com/research" className="text-primary hover:text-primary/80">
+                  <Link href="https://www.databricks.com/research" className="link">
                     Databricks AI Research
                   </Link>{" "}
                   working on synthetic data and reinforcement learning for post-training information-seeking agents. I completed my PhD in the{" "}
-                  <Link href="https://cs.uwaterloo.ca/" className="text-primary hover:text-primary/80">
+                  <Link href="https://cs.uwaterloo.ca/" className="link">
                     David R. Cheriton School of Computer Science
                   </Link>{" "}
                   at the{" "}
-                  <Link href="https://uwaterloo.ca/" className="text-primary hover:text-primary/80">
+                  <Link href="https://uwaterloo.ca/" className="link">
                     University of Waterloo
                   </Link>
                   , where I was advised by{" "}
                   <Link
                     href="https://cs.uwaterloo.ca/~jimmylin/index.html"
-                    className="text-primary hover:text-primary/80"
+                    className="link"
                   >
                     Jimmy Lin
                   </Link>
                   . I have also had the chance to work at{" "}
-                  <Link href="https://research.google/" className="text-primary hover:text-primary/80">
+                  <Link href="https://research.google/" className="link">
                     Google
                   </Link>,{" "}
-                  <Link href="https://machinelearning.apple.com/" className="text-primary hover:text-primary/80">
+                  <Link href="https://machinelearning.apple.com/" className="link">
                     Apple
                   </Link>, and{" "}
-                  <Link href="https://yupp.ai/" className="text-primary hover:text-primary/80">
+                  <Link href="https://yupp.ai/" className="link">
                     Yupp AI
                   </Link>
                   .
@@ -1007,12 +997,12 @@ export default function HomePage() {
                   Computer Science and{" "}
                   <Link
                     href="https://uwaterloo.ca/combinatorics-and-optimization/"
-                    className="text-primary hover:text-primary/80"
+                    className="link"
                   >
                     Combinatorics and Optimization
                   </Link>
                   . During my undergrad, I've had the chance to intern at{" "}
-                  <Link href="https://mila.quebec/en/" className="text-primary hover:text-primary/80">
+                  <Link href="https://mila.quebec/en/" className="link">
                     Quebec Artificial Intelligence Institute (Mila)
                   </Link>
                   , ContextLogic, and RBC Research.
@@ -1030,7 +1020,7 @@ export default function HomePage() {
                   { icon: FileText, label: "CV", href: "/data/RonakPradeep-CV.pdf" },
                   { icon: GraduationCap, label: "Scholar", href: "https://scholar.google.com/citations?user=xH7uDXgAAAAJ&hl" },
                 ].map((item) => (
-                  <Button key={item.label} variant="outline" className="rounded-full border-border/60 hover:border-primary/50 hover:bg-primary/5 hover:text-primary transition-colors" asChild>
+                  <Button key={item.label} variant="outline" className="rounded-full border-input hover:bg-accent hover:text-foreground transition-colors" asChild>
                     <Link href={item.href}>
                       <item.icon className="w-4 h-4 mr-2" aria-hidden="true" />
                       {item.label}
@@ -1083,9 +1073,9 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-12">
             <div className="md:col-span-1">
-              <h2 className="text-4xl font-display font-bold text-foreground mb-6 sticky top-24">Research Interests</h2>
+              <h2 className="text-[2rem] md:text-[2.5rem] leading-[1.1] font-display font-semibold text-foreground mb-6 sticky top-24">Research Interests</h2>
             </div>
-            <div className="md:col-span-2 prose prose-lg text-muted-foreground max-w-none leading-relaxed font-serif">
+            <div className="md:col-span-2 prose prose-lg text-muted-foreground max-w-[65ch] leading-relaxed">
               <p>
                 I work on <span className="text-foreground font-medium">knowledge agents</span>: systems that search, read, and reason over large collections of structured and unstructured data to answer hard questions.
                 I approach this from both the data side and the model side, through data environments and reinforcement learning.
@@ -1100,19 +1090,19 @@ export default function HomePage() {
       {/* Updates Section */}
       <section id="updates" className="py-24 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-display font-bold text-foreground mb-10">Latest Updates</h2>
+          <h2 className="text-[2rem] md:text-[2.5rem] leading-[1.1] font-display font-semibold text-foreground mb-10">Latest Updates</h2>
           <ol className="max-w-4xl">
             {updates.map((update) => (
               <li
                 key={update.date + update.text}
                 className="grid grid-cols-1 sm:grid-cols-[6rem_1fr] gap-1 sm:gap-8 py-4 border-t border-border/50 first:border-t-0"
               >
-                <time className="text-sm text-primary pt-0.5">{update.date}</time>
+                <time className="text-sm text-muted-foreground tabular-nums pt-0.5">{update.date}</time>
                 <p className="text-foreground/90 leading-relaxed">
                   {update.link && update.linkText && update.text.includes(update.linkText) ? (
                     <>
                       {update.text.slice(0, update.text.indexOf(update.linkText))}
-                      <Link href={update.link} className="text-primary underline decoration-primary/30 underline-offset-4 hover:decoration-primary">
+                      <Link href={update.link} className="link">
                         {update.linkText}
                       </Link>
                       {update.text.slice(update.text.indexOf(update.linkText) + update.linkText.length)}
@@ -1132,8 +1122,8 @@ export default function HomePage() {
       {/* Mentorship Section */}
       <section id="mentorship" className="py-24 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-display font-bold text-foreground mb-10">Mentorship</h2>
-          <div className="prose prose-lg text-muted-foreground max-w-3xl mb-10 leading-relaxed font-serif">
+          <h2 className="text-[2rem] md:text-[2.5rem] leading-[1.1] font-display font-semibold text-foreground mb-10">Mentorship</h2>
+          <div className="prose prose-lg text-muted-foreground max-w-[65ch] mb-10 leading-relaxed">
             <p>
               During my PhD journey, I had the privilege of mentoring over 40 undergraduate and graduate students!
               Below are some of the amazing students I've had the honor to work with (ordered lexicographically by last name):
@@ -1196,8 +1186,8 @@ export default function HomePage() {
       {/* Playlists Section */}
       <section id="playlists" className="py-24 bg-muted/30 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-display font-bold text-foreground mb-6">Playlists</h2>
-          <p className="text-muted-foreground mb-10 leading-relaxed font-serif">
+          <h2 className="text-[2rem] md:text-[2.5rem] leading-[1.1] font-display font-semibold text-foreground mb-6">Playlists</h2>
+          <p className="text-muted-foreground mb-10 leading-relaxed max-w-[65ch]">
             Thanks for making it to here :-) As a token of gratitude and since you asked nicely for it, I shall also
             introduce you to a few of my Spotify playlists.
           </p>
@@ -1207,7 +1197,7 @@ export default function HomePage() {
               <EclipseSigil />
               <div className="min-w-0">
               <h3 className="text-4xl font-display font-semibold text-foreground mb-3 glow-sacred">ॐ</h3>
-              <p className="text-muted-foreground mb-5 leading-relaxed font-serif italic">
+              <p className="text-muted-foreground mb-5 leading-relaxed italic">
                 And everything under the sun is in tune. <span className="text-spectrum-orange">But the sun is eclipsed by the moon.</span>
               </p>
               <p className="text-muted-foreground mb-5 text-sm italic">
@@ -1221,16 +1211,16 @@ export default function HomePage() {
               <DaySigil />
               <div className="min-w-0">
               <h3 className="text-3xl font-display font-semibold text-foreground mb-3">A Day In The Life</h3>
-              <p className="text-muted-foreground mb-5 leading-relaxed font-serif">
+              <p className="text-muted-foreground mb-5 leading-relaxed">
                 An allusion to{" "}
                 <Link
                   href="https://open.spotify.com/track/0hKRSZhUGEhKU6aNSPBACZ?si=e1ab0c90f70042ac"
-                  className="text-primary hover:text-primary/80"
+                  className="link"
                 >
                   the Beatles song
                 </Link>
                 . Curated by a younger me for{" "}
-                <Link href="https://en.wikipedia.org/wiki/Antheia" className="underline-wavy italic text-primary/80 hover:text-primary">
+                <Link href="https://en.wikipedia.org/wiki/Antheia" className="underline-wavy italic text-foreground">
                   someone who stole my heart
                 </Link>
                 .
@@ -1246,8 +1236,8 @@ export default function HomePage() {
               <NocturneSigil />
               <div className="min-w-0">
               <h3 className="text-3xl font-display italic text-foreground mb-3">Liebesträume</h3>
-              <p className="text-muted-foreground mb-5 leading-relaxed font-serif">
-                And what exactly is a <em className="text-primary">dream of love</em>? Here I take on Liszt and attempt to provide a longer
+              <p className="text-muted-foreground mb-5 leading-relaxed">
+                And what exactly is a <em className="text-foreground">dream of love</em>? Here I take on Liszt and attempt to provide a longer
                 answer to aid with my sleep.
               </p>
               <p className="text-muted-foreground mb-5 text-sm italic">
@@ -1261,7 +1251,7 @@ export default function HomePage() {
       </section>
 
       <footer className="py-12 border-t border-border/30 text-center text-muted-foreground">
-        <p className="font-serif italic text-muted-foreground/90 mb-3 px-6">
+        <p className="italic text-muted-foreground/90 mb-3 px-6">
           &ldquo;There is no dark side of the moon really. Matter of fact, it&rsquo;s all dark.&rdquo; <Heartbeat />
         </p>
         <p className="text-sm">© {new Date().getFullYear()} Ronak Pradeep. Last updated {process.env.NEXT_PUBLIC_LAST_UPDATED}.</p>
