@@ -950,7 +950,7 @@ export default function HomePage() {
                   <p className="text-2xl font-semibold text-foreground">
                     Research Scientist at <span className="text-[#FF3621]">Databricks AI Research</span>
                   </p>
-                  <p className="text-lg text-muted-foreground">PhD, University of Waterloo. Apple PhD Fellow.</p>
+                  <p className="text-lg text-muted-foreground">PhD in Computer Science, University of Waterloo, as an Apple PhD Fellow.</p>
                 </motion.div>
               </div>
 
@@ -1080,7 +1080,7 @@ export default function HomePage() {
                 I work on <span className="text-foreground font-medium">knowledge agents</span>: systems that search, read, and reason over large collections of structured and unstructured data to answer hard questions.
                 I approach this from both the data side and the model side, through data environments and reinforcement learning.
                 I have also worked extensively on evaluation, including nugget-based assessment of RAG, LLM judges, and community-wide benchmarks such as the TREC RAG Track.
-                These threads are connected, because better evaluation leads directly to better rewards.
+                The two threads form one loop: how we measure a response becomes the reward an agent learns from.
               </p>
             </div>
           </div>
